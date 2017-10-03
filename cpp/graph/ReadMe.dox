@@ -1,0 +1,20 @@
+\mainpage
+\author Vinodh MJ Human
+
+\introduction
+
+\section G Graph
+Def:A graph G, is a pair of sets {V,E} where, V is a non-empty set of items called Vertices or Nodes and E is a set of 2 items subset of V, called Edges.
+
+\section A_N Adjacent Nodes
+Two nodes, Xi and Xj are called adjacent, if they are connected by and edge {Xi, Xj} <is an> E.
+
+\section IN Incidence
+An Edge E={Xi,Xj} is said to be incident to its end points Xi,Xj
+
+\section D Degree
+The number of edges incident to a node is called the degree of a node.
+
+Simple Graph
+A graph is said to be simple if it has no loops or multiple edges
+drawing of a loop and multiple edges
