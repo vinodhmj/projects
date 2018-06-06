@@ -1,4 +1,26 @@
-#include "pointers.h"
+#include <iostream>
+#include <string>
+#include <math.h>
+#include <limits>
+#include <complex>
+#include <vector>
+#include <list>
+#include <memory>
+#include <functional>
+
+using namespace std;
+
+//----------------------------------------------------
+//!
+void merge_sort(std::vector<int>& vNum, std::function<bool(int,int)> sort_func)
+{
+	//recursive algorithm
+	vNum.size();
+	
+} // end of the function merge_sort
+//----------------------------------------------------
+
+
 
 //----------------------------------------------------
 //! \fn void insertion_sort(std::vector& vNum)
