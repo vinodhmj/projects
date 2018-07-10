@@ -1,0 +1,24 @@
+#ifndef CG_ELEMENTS_H_
+#define CG_ELEMENTS_H_
+
+namespace cg
+{
+    template <typename T = int>
+    struct point
+    {
+	T x;
+	T y;
+    };
+
+    struct segment
+    {
+	point<int> left;
+	point<int> right;
+    };
+
+    typedef segment line;
+
+    
+}// namespace cg
+
+#endif /* CG_ELEMENTS_H_ */
