@@ -1,0 +1,17 @@
+#ifndef CG_HELPER_H
+#define CG_HELPER_H
+
+#include "elements.hpp"
+
+namespace cg
+{
+  void readFromFile(const std::string& sfileName, std::vector<segment>& segments)
+  {
+    
+  }
+
+
+
+}// namespace cg
+
+#endif /* CG_HELPER_H */

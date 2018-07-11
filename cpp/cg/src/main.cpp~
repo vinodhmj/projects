@@ -1,0 +1,12 @@
+#include <iostream>
+#include "../include/elements.hpp"
+
+int main(int argc, char *argv[])
+{
+    
+    cg::point<int> a;
+    a.x = 1;
+    a.y = 3;
+    return 0;
+}
+
