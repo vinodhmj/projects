@@ -43,6 +43,8 @@ public:
 
 int main(int argc, char *argv[])
 {
+    //entry point
+    // if not virtual
     Play* p = new Right();
     p->shoot();
     p->pass();
