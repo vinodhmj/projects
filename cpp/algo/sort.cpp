@@ -20,8 +20,6 @@ void merge_sort(std::vector<int>& vNum, std::function<bool(int,int)> sort_func)
 } // end of the function merge_sort
 //----------------------------------------------------
 
-
-
 //----------------------------------------------------
 //! \fn void insertion_sort(std::vector& vNum)
 //! \brief method that performs insertion on a vector of integers
