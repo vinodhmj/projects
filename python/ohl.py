@@ -43,9 +43,10 @@ def findCrossarmLength(dEl, dIns, dFitting, dCond):
     d = dDisplacement + dEl;
     return d
 
-def findShieldDistance(dCA, dIns, dFitting, dCond):
-    angle = math.radians(30) # angle in radians
-    d = (dCA/math.tan(angle)) - dCond - dIns - dFitting 
+def findShieldDistance(dCA, dIns, dFitting, dCond, dTower):
+    angle = math.radians(30) # angle in radianns
+    dTowerandCA = dCA + (dTower/2)
+    d = ((dTowerandCA)/math.tan(angle)) - dCond - dIns - dFitting 
     return d
 
 def ohldesign():
@@ -54,6 +55,7 @@ def ohldesign():
     k = 1.45
     dFitting = 0.35
     dCond = 0.0315
+    dTower = 2.7
     rating = findRating();
     dIns = findInsulatorDistance()
         
@@ -65,7 +67,7 @@ def ohldesign():
     dEl = max(dAC, dSI, dLI)
 
     dCrossarm = findCrossarmLength(dEl, dIns, dFitting, dCond)
-    dShield   = findShieldDistance(dCrossarm, dIns, dFitting, dCond)
+    dShield   = findShieldDistance(dCrossarm, dIns, dFitting, dCond, dTower)
         
     print("MVA Rating", rating)
     print("dIns", dIns)
