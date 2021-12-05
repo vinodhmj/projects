@@ -1,5 +1,6 @@
 # General Assumptions
 # Every value is in SI units
+# Conductor Parameters are for Rubus AAAC
 
 import sys
 import math
@@ -49,6 +50,23 @@ def findShieldDistance(dCA, dIns, dFitting, dCond, dTower):
     d = ((dTowerandCA)/math.tan(angle)) - dCond - dIns - dFitting 
     return d
 
+def findSag(dSpan, condWeight, tensileStrength):
+    d = (condWeight * pow(dSpan,2)) / (8 * tensileStrength)
+    return d
+
+def findConductorLength(dSpan, condWeight, tensileStrength):
+    d = dSpan + ((pow(condWeight,2) * pow(dSpan,3)) / (24 * pow(tensileStrength, 2)))
+    return d
+
+def findMaxConductorLength(thermalCoeff, tMax, tOperating, dCondLength):
+    d = thermalCoeff * (tMax - tOperating) * dCondLength
+    d = d + dCondLength
+    return d
+
+def findSagMax(dSpan, dCondMax):
+    d = math.sqrt((3 * (dSpan * dCondMax - pow(dSpan, 2)))/8)
+    return d
+
 def ohldesign():
     print("START")
 
@@ -56,6 +74,13 @@ def ohldesign():
     dFitting = 0.35
     dCond = 0.0315
     dTower = 2.7
+    dSpan = 366
+    condWeight = 1.622 * 9.81 # N/m
+    tensileStrength = 173530 # N
+    thermalCoeff = 23e-6
+    tMax = 75
+    tOperating = 5
+
     rating = findRating();
     dIns = findInsulatorDistance()
         
@@ -68,10 +93,19 @@ def ohldesign():
 
     dCrossarm = findCrossarmLength(dEl, dIns, dFitting, dCond)
     dShield   = findShieldDistance(dCrossarm, dIns, dFitting, dCond, dTower)
-        
-    print("MVA Rating", rating)
-    print("dIns", dIns)
 
+    dSag = findSag(dSpan, condWeight, tensileStrength)
+    dCondLength = findConductorLength(dSpan, condWeight, tensileStrength)
+    dCondMax = findMaxConductorLength(thermalCoeff, tMax, tOperating, dCondLength)
+    dSagMax = findSagMax(dSpan, dCondMax)
+    
+    print("MVA Rating \t", rating)
+    print("dIns", dIns)
+    print("dSag", dSag)
+    print("dlengthOfConductor", dCondLength)
+    print("Max Conductor Length", dCondMax)
+    print("Max Sag", dSagMax)
+    
     print("---------------")
     print("PHASE TO GROUND")
     print("---------------")
