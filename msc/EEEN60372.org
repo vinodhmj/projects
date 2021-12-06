@@ -1,0 +1,139 @@
+#+STARTUP: overview
+
+# +TITLE: EEEN60372
+# +date: \today
+# +author: Vinodh Jayakrishnan
+# +email: vinodh.jayakrishnan@postgrad.manchester.ac.uk
+#+language: en
+#+select_tags: export
+#+exclude_tags: noexport
+#+creator: Emacs 27.2 (Org mode 9.4.5)
+#+LATEX_CLASS_OPTIONS: [a4paper,11pt]
+#+latex_header: \usepackage[scaled]{helvet} \renewcommand\familydefault{\sfdefault}
+#+latex_header: \usepackage{mathtools}
+#+latex_header: \usepackage{textcomp}
+#+options: toc:nil
+#+LATEX_HEADER: \usepackage{booktabs}
+#+LATEX_HEADER: \usepackage{xcolor}
+#+LATEX_HEADER: \usepackage{colortbl}
+#+LATEX_HEADER: \makeatletter \@ifpackageloaded{geometry}{\geometry{margin=2cm}}{\usepackage[margin=2cm]{geometry}} \makeatother
+
+* Title Page
+* Introduction
+ \paragraph{} A design for the proposed new transmission system between
+ Manchester to Birmingham is presented in this report. The scope of this report
+ is limited to the electrical design of transmission tower. The calculations and
+ reasoning are segregated into four sections:
+ 1. Thermal Rating
+ 2. Internal Electrical Clearances
+ 3. External Electrical Clearances
+ 4. Design choices and justification
+** System Design Data
+The calculations are made for the components are attributes mentioned in the
+table below. This data is used across all other calculation sections.
+#+BIND: org-latex-prefer-user-labels t
+#+caption: Design Data for transmission system
+#+name:design-data
+#+ATTR_LATEX: :placement [h] :center t
+|------------------------------------------+----------------|
+| *Attribute*                              | *Value*        |
+|------------------------------------------+----------------|
+| Rated Voltage, V_r                       | 275kV          |
+| Number of Circuits, N_c                  | 2              |
+| Conductor type                           | Rubus, single  |
+| Span length, l_s                         | 366m           |
+| Maximum Operating Temperature, T_max     | 75\textcelsius |
+| Shielding angle(at no wind), \theta_{s}  | 30^o           |
+| Wind speed for clearances, V_w           | 18.8 m/s       |
+| Minimum heat loss due to convection, q_c | 41.40 W/m      |
+| Minimum radiated heat loss, q_r          | 19.20 W/m      |
+| Maximum solar heat gain, q_s             | 14.30 W/m      |
+|------------------------------------------+----------------|
+# ** Conductor Design Data
+#+BIND: org-latex-prefer-user-labels t
+#+caption: Design Data for Rubus single AAAC conductor
+#+name:design-data
+#+ATTR_LATEX: :placement [h] :center t
+|------------+-----------+------------------+-------------------------------+---------------+---------------|
+| *Diameter* | *Weight*  | *Rated Strength* | *Coeff. of expansion*         | *RAC at 20ºC* | *RAC at 75ºC* |
+|------------+-----------+------------------+-------------------------------+---------------+---------------|
+| 0.0315m    | 1.622kg/m | 173530N          | 23 e^{-06}  \textcelsius^{-1} | 0.0574 \Omega | 0.0688Ω/km    |
+|------------+-----------+------------------+-------------------------------+---------------+---------------|
+# ** Insulator Design Data
+#+BIND: org-latex-prefer-user-labels t
+#+caption: Design Data for insulator
+#+name:design-data
+#+ATTR_LATEX: :placement [h] :center t
+|-------------------------------------+--------|
+| Attribute                           | Value  |
+|-------------------------------------+--------|
+| Required Creepage distance, D_{cr}  | 11.6m  |
+| Length of fittings, L_{fit}         | 0.35m  |
+| U160BLP Creepage distance, D_{u160} | 0.525m |
+| U160BLP Spacing, P_{u160}           | 0.17m  |
+|-------------------------------------+--------|
+* Power Rating Calculations
+Thermal Rating of a conductor, also known as Power Rating, is calculated
+using its current carrying capacity at maximum operating temperature. “The
+ampacity of a conductor is that current which will meet the design, security and
+safety criteria of a particular line on which the conductor is used.” (Stephen,
+1992)<TODO : Add citation> This is calculated using the law of conservation of
+thermal energy. The balance between Heat gain(caused by Ohmic losses and Solar
+heating) and Heat loss(due to atmospheric conditions and wind) is equated, and
+current value is obtained from the following equation:
+
+\begin{align}
+I = \sqrt{\frac{q_c + q_r - q_s}{R_T_C}}
+\end{align}
+where, \\
+q_c = \text{Convection heat loss}, W/m \\
+q_r = \text{Radiated heat loss}, W/m \\
+q_s = \text{Solar heat gain}, W/m \\
+I = \text{Conductor current}, Amperes \\
+R_T_C = \text{AC conductor resistance at maximum operating temperature}, Ohms/m
+* Tower Diagrams 
+
+The requested tower design figures should be presented first as those is what you need to provide as consultant (i.e., the design is what you calculate). The structure of the report it is based on your likes and your standards of professionalism. Figures should be clear and provide the asked/requested information. More info does not mean that it is better.  
+* Internal Clearance Calculations - Top Tower Geometry  
+
+    Phase – Ground (P-G) Clearances 
+
+You should add sub-chapters with titles that have a meaning as you think it is appropriate. Figures with captions should be used when required to support the calculations.  
+
+    Phase – Phase (P-G) Clearances
+
+    What will be the OHL design if the most optimum Rod composite insulator (Table 1 below) is utilised? 
+Indicate which other polymeric insulators could be used on this OHL design and
+explain why.
+
+* External Clearance Calculations – Tower Legs Geometry  
+
+If you need to sub-chapters that is fine but the titles should have a meaning (this is an example and it might not be appropriate). Figures with captions should be used when required to support the calculations.  
+* Discussion and Conclusion 
+
+Make sure that you mention elements that we have discussed in the lectures as well as the value (or costs) of different types of insulators and designs.  
+
+ 
+
+In your report you might want to use some other documents as evident of the Insulator design or practices to defend your conclusions and calculations. So please use either footnotes1,2 or Endnotes as appropriate [1,2]. 
+* Ref 
+
+# \bibliographystyle{plain}
+# bibliographystyle:plain
+# bibliography:my-bib.bib
+
+
+Make sure that you mention elements that we have discussed in the lectures as well as the value (or costs) of different types of insulator and designs.  
+
+[1] National Grid (2017). NETS SQSS V2.3 Available at: <http://www2.nationalgrid.com/uk/industry-information/electricity-codes/sqss/the-sqss/> [Last accessed 24th November 2017] 
+
+[2] Phillips A (2002) Ceramic vs Polymer (Non Ceramic) Insulators, EPRI
+
+Stephen,  R.:  The  thermal  behaviour  of  overhead  conductors.  Sections  1  and  2.  Cigré  SC:22  
+Overhead lines. Electra 144, 107–125 (1992)
+
+ 
+
+ 
+
+
