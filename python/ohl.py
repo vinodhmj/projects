@@ -91,17 +91,23 @@ def ohldesign():
     
     dEl = max(dAC, dSI, dLI)
 
-    dCrossarm = findCrossarmLength(dEl, dIns, dFitting, dCond)
-    dShield   = findShieldDistance(dCrossarm, dIns, dFitting, dCond, dTower)
+    dCrossarm_U160BLP = findCrossarmLength(dEl, dIns, dFitting, dCond)
+    dShield_U160BLP   = findShieldDistance(dCrossarm_U160BLP, dIns, dFitting, dCond, dTower)
+   
+    dEl_S248142V7 = 3.272
+    dIns_S248142V7 = 3.607
+    dCrossarm_S248142V7 = findCrossarmLength(dEl_S248142V7, dIns_S248142V7, dFitting, dCond)
+    dShield_S248142V7   = findShieldDistance(dCrossarm_S248142V7, dIns_S248142V7, dFitting, dCond, dTower)
+    
 
     dSag = findSag(dSpan, condWeight, tensileStrength)
     dCondLength = findConductorLength(dSpan, condWeight, tensileStrength)
     dCondMax = findMaxConductorLength(thermalCoeff, tMax, tOperating, dCondLength)
     dSagMax = findSagMax(dSpan, dCondMax)
     
-    print("Rating:\t", rating)
-    print("dIns:\t", dIns)
-    print("dSag:\t", dSag)
+    print("Rating:\t\t", rating)
+    print("dIns:\t\t", dIns)
+    print("dSag:\t\t", dSag)
     print("dConductor:\t", dCondLength)
     print("dMaxConductor:\t", dCondMax)
     print("dMaxSag:\t", dSagMax)
@@ -114,8 +120,10 @@ def ohldesign():
     print("dLI:\t", dLI)
     print("dSI:\t", dSI)
     print("dEl:\t", dEl)
-    print("dCrossarm:\t", dCrossarm)
-    print("dShield:\t", dShield)
+    print("dCrossarm_U160BLP:\t", dCrossarm_U160BLP)
+    print("dShield_U160BLP:\t", dShield_U160BLP)
+    print("dCrossarm_S248142V7:\t", dCrossarm_S248142V7)
+    print("dShield_S248142V7:\t", dShield_S248142V7)    
 
     k = 1.4
     dSI = findSIClearance(1125, k)

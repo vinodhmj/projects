@@ -12,11 +12,15 @@
 #+latex_header: \usepackage[scaled]{helvet} \renewcommand\familydefault{\sfdefault}
 #+latex_header: \usepackage{mathtools}
 #+latex_header: \usepackage{textcomp}
+#+latex_header: \usepackage{siunitx}
 #+options: toc:nil
 #+LATEX_HEADER: \usepackage{booktabs}
 #+LATEX_HEADER: \usepackage{xcolor}
 #+LATEX_HEADER: \usepackage{colortbl}
 #+LATEX_HEADER: \makeatletter \@ifpackageloaded{geometry}{\geometry{margin=2cm}}{\usepackage[margin=2cm]{geometry}} \makeatother
+#+LATEX_HEADER: \usepackage{amsmath}
+#+LATEX_HEADER: \usepackage{hyperref}
+
 
 * Title Page
 * Introduction
@@ -35,30 +39,66 @@ table below. This data is used across all other calculation sections.
 #+caption: Design Data for transmission system
 #+name:design-data
 #+ATTR_LATEX: :placement [h] :center t
-|------------------------------------------+----------------|
-| *Attribute*                              | *Value*        |
-|------------------------------------------+----------------|
-| Rated Voltage, V_r                       | 275kV          |
-| Number of Circuits, N_c                  | 2              |
-| Conductor type                           | Rubus, single  |
-| Span length, l_s                         | 366m           |
-| Maximum Operating Temperature, T_max     | 75\textcelsius |
-| Shielding angle(at no wind), \theta_{s}  | 30^o           |
-| Wind speed for clearances, V_w           | 18.8 m/s       |
-| Minimum heat loss due to convection, q_c | 41.40 W/m      |
-| Minimum radiated heat loss, q_r          | 19.20 W/m      |
-| Maximum solar heat gain, q_s             | 14.30 W/m      |
-|------------------------------------------+----------------|
+|----------------------------------------------+----------------|
+| *Attribute*                                  | *Value*        |
+|----------------------------------------------+----------------|
+| Rated Voltage, V_r                           | 275kV          |
+| Number of Circuits, N_c                      | 2              |
+| Conductor type                               | Rubus, single  |
+| Span length, L_s                             | 366m           |
+| Maximum Operating Temperature, T_max         | 75\textcelsius |
+| Width of the Tower, W_t                      | 2.7 m          |
+| Shielding angle(at no wind), \theta_{shield} | 30^o           |
+| Wind speed for clearances, V_w               | 18.8 m/s       |
+| Minimum heat loss due to convection, q_c     | 41.40 W/m      |
+| Minimum radiated heat loss, q_r              | 19.20 W/m      |
+| Maximum solar heat gain, q_s                 | 14.30 W/m      |
+|----------------------------------------------+----------------|
 # ** Conductor Design Data
 #+BIND: org-latex-prefer-user-labels t
 #+caption: Design Data for Rubus single AAAC conductor
 #+name:design-data
 #+ATTR_LATEX: :placement [h] :center t
-|------------+-----------+------------------+-------------------------------+---------------+---------------|
-| *Diameter* | *Weight*  | *Rated Strength* | *Coeff. of expansion*         | *RAC at 20ºC* | *RAC at 75ºC* |
-|------------+-----------+------------------+-------------------------------+---------------+---------------|
-| 0.0315m    | 1.622kg/m | 173530N          | 23 e^{-06}  \textcelsius^{-1} | 0.0574 \Omega | 0.0688Ω/km    |
-|------------+-----------+------------------+-------------------------------+---------------+---------------|
+|----------------------+-------------+-----------------+--------------------------------------+---------------------+---------------------|
+| *Diameter*, D_{cond} | *Mass*, M_c | *Strength*, T_r | *Coeff. of expansion*, \varepsilon_t | *RAC at 20ºC*       | *RAC at 75ºC*       |
+|----------------------+-------------+-----------------+--------------------------------------+---------------------+---------------------|
+| 0.0315 m             | 1.622 kg/m  | 173530 N        | 23 e^{-06}  \textcelsius^{-1}        | 0.0574 \si{\ohm}/km | 0.0688 \si{\ohm}/km |
+|----------------------+-------------+-----------------+--------------------------------------+---------------------+---------------------|
+
+* Power Rating Calculations
+Thermal Rating of a conductor, also known as Power Rating, is calculated using
+its current carrying capacity at maximum operating temperature. “The ampacity of
+a conductor is that current which will meet the design, security and safety
+criteria of a particular line on which the conductor is used.” (Stephen, [[References][1992]])
+This is calculated using the law of conservation of thermal energy. The balance
+between Heat gain(caused by Ohmic losses and Solar heating) and Heat loss(due to
+atmospheric conditions and wind) is equated, and current value is obtained from
+the following equation:
+
+  \begin{equation}\label{eq:ampacity}
+  I = \sqrt{\frac{q_c + q_r - q_s}{R_T_C}}
+\end{equation}
+where, \\
+  q_c = \text{Convection heat loss}, W/m \\
+q_r = \text{Radiated heat loss}, W/m \\
+q_s = \text{Solar heat gain}, W/m \\
+I = \text{Conductor current}, Amperes \\
+  R_T_C = \text{AC conductor resistance at maximum operating temperature},
+\si{\ohm}/m \\
+
+The MVA Rating can be calculated from the following equation:
+
+  \begin{align}
+  MVA_{Rated} = \sqrt{3} * V_r * I * N_c * 1e^{-06}
+  \end{align}
+* Tower Diagrams
+#+CAPTION: Tower Design
+#+LABEL: towerdesign
+#+ATTR_LATEX: :width 12cm
+
+* Internal Clearance Calculations - Top Tower Geometry  
+** Insulator Length - U160BLP
+The number of discs required for insulator is calculated by
 # ** Insulator Design Data
 #+BIND: org-latex-prefer-user-labels t
 #+caption: Design Data for insulator
@@ -72,39 +112,94 @@ table below. This data is used across all other calculation sections.
 | U160BLP Creepage distance, D_{u160} | 0.525m |
 | U160BLP Spacing, P_{u160}           | 0.17m  |
 |-------------------------------------+--------|
-* Power Rating Calculations
-Thermal Rating of a conductor, also known as Power Rating, is calculated
-using its current carrying capacity at maximum operating temperature. “The
-ampacity of a conductor is that current which will meet the design, security and
-safety criteria of a particular line on which the conductor is used.” (Stephen,
-1992)<TODO : Add citation> This is calculated using the law of conservation of
-thermal energy. The balance between Heat gain(caused by Ohmic losses and Solar
-heating) and Heat loss(due to atmospheric conditions and wind) is equated, and
-current value is obtained from the following equation:
+\begin{align}
+N_{discs} = \frac{D_{cr}}{D_{u160}}
+\end{align}
+
+The length of insulator is defined by
 
 \begin{align}
-I = \sqrt{\frac{q_c + q_r - q_s}{R_T_C}}
+D_{insulator} = N_{discs} * P_{u160}
+\end{align}
+** Gap Factor, K
+** Phase – Ground (P-G) Clearances
+*** AC, Switching and Lightning clearances 
+IEC 60071-1 standards suggest standard RMS voltage of 300kV for Electrical
+distance calculation. The peak value is calculated by:
+
+\begin{align}
+U_{50} = \sqrt{3} * 300 kV
+\end{align}
+
+The AC, Lightning and Switching Voltage clearances in meters are calculated as follows:
+
+\begin{align}
+D_{ac} = \frac{8 * U_{50}}{3740 * K - U_{50}} \\
+D_{li} = \frac{U_{50}}{380 + (150 * K)} \\
+D_{si} = \frac{8 * U_{50}}{3400 * K - U_{50}} \\
+D_{el} = max(D_{ac}, D_{li}, D{si})
+\end{align}
+
+*** Swing Angle
+#+CAPTION: Swing Angle
+#+LABEL: swingangle
+#+ATTR_LATEX: :width 3cm
+Force due to wind on conductors, F_w, is given by:
+\begin{align}
+F_w = \frac{1}{2} * V^{2} * D_{cond} * L_s * N_{cb}
 \end{align}
 where, \\
-q_c = \text{Convection heat loss}, W/m \\
-q_r = \text{Radiated heat loss}, W/m \\
-q_s = \text{Solar heat gain}, W/m \\
-I = \text{Conductor current}, Amperes \\
-R_T_C = \text{AC conductor resistance at maximum operating temperature}, Ohms/m
-* Tower Diagrams 
+N_{cb} = Number of conductors in the bundle \\
 
-The requested tower design figures should be presented first as those is what you need to provide as consultant (i.e., the design is what you calculate). The structure of the report it is based on your likes and your standards of professionalism. Figures should be clear and provide the asked/requested information. More info does not mean that it is better.  
-* Internal Clearance Calculations - Top Tower Geometry  
+Force due to gravity on the conductors, F_g, is given by:
+\begin{align}
+F_g = M_c * 9.81 m/s
+\end{align}
 
-    Phase – Ground (P-G) Clearances 
+Swing Angle, \phi_s is then calculated using:
+\begin{align}
+\phi_s = tan {}^{-1} (\frac{Fw}{Fg})
+\end{align}
+*** Cross arm
+The length of cross arm is calculated using:
+\begin{align}
+L_{crossarm} = L_{displacement} + D_{el} \\
+L_{displacement} = \sin{\phi_s} * L_{hanging} \\
+L_{hanging} = D_{insulator} + L_{fitting} + D_{cond}
+\end{align}
 
-You should add sub-chapters with titles that have a meaning as you think it is appropriate. Figures with captions should be used when required to support the calculations.  
+Distance between Cross arms is calculated using:
 
-    Phase – Phase (P-G) Clearances
+\begin{align}
+D_{ca-top-mid} = \frac{D_{hanging} + D_{el}}{\sin{\theta_{12}}} \\
+D_{ca-mid-bottom} =  \frac{D_{hanging} + D_{el}}{\sin{\theta_{23}}}
+\end{align}
+*** Shield wire mount
+The distance to shield wire mount from top cross arm is calculated by:
 
-    What will be the OHL design if the most optimum Rod composite insulator (Table 1 below) is utilised? 
+\begin{align}
+D_{ca-shield} = \frac{L_{crossarm} + \frac{W_t}{2}}{\tan(\theta_{shield}) - L_{hanging}}
+\end{align}
+** Phase – Phase (P-P) Clearances
+[[design-data][Table 1]]
+
+
+** Alternate Insulator Design
+Considering the required Creepage for the tower is 11.6m, S248142V7 polymer type
+insulator must be used. The technical details for this insulator is given below:
+
+|           | Electro-mechanical failing load | Section length L | Dry Arc length P | Creepage distance |
+| S248142V7 | 210 kN                          | 3607mm           | 3272mm           | 12969mm           |
+
+D_{el} = 3.272m
+D_{insulator} = 3.607m
+What will be the OHL design if the most optimum Rod composite insulator (Table 1 below) is utilised?
+
 Indicate which other polymeric insulators could be used on this OHL design and
 explain why.
+
+You should add sub-chapters with titles that have a meaning as you think it is appropriate. Figures with captions should be used when required to support the calculations.
+
 
 * External Clearance Calculations – Tower Legs Geometry  
 
@@ -116,21 +211,14 @@ Make sure that you mention elements that we have discussed in the lectures as we
  
 
 In your report you might want to use some other documents as evident of the Insulator design or practices to defend your conclusions and calculations. So please use either footnotes1,2 or Endnotes as appropriate [1,2]. 
-* Ref 
-
-# \bibliographystyle{plain}
-# bibliographystyle:plain
-# bibliography:my-bib.bib
-
-
+* References
 Make sure that you mention elements that we have discussed in the lectures as well as the value (or costs) of different types of insulator and designs.  
 
 [1] National Grid (2017). NETS SQSS V2.3 Available at: <http://www2.nationalgrid.com/uk/industry-information/electricity-codes/sqss/the-sqss/> [Last accessed 24th November 2017] 
 
 [2] Phillips A (2002) Ceramic vs Polymer (Non Ceramic) Insulators, EPRI
 
-Stephen,  R.:  The  thermal  behaviour  of  overhead  conductors.  Sections  1  and  2.  Cigré  SC:22  
-Overhead lines. Electra 144, 107–125 (1992)
+[3] Stephen,  R.:  The  thermal  behaviour  of  overhead  conductors.  Sections  1  and  2.  Cigré  SC:22  Overhead lines. Electra 144, 107–125 (1992)
 
  
 
