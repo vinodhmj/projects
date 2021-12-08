@@ -20,7 +20,7 @@
 #+LATEX_HEADER: \makeatletter \@ifpackageloaded{geometry}{\geometry{margin=2cm}}{\usepackage[margin=2cm]{geometry}} \makeatother
 #+LATEX_HEADER: \usepackage{amsmath}
 #+LATEX_HEADER: \usepackage{hyperref}
-
+#+LATEX_HEADER: \hypersetup{colorlinks=true,linkcolor=blue,filecolor=blue,citecolor = black,urlcolor=cyan,}
 
 * Title Page
 * Introduction
@@ -39,19 +39,30 @@ table below. This data is used across all other calculation sections.
 #+caption: Design Data for transmission system
 #+name:design-data
 #+ATTR_LATEX: :placement [h] :center t
+#+ATTR_LaTeX: :align |c|c|c|
 |----------------------------------------------+----------------|
 | *Attribute*                                  | *Value*        |
 |----------------------------------------------+----------------|
 | Rated Voltage, V_r                           | 275kV          |
+|----------------------------------------------+----------------|
 | Number of Circuits, N_c                      | 2              |
+|----------------------------------------------+----------------|
 | Conductor type                               | Rubus, single  |
+|----------------------------------------------+----------------|
 | Span length, L_s                             | 366m           |
+|----------------------------------------------+----------------|
 | Maximum Operating Temperature, T_max         | 75\textcelsius |
+|----------------------------------------------+----------------|
 | Width of the Tower, W_t                      | 2.7 m          |
+|----------------------------------------------+----------------|
 | Shielding angle(at no wind), \theta_{shield} | 30^o           |
+|----------------------------------------------+----------------|
 | Wind speed for clearances, V_w               | 18.8 m/s       |
+|----------------------------------------------+----------------|
 | Minimum heat loss due to convection, q_c     | 41.40 W/m      |
+|----------------------------------------------+----------------|
 | Minimum radiated heat loss, q_r              | 19.20 W/m      |
+|----------------------------------------------+----------------|
 | Maximum solar heat gain, q_s                 | 14.30 W/m      |
 |----------------------------------------------+----------------|
 # ** Conductor Design Data
@@ -76,7 +87,7 @@ atmospheric conditions and wind) is equated, and current value is obtained from
 the following equation:
 
   \begin{equation}\label{eq:ampacity}
-  I = \sqrt{\frac{q_c + q_r - q_s}{R_T_C}}
+  I = \sqrt{\frac{q_c + q_r - q_s}{R_{TC}}}
 \end{equation}
 where, \\
   q_c = \text{Convection heat loss}, W/m \\
@@ -182,14 +193,14 @@ D_{ca-shield} = \frac{L_{crossarm} + \frac{W_t}{2}}{\tan(\theta_{shield}) - L_{h
 \end{align}
 ** Phase – Phase (P-P) Clearances
 [[design-data][Table 1]]
-
-
 ** Alternate Insulator Design
 Considering the required Creepage for the tower is 11.6m, S248142V7 polymer type
 insulator must be used. The technical details for this insulator is given below:
-
-|           | Electro-mechanical failing load | Section length L | Dry Arc length P | Creepage distance |
+|-----------+---------------------------------+------------------+------------------+-------------------|
+|           | Electro-mechanical failing load | Section length L | Dry Arc length P | Cree page distance |
+|-----------+---------------------------------+------------------+------------------+-------------------|
 | S248142V7 | 210 kN                          | 3607mm           | 3272mm           | 12969mm           |
+|-----------+---------------------------------+------------------+------------------+-------------------|
 
 D_{el} = 3.272m
 D_{insulator} = 3.607m
@@ -199,11 +210,10 @@ Indicate which other polymeric insulators could be used on this OHL design and
 explain why.
 
 You should add sub-chapters with titles that have a meaning as you think it is appropriate. Figures with captions should be used when required to support the calculations.
-
-
 * External Clearance Calculations – Tower Legs Geometry  
 
 If you need to sub-chapters that is fine but the titles should have a meaning (this is an example and it might not be appropriate). Figures with captions should be used when required to support the calculations.  
+
 * Discussion and Conclusion 
 
 Make sure that you mention elements that we have discussed in the lectures as well as the value (or costs) of different types of insulators and designs.  

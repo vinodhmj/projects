@@ -93,10 +93,9 @@ def ohldesign():
 
     dCrossarm_U160BLP = findCrossarmLength(dEl, dIns, dFitting, dCond)
     dShield_U160BLP   = findShieldDistance(dCrossarm_U160BLP, dIns, dFitting, dCond, dTower)
-   
-    dEl_S248142V7 = 3.272
+    
     dIns_S248142V7 = 3.607
-    dCrossarm_S248142V7 = findCrossarmLength(dEl_S248142V7, dIns_S248142V7, dFitting, dCond)
+    dCrossarm_S248142V7 = findCrossarmLength(dEl, dIns_S248142V7, dFitting, dCond)
     dShield_S248142V7   = findShieldDistance(dCrossarm_S248142V7, dIns_S248142V7, dFitting, dCond, dTower)
     
 
@@ -106,7 +105,8 @@ def ohldesign():
     dSagMax = findSagMax(dSpan, dCondMax)
     
     print("Rating:\t\t", rating)
-    print("dIns:\t\t", dIns)
+    print("dIns_U160BLP:\t", dIns)
+    print("dIns_S248142V7:\t", dIns_S248142V7)
     print("dSag:\t\t", dSag)
     print("dConductor:\t", dCondLength)
     print("dMaxConductor:\t", dCondMax)
