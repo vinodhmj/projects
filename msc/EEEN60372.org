@@ -20,18 +20,43 @@
 #+LATEX_HEADER: \makeatletter \@ifpackageloaded{geometry}{\geometry{margin=2cm}}{\usepackage[margin=2cm]{geometry}} \makeatother
 #+LATEX_HEADER: \usepackage{amsmath}
 #+LATEX_HEADER: \usepackage{hyperref}
+#+LATEX_HEADER: \usepackage{wrapfig}
 #+LATEX_HEADER: \hypersetup{colorlinks=true,linkcolor=blue,filecolor=blue,citecolor = black,urlcolor=cyan,}
+#+LATEX_HEADER: \usepackage{graphicx}
 
-* Title Page
+\begin{titlepage}
+	\centering
+	\includegraphics[width=0.15\textwidth]{logo-university-of-manchester.png}\par\vspace{1cm}
+	{\scshape\LARGE Department of Electrical Engineering \par}
+	\vspace{1cm}
+	{\scshape\Large EEEN60372 – OHL design coursework \par}
+	\vspace{1.5cm}
+	{\huge\bfseries Design of 275kV Transmission Line Tower \par}
+	\vspace{2cm}
+	{\Large\itshape Vinodh Jayakrishnan\par}
+	{\itshape Student ID : 10877410 \par}
+	{\itshape vinodh.jayakrishnan@postgrad.manchester.ac.uk \par}
+
+% Bottom of the page
+	\vspace{2cm}
+	\vspace{2cm}
+	{\large Version 1.0 \par}
+	{\large \today\par}
+\end{titlepage}
+
+#+BEGIN_EXPORT latex
+\tableofcontents
+#+END_EXPORT
+
+
+--------------------------------------------------
 * Introduction
  This report contains a design for the proposed new transmission system between
- Manchester to Birmingham. The scope of this report is limited to the electrical
- design of transmission tower. The calculations and reasoning are segregated
- into four sections:
- 1. Thermal Rating
- 2. Internal Electrical Clearances
- 3. External Electrical Clearances
- 4. Design choices and Justification
+ Manchester to Birmingham. The calculations and reasoning are segregated into
+ five sections as Power Rating Calculations, Tower Diagram, Internal Electrical
+ Clearances, External Electrical Clearances and Justifications.
+** Python Program
+A Python program with all the calculations for tower design can be found at: [[https://github.com/vinodhmj/projects/blob/f05b1347b5cc9357650d387a34d9603f98e77437/msc/ohl.py][EEEN60372_OHL_Coursework.py]]
 ** System Design Data
 The calculations are made for the components and attributes mentioned in the
 table below. This data is used across all other sections.
@@ -51,7 +76,9 @@ table below. This data is used across all other sections.
 |----------------------------------------------+----------------|
 | Span length, L_s                             | 366m           |
 |----------------------------------------------+----------------|
-| Maximum Operating Temperature, T_max         | 75\textcelsius |
+| Installed at Temperature, T_{installed}      | 5\textcelsius  |
+|----------------------------------------------+----------------|
+| Maximum Operating Temperature, T_{max}       | 75\textcelsius |
 |----------------------------------------------+----------------|
 | Width of the Tower, W_t                      | 2.7 m          |
 |----------------------------------------------+----------------|
@@ -75,8 +102,6 @@ table below. This data is used across all other sections.
 |----------------------+-------------+-----------------+--------------------------------------+---------------------+---------------------|
 | 0.0315 m             | 1.622 kg/m  | 173530 N        | 23 e^{-06}  \textcelsius^{-1}        | 0.0574 \si{\ohm}/km | 0.0688 \si{\ohm}/km |
 |----------------------+-------------+-----------------+--------------------------------------+---------------------+---------------------|
-
-\pagebreak
 * Power Rating Calculations
 Thermal Rating of a conductor, also known as Power Rating, is calculated using
 its current carrying capacity at maximum operating temperature. “The ampacity of
@@ -111,11 +136,16 @@ MVA Rating = 781.483 \approxeq 780 MVA
 \end{equation}
 
 \pagebreak
-* Tower Diagrams
-#+CAPTION: Tower Design
-#+LABEL: towerdesign
-#+ATTR_LATEX: :width 12cm
+* Tower Diagram
+This design schematic shown below is a hybrid model where the left hand side of
+the vertical purple axis shows the values for a conventional Pin-cap type
+insulator whereas the right hand side design shows the values for Polymer rod
+type insulator. The external clearances are same for both cases.
 
+#+caption: Tower Design
+#+ATTR_LATEX: :scale 0.15 :center t
+[[./tower.jpg]]
+\pagebreak
 * Internal Clearance Calculations - Top Tower Geometry  
 ** Insulator Length - U160BLP
 The number of discs required for insulator is calculated by
@@ -132,61 +162,106 @@ The number of discs required for insulator is calculated by
 | U160BLP Creepage distance, D_{u160} | 0.525m |
 | U160BLP Spacing, P_{u160}           | 0.17m  |
 |-------------------------------------+--------|
-\begin{align}
-N_{discs} = \frac{D_{cr}}{D_{u160}}
-\end{align}
+\begin{equation}\label{eq:nDiscs}
+N_{discs} = ceil(\frac{D_{cr}}{D_{u160}})
+\end{equation}
 
 The length of insulator is defined by
 
-\begin{align}
+\begin{equation}\label{eq:Lins}
 D_{insulator} = N_{discs} * P_{u160}
-\end{align}
-** Gap Factor, K
-** Phase – Ground (P-G) Clearances
-*** AC, Switching and Lightning clearances 
-IEC 60071-1 standards suggest standard RMS voltage of 300kV for Electrical
-distance calculation. The peak value is calculated by:
+\end{equation}
 
 \begin{align}
-U_{50} = \sqrt{3} * 300 kV
+D_{insulator} = 3.74
 \end{align}
+** Gap Factor, K
+** Clearances
+IEC 60071-1 standards suggest standard RMS voltage of 300kV for Electrical
+distance calculation.
+
+#+caption: Standard Insulation [2]
+#+ATTR_LATEX: :width 10cm :center t
+[[./standardInsulation.png]]
+
+*** Phase – Ground (P-G) Clearances
+The peak value is calculated by:
+
+\begin{equation}\label{eq:u50}
+U_{50} = \sqrt{3} * 300 kV
+\end{equation}
 
 The AC, Lightning and Switching Voltage clearances in meters are calculated as follows:
 
-\begin{align}
-D_{ac} = \frac{8 * U_{50}}{3740 * K - U_{50}} \\
-D_{li} = \frac{U_{50}}{380 + (150 * K)} \\
-D_{si} = \frac{8 * U_{50}}{3400 * K - U_{50}} \\
+\begin{align}\label{eq:clearances}
+D_{ac} = \frac{8 * U_{50}}{3740 * K - U_{50}} \\ \label{eq:clearances1}
+D_{li} = \frac{U_{50}}{380 + (150 * K)} \\ \label{eq:clearances2}
+D_{si} = \frac{8 * U_{50}}{3400 * K - U_{50}} \\ \label{eq:clearances3}
 D_{el} = max(D_{ac}, D_{li}, D{si})
 \end{align}
 
-*** Swing Angle
+By using a Gap Factor K = 1.45, \\
+Following are the values for clearances
+
+|-----------+----------|
+| Parameter | Value, m |
+|-----------+----------|
+| D_{ac}    |    0.679 |
+| D_{li}    |    1.423 |
+| D_{si}    |    1.435 |
+| D_{el}    |    1.435 |
+|-----------+----------|
+*** Phase – Phase (P-P) Clearances
+Using the \eqref{eq:clearances}, \eqref{eq:clearances1}, \eqref{eq:clearances2},
+\eqref{eq:clearances3} and a Gap Factor K = 1.4 The phase to phase clearance
+values are calculated as:
+|-----------+----------|
+| Parameter | Value, m |
+|-----------+----------|
+| D_{ac}    |    0.679 |
+| D_{li}    |    2.153 |
+| D_{si}    |    2.476 |
+| D_{el}    |    2.476 |
+|-----------+----------|
+** Swing Angle
 #+CAPTION: Swing Angle
 #+LABEL: swingangle
-#+ATTR_LATEX: :width 3cm
+#+ATTR_LATEX: :float wrap :width 0.38\textwidth :placement {r}{0.4\textwidth}
+[[./swing.png]]
+
 Force due to wind on conductors, F_w, is given by:
-\begin{align}
+\begin{equation}
 F_w = \frac{1}{2} * V^{2} * D_{cond} * L_s * N_{cb}
-\end{align}
-where, \\
-N_{cb} = Number of conductors in the bundle \\
+\end{equation}
+where, N_{cb} = Number of conductors in the bundle
 
 Force due to gravity on the conductors, F_g, is given by:
-\begin{align}
+\begin{equation}
 F_g = M_c * 9.81 m/s
-\end{align}
+\end{equation}
 
 Swing Angle, \phi_s is then calculated using:
-\begin{align}
+\begin{equation}
 \phi_s = tan {}^{-1} (\frac{Fw}{Fg})
-\end{align}
-*** Cross arm
+\end{equation}
+
+Swing Angle is calculated as:
+\begin{equation}\label{eq:swingvalue}
+\theta_{swing} = 23.113^o
+\end{equation}
+** Cross arm
+*** Length of crossarms
 The length of cross arm is calculated using:
 \begin{align}
 L_{crossarm} = L_{displacement} + D_{el} \\
 L_{displacement} = \sin{\phi_s} * L_{hanging} \\
 L_{hanging} = D_{insulator} + L_{fitting} + D_{cond}
 \end{align}
+*** Distance between crossarms
+#+CAPTION: Crossarm distances
+#+LABEL: crossarm
+#+ATTR_LATEX: :float wrap :width 0.38\textwidth :placement {r}{0.4\textwidth}
+[[./crossarm.png]]
 
 Distance between Cross arms is calculated using:
 
@@ -194,38 +269,117 @@ Distance between Cross arms is calculated using:
 D_{ca-top-mid} = \frac{D_{hanging} + D_{el}}{\sin{\theta_{12}}} \\
 D_{ca-mid-bottom} =  \frac{D_{hanging} + D_{el}}{\sin{\theta_{23}}}
 \end{align}
-*** Shield wire mount
+** Shield wire mount
 The distance to shield wire mount from top cross arm is calculated by:
 
 \begin{align}
 D_{ca-shield} = \frac{L_{crossarm} + \frac{W_t}{2}}{\tan(\theta_{shield}) - L_{hanging}}
 \end{align}
-** Phase – Phase (P-P) Clearances
-
-
-
 ** Alternate Insulator Design
 Considering the required Creepage for the tower is 11.6m, S248142V7 polymer type
-insulator must be used. The technical details for this insulator is given below:
-|-----------+---------------------------------+------------------+------------------+-------------------|
+insulator is used. The technical details for this insulator is given below:
+|-----------+---------------------------------+------------------+------------------+--------------------|
 |           | Electro-mechanical failing load | Section length L | Dry Arc length P | Cree page distance |
-|-----------+---------------------------------+------------------+------------------+-------------------|
-| S248142V7 | 210 kN                          | 3607mm           | 3272mm           | 12969mm           |
-|-----------+---------------------------------+------------------+------------------+-------------------|
+|-----------+---------------------------------+------------------+------------------+--------------------|
+| S248142V7 | 210 kN                          | 3607mm           | 3272mm           | 12969mm            |
+|-----------+---------------------------------+------------------+------------------+--------------------|
 
+\begin{align}
 D_{el} = 3.272m
 D_{insulator} = 3.607m
-What will be the OHL design if the most optimum Rod composite insulator (Table 1 below) is utilised?
+\end{align}
+
+*** Implications of using Polymer rod insulator
+
+
+|---------------------------+----------------------------------|
+| Glass insulator (U160BLP) | Polymer rod insulator(S248142V7) |
+|                           |                                  |
+
+Heavy
+Pin - holds another insulator
+Vandalism Normal Wear and Tear
+burst sharpnel
+adv:
+robust
+durable
+otg parallel addition
+easy installation
+contingency because of distributed nature
+
+
+Silicon
+low weight
+high tensile strength
+Pollution environment better
+Better creepage in same length, which improves flashover withstand
+
+disadv:
+
+erosion
+Polluted water will remain on the surface - hydrophobicity erosion
+water could seep inside - crack - dry band arcing
+weathershed
 
 Indicate which other polymeric insulators could be used on this OHL design and
 explain why.
 
-You should add sub-chapters with titles that have a meaning as you think it is appropriate. Figures with captions should be used when required to support the calculations.
+
 * External Clearance Calculations – Tower Legs Geometry  
 
-If you need to sub-chapters that is fine but the titles should have a meaning (this is an example and it might not be appropriate). Figures with captions should be used when required to support the calculations.  
+** Sag Calculation
+The property of metallic malleable adds to conductor elasticity which results in
+a sag within a span of two towers. Elasticity coupled with atmospheric
+temperature increases the sag towards earth at the middle. Sag could be
+calculated using the following formula:
+
+*** Length of Conductor across span
+The length of the conductor with elasticity is given by:
+\begin{align}\label{eq:condLength}
+L_c = L_s + \frac{W^{2} * L_s^{3}}{24T^{2}} m \\
+W = M_c * 9.81 N/m \\
+T = 0.2 * T_r N
+\end{align}
+
+where, \\
+L_c = conductor length within a span, m \\
+W = conductor weight N/m \\
+T = Tensile Strength at installed capacity(20%), N
+*** Thermal Elongation
+The maximum length of conductor including thermal elongation is calculated by:
+\begin{equation}
+L_{thermal_elongation} = \varepsilon_t * (T_{max} - T_{installed}) * L_c m
+\end{equation}
+*** Maximum Sag 
+The maximum sag is then calculated by:
+\begin{equation}\label{eq:sag}
+Sag_{max} = \sqrt{ \frac{3L_sL_c - 3L_s^{2}}{8}}
+\end{equation}
+*** Results
+Substituting values from [[design-data][Table 1]] and [[design-data-conductor][Table 2]] in the above equations:
+|-------------------------+-------|
+| Parameter               | Value |
+|-------------------------+-------|
+| L_c, m                  |       |
+| L_thermal_elongation, m |       |
+| Sag_{max}, m            |       |
+|-------------------------+-------|
+** Ground Clearance
+The ground clearance from the point of maximum conductor sag is applied from
+standards in United Kingdom. [[References][Ref:3]]
+
+\begin{align}
+Ground Clearance(No Road) = 7.0m \\
+Ground Clearance(Road) = 7.4m
+\end{align}
 
 * Discussion and Conclusion 
+
+Geography
+Standards
+Atmospheric Condition - wind speed, humidity, wetness
+Critical Infrastructure - path of tower - river, forest, urban area
+National/Council regulations
 
 Make sure that you mention elements that we have discussed in the lectures as well as the value (or costs) of different types of insulators and designs.  
 
@@ -233,13 +387,13 @@ Make sure that you mention elements that we have discussed in the lectures as we
 
 In your report you might want to use some other documents as evident of the Insulator design or practices to defend your conclusions and calculations. So please use either footnotes1,2 or Endnotes as appropriate [1,2]. 
 * References
-Make sure that you mention elements that we have discussed in the lectures as well as the value (or costs) of different types of insulator and designs.  
+[1] Stephen,  R.:  The  thermal  behaviour  of  overhead  conductors.  Sections  1  and  2.  Cigré  SC:22  Overhead lines. Electra 144, 107–125 (1992)
+[2] Ryan, H. M., & Ryan, H. (Eds.). (2013). High-voltage engineering and
+testing. Institution of Engineering & Technology.
+[3] DR K. Kopsidas, Power System Plant, Asset Management and Condition
+Monitoring – BOOK 2 – Overhead lines and Switchgear handbook, University of Manchester
 
-[1] National Grid (2017). NETS SQSS V2.3 Available at: <http://www2.nationalgrid.com/uk/industry-information/electricity-codes/sqss/the-sqss/> [Last accessed 24th November 2017] 
 
-[2] Phillips A (2002) Ceramic vs Polymer (Non Ceramic) Insulators, EPRI
-
-[3] Stephen,  R.:  The  thermal  behaviour  of  overhead  conductors.  Sections  1  and  2.  Cigré  SC:22  Overhead lines. Electra 144, 107–125 (1992)
 
  
 

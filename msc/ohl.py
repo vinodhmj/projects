@@ -12,6 +12,7 @@ def findRating():
     qs = 14.3
     r75 = 0.0000688
     current = math.sqrt((qc+qr-qs)/r75)
+    print("current", current)
     nConductors = 2
     rating = (math.sqrt(3) * voltage * current * nConductors)/1000000
     return rating
@@ -33,7 +34,7 @@ def findInsulatorDistance():
     # U160BLP - from datasheet
     # Creepage distance = 0.525
     # Spacing = 0.17
-    nDiscs = requiredCreepage/0.525
+    nDiscs = math.ceil(requiredCreepage/0.525)
     d = nDiscs * 0.17
     return d
 
@@ -81,7 +82,7 @@ def ohldesign():
     dTower = 2.7
     dSpan = 366
     condWeight = 1.622 * 9.81 # N/m
-    tensileStrength = 173530 # N
+    tensileStrength = 0.2 * 173530 # N
     thermalCoeff = 23e-6
     tMax = 75
     tOperating = 5
