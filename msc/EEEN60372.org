@@ -24,17 +24,17 @@
 
 * Title Page
 * Introduction
- \paragraph{} A design for the proposed new transmission system between
- Manchester to Birmingham is presented in this report. The scope of this report
- is limited to the electrical design of transmission tower. The calculations and
- reasoning are segregated into four sections:
+ This report contains a design for the proposed new transmission system between
+ Manchester to Birmingham. The scope of this report is limited to the electrical
+ design of transmission tower. The calculations and reasoning are segregated
+ into four sections:
  1. Thermal Rating
  2. Internal Electrical Clearances
  3. External Electrical Clearances
- 4. Design choices and justification
+ 4. Design choices and Justification
 ** System Design Data
-The calculations are made for the components are attributes mentioned in the
-table below. This data is used across all other calculation sections.
+The calculations are made for the components and attributes mentioned in the
+table below. This data is used across all other sections.
 #+BIND: org-latex-prefer-user-labels t
 #+caption: Design Data for transmission system
 #+name:design-data
@@ -65,10 +65,10 @@ table below. This data is used across all other calculation sections.
 |----------------------------------------------+----------------|
 | Maximum solar heat gain, q_s                 | 14.30 W/m      |
 |----------------------------------------------+----------------|
-# ** Conductor Design Data
+
 #+BIND: org-latex-prefer-user-labels t
 #+caption: Design Data for Rubus single AAAC conductor
-#+name:design-data
+#+name:design-data-conductor
 #+ATTR_LATEX: :placement [h] :center t
 |----------------------+-------------+-----------------+--------------------------------------+---------------------+---------------------|
 | *Diameter*, D_{cond} | *Mass*, M_c | *Strength*, T_r | *Coeff. of expansion*, \varepsilon_t | *RAC at 20ºC*       | *RAC at 75ºC*       |
@@ -76,6 +76,7 @@ table below. This data is used across all other calculation sections.
 | 0.0315 m             | 1.622 kg/m  | 173530 N        | 23 e^{-06}  \textcelsius^{-1}        | 0.0574 \si{\ohm}/km | 0.0688 \si{\ohm}/km |
 |----------------------+-------------+-----------------+--------------------------------------+---------------------+---------------------|
 
+\pagebreak
 * Power Rating Calculations
 Thermal Rating of a conductor, also known as Power Rating, is calculated using
 its current carrying capacity at maximum operating temperature. “The ampacity of
@@ -99,9 +100,17 @@ I = \text{Conductor current}, Amperes \\
 
 The MVA Rating can be calculated from the following equation:
 
-  \begin{align}
+  \begin{equation}\label{eq:mvarating}
   MVA_{Rated} = \sqrt{3} * V_r * I * N_c * 1e^{-06}
-  \end{align}
+  \end{equation}
+** Results
+Substituting values from [[design-data][Table 1]] and [[design-data-conductor][Table 2]] on the above equations, and
+rounding off to nearest whole number fetches the following results:
+\begin{equation}\label{eq:mvaresults}
+MVA Rating = 781.483 \approxeq 780 MVA
+\end{equation}
+
+\pagebreak
 * Tower Diagrams
 #+CAPTION: Tower Design
 #+LABEL: towerdesign
@@ -192,7 +201,9 @@ The distance to shield wire mount from top cross arm is calculated by:
 D_{ca-shield} = \frac{L_{crossarm} + \frac{W_t}{2}}{\tan(\theta_{shield}) - L_{hanging}}
 \end{align}
 ** Phase – Phase (P-P) Clearances
-[[design-data][Table 1]]
+
+
+
 ** Alternate Insulator Design
 Considering the required Creepage for the tower is 11.6m, S248142V7 polymer type
 insulator must be used. The technical details for this insulator is given below:

@@ -44,6 +44,11 @@ def findCrossarmLength(dEl, dIns, dFitting, dCond):
     d = dDisplacement + dEl;
     return d
 
+def findDistanceBetweenCrossArms(dHanging, dEl):
+    dCA_top_mid = (dHanging+dEl)/math.sin(math.radians(78))
+    dCA_mid_bottom =  (dHanging+dEl)/math.sin(math.radians(76))
+    return (dCA_top_mid, dCA_mid_bottom);
+
 def findShieldDistance(dCA, dIns, dFitting, dCond, dTower):
     angle = math.radians(30) # angle in radianns
     dTowerandCA = dCA + (dTower/2)
@@ -93,10 +98,15 @@ def ohldesign():
 
     dCrossarm_U160BLP = findCrossarmLength(dEl, dIns, dFitting, dCond)
     dShield_U160BLP   = findShieldDistance(dCrossarm_U160BLP, dIns, dFitting, dCond, dTower)
+    dHanging = dIns + dFitting + dCond
+    (dCA_top_mid_U160BLP, dCA_mid_bottom_U160BLP)  = findDistanceBetweenCrossArms(dHanging, dEl)
     
     dIns_S248142V7 = 3.607
     dCrossarm_S248142V7 = findCrossarmLength(dEl, dIns_S248142V7, dFitting, dCond)
     dShield_S248142V7   = findShieldDistance(dCrossarm_S248142V7, dIns_S248142V7, dFitting, dCond, dTower)
+    dHanging = dIns_S248142V7 + dFitting + dCond
+    (dCA_top_mid_S248142V7, dCA_mid_bottom_S248142V7)  = findDistanceBetweenCrossArms(dHanging, dEl)
+
     
 
     dSag = findSag(dSpan, condWeight, tensileStrength)
@@ -121,9 +131,14 @@ def ohldesign():
     print("dSI:\t", dSI)
     print("dEl:\t", dEl)
     print("dCrossarm_U160BLP:\t", dCrossarm_U160BLP)
+    print('dCA_top_mid_U160BLP:\t', dCA_top_mid_U160BLP)
+    print('dCA_mid_bottom_U160BLP:\t', dCA_mid_bottom_U160BLP)
     print("dShield_U160BLP:\t", dShield_U160BLP)
+    
     print("dCrossarm_S248142V7:\t", dCrossarm_S248142V7)
-    print("dShield_S248142V7:\t", dShield_S248142V7)    
+    print('dCA_top_mid_S248142V7:\t', dCA_top_mid_S248142V7)
+    print('dCA_mid_bottom_S248142V7:', dCA_mid_bottom_S248142V7)
+    print("dShield_S248142V7:\t", dShield_S248142V7)
 
     k = 1.4
     dSI = findSIClearance(1125, k)
