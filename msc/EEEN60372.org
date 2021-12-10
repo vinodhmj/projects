@@ -487,6 +487,15 @@ the results of failure of polymer insulators can be more significant than that
 of hardened glass insulators.  But the recent failure rates and life expectancy
 of later generation polymer insulators, while not at the same level of hardened
 glass insulators, more than make up for the difference in cost.", [[References][(Philips)]]
+As an alternative to the polymeric insulator currently used, a fiber glass core
+with silicone rubber petticoat could be used for this design. This would provide
+the tensile strength and flashover withstanding capacity as well.
+
+In external clearances, the conductor galloping tendency at extreme weather,
+causing the conductors to vibrate vertically is assumed to be harmless to the
+maximum sag. The movement of vibration is expected to reduce the sag level. With
+respect to internal phase-phase clearances and conductor galloping, the use of a
+spacer or damper could reduce the impact of vibrations.
 
 * References
 [1] Stephen,  R.:  The  thermal  behaviour  of  overhead  conductors.  Sections
