@@ -12,7 +12,6 @@ def findRating():
     qs = 14.3
     r75 = 0.0000688
     current = math.sqrt((qc+qr-qs)/r75)
-    print("current", current)
     nConductors = 2
     rating = (math.sqrt(3) * voltage * current * nConductors)/1000000
     return rating
@@ -74,8 +73,6 @@ def findSagMax(dSpan, dCondMax):
     return d
 
 def ohldesign():
-    print("START")
-
     k = 1.45
     dFitting = 0.35
     dCond = 0.0315
@@ -114,14 +111,12 @@ def ohldesign():
     dCondLength = findConductorLength(dSpan, condWeight, tensileStrength)
     dCondMax = findMaxConductorLength(thermalCoeff, tMax, tOperating, dCondLength)
     dSagMax = findSagMax(dSpan, dCondMax)
+
+    print("----------------------")
+    print("275kV OHL Tower Design")
+    print("----------------------")
     
     print("Rating:\t\t", rating)
-    print("dIns_U160BLP:\t", dIns)
-    print("dIns_S248142V7:\t", dIns_S248142V7)
-    print("dSag:\t\t", dSag)
-    print("dConductor:\t", dCondLength)
-    print("dMaxConductor:\t", dCondMax)
-    print("dMaxSag:\t", dSagMax)
     
     print("---------------")
     print("PHASE TO GROUND")
@@ -131,15 +126,6 @@ def ohldesign():
     print("dLI:\t", dLI)
     print("dSI:\t", dSI)
     print("dEl:\t", dEl)
-    print("dCrossarm_U160BLP:\t", dCrossarm_U160BLP)
-    print('dCA_top_mid_U160BLP:\t', dCA_top_mid_U160BLP)
-    print('dCA_mid_bottom_U160BLP:\t', dCA_mid_bottom_U160BLP)
-    print("dShield_U160BLP:\t", dShield_U160BLP)
-    
-    print("dCrossarm_S248142V7:\t", dCrossarm_S248142V7)
-    print('dCA_top_mid_S248142V7:\t', dCA_top_mid_S248142V7)
-    print('dCA_mid_bottom_S248142V7:', dCA_mid_bottom_S248142V7)
-    print("dShield_S248142V7:\t", dShield_S248142V7)
 
     k = 1.4
     dSI = findSIClearance(1125, k)
@@ -155,9 +141,30 @@ def ohldesign():
     print("dSI:\t", dSI)
     print("dEl:\t", dEl)
 
+    print("----------------")
+    print("TOP TOWER DESIGN ")
+    print("----------------")
+    print("dIns_U160BLP:\t\t", dIns)
+    print("dCrossarm_U160BLP:\t", dCrossarm_U160BLP)
+    print('dCA_top_mid_U160BLP:\t', dCA_top_mid_U160BLP)
+    print('dCA_mid_bottom_U160BLP:\t', dCA_mid_bottom_U160BLP)
+    print("dShield_U160BLP:\t", dShield_U160BLP)
+
+    print("dIns_S248142V7:\t\t", dIns_S248142V7)
+    print("dCrossarm_S248142V7:\t", dCrossarm_S248142V7)
+    print('dCA_top_mid_S248142V7:\t', dCA_top_mid_S248142V7)
+    print('dCA_mid_bottom_S248142V7:', dCA_mid_bottom_S248142V7)
+    print("dShield_S248142V7:\t", dShield_S248142V7)
+
+    print("-------------------")
+    print("BOTTOM TOWER DESIGN ")
+    print("-------------------")
     
-    
-    print("END")
+    print("dSag:\t\t", dSag)
+    print("dConductor:\t", dCondLength)
+    print("dMaxConductor:\t", dCondMax)
+    print("dMaxSag:\t", dSagMax)
+
 
 if __name__ == "__main__":
 # This is the standard boilerplate that calls the main() function.
