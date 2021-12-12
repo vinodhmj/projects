@@ -281,7 +281,7 @@ values are calculated as:
 |-----------+----------|
 
 \begin{align}
-D_{el-PP} = 2.476m
+D_{el-PP} = 2.476m + 1.5m(Conductor galloping) = 3.976m
 \end{align}
 ** Swing Angle
 #+CAPTION: Swing Angle
@@ -493,9 +493,8 @@ the tensile strength and flashover withstanding capacity as well.
 
 In external clearances, the conductor galloping tendency at extreme weather,
 causing the conductors to vibrate vertically is assumed to be harmless to the
-maximum sag. The movement of vibration is expected to reduce the sag level. With
-respect to internal phase-phase clearances and conductor galloping, the use of a
-spacer or damper could reduce the impact of vibrations.
+maximum sag. The movement of vibration is expected to reduce the sag level. The
+use of a spacer or damper could reduce the impact of vibrations.
 
 * References
 [1] Stephen,  R.:  The  thermal  behaviour  of  overhead  conductors.  Sections
