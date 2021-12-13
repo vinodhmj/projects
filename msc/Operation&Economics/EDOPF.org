@@ -1,0 +1,214 @@
+#+STARTUP: overview
+
+# +TITLE: EEEN60372
+# +date: \today
+# +author: Vinodh Jayakrishnan
+# +email: vinodh.jayakrishnan@postgrad.manchester.ac.uk
+#+language: en
+#+select_tags: export
+#+exclude_tags: noexport
+#+creator: Emacs 27.2 (Org mode 9.4.5)
+#+options: toc:nil
+#+LATEX_CLASS_OPTIONS: [a4paper,11pt]
+#+latex_header: \usepackage[scaled]{helvet} \renewcommand\familydefault{\sfdefault}
+#+latex_header: \usepackage{mathtools}
+#+latex_header: \usepackage{textcomp}
+#+latex_header: \usepackage{siunitx}
+#+LATEX_HEADER: \usepackage{booktabs}
+#+LATEX_HEADER: \usepackage{xcolor}
+#+LATEX_HEADER: \usepackage{colortbl}
+#+LATEX_HEADER: \makeatletter \@ifpackageloaded{geometry}{\geometry{margin=2cm}}{\usepackage[margin=2cm]{geometry}} \makeatother
+#+LATEX_HEADER: \usepackage{amsmath}
+#+LATEX_HEADER: \usepackage{hyperref}
+#+LATEX_HEADER: \usepackage{wrapfig}
+#+LATEX_HEADER: \hypersetup{colorlinks=true,linkcolor=blue,filecolor=blue,citecolor = black,urlcolor=cyan,}
+#+LATEX_HEADER: \usepackage{graphicx}
+#+EXPORT_EXCLUDE_TAGS: noexport
+--------------------------------------------------
+* Introduction
+* Economic Dispatch
+** No Export bits :noexport:
+*** table :noexport:
+#+NAME: ed_marginalCosts
+| Load | Gen 1 | Gen 2 | Marginal Costs | Marginal Costs | Total Costs | Total Costs |
+|      |       |       |           Gen1 |          Gen 2 |        Gen1 |       Gen 2 |
+|------+-------+-------+----------------+----------------+-------------+-------------|
+|  100 |    75 |    25 |             10 |             20 |         750 |         500 |
+|  110 |    85 |    25 |             10 |             20 |         850 |         500 |
+|  120 |    95 |    25 |             10 |             20 |         950 |         500 |
+|  130 |   100 |    30 |             10 |             20 |        1000 |         600 |
+|  140 |   100 |    40 |             10 |             20 |        1000 |         800 |
+|  150 |   100 |    50 |             10 |             20 |        1000 |        1000 |
+|  160 |   100 |    60 |             10 |             20 |        1000 |        1200 |
+|  170 |   100 |    70 |             10 |             20 |        1000 |        1400 |
+|  180 |   100 |    80 |             10 |             30 |        1000 |        1650 |
+|  190 |   100 |    90 |             10 |             30 |        1000 |        1950 |
+|  200 |   100 |   100 |             10 |             30 |        1000 |        2250 |
+|  210 |   100 |   110 |             10 |             30 |        1000 |        2550 |
+|  220 |   100 |   120 |             10 |             30 |        1000 |        2850 |
+|  230 |   100 |   130 |             10 |             30 |        1000 |        3150 |
+|  240 |   100 |   140 |             10 |             30 |        1000 |        3450 |
+|  250 |   100 |   150 |             10 |             30 |        1000 |        3750 |
+|  260 |   100 |   160 |             10 |             30 |        1000 |        4050 |
+|  270 |   100 |   170 |             10 |             30 |        1000 |        4350 |
+|  280 |   100 |   180 |             10 |             30 |        1000 |        4650 |
+|  290 |   100 |   190 |             10 |             30 |        1000 |        4950 |
+|  300 |   100 |   200 |             10 |             30 |        1000 |        5250 |
+*** python code to plot :noexport:
+#+BEGIN_SRC python :results file :exports both :var data=marginalCosts
+
+  import matplotlib.pyplot as plt
+
+  '''If you have formatting lines on your table
+  (http://orgmode.org/manual/Column-groups.html) you need to remove them
+  "by hand" with a line like:
+  '''
+  data = data[2:]
+
+
+  '''Turn the table data into x and y data'''
+  x = [a[0] for a in data]
+  y1 = [a[1] for a in data]
+  y2 = [a[2] for a in data]
+  y3 = [a[3] for a in data]
+  y4 = [a[4] for a in data]
+  y5 = [a[5] for a in data]
+  y6 = [a[6] for a in data]
+
+  # Create Plot
+
+  fig, ax1 = plt.subplots() 
+
+  ax1.set_xlabel('X-axis') 
+  ax1.set_ylabel('Y1-axis', color = 'red') 
+  plot_1 = ax1.plot(x, y3, color = 'red', label='Sin x')
+  plot_2 = ax1.plot(x, y4, color = 'red', label='Sin x') 
+  ax1.tick_params(axis ='y', labelcolor = 'red') 
+
+  # Adding Twin Axes
+
+  ax2 = ax1.twinx() 
+
+  ax2.set_ylabel('Y2-axis', color = 'blue') 
+  plot_3 = ax2.plot(x, y5, color = 'blue', label = 'Cos x')
+  plot_4 = ax2.plot(x, y6, color = 'blue', label = 'Cos x') 
+  ax2.tick_params(axis ='y', labelcolor = 'blue') 
+
+  # Add legends
+
+  lns = plot_1 + plot_2 + plot_3 + plot_4
+  labels = [l.get_label() for l in lns]
+  plt.legend(lns, labels, loc=0)
+
+  # Show plot
+
+  ''' Save the PNG file '''
+  filename = "marginalCosts.png"
+  plt.savefig(filename)
+
+  ''' Return the PNG file path to OrgMode '''
+  return(filename)
+
+#+END_SRC
+
+#+RESULTS:
+[[file:marginalCosts.png]]
+** Marginal Costs
+<Describe the activity and discuss your results and findings>
+[[file:marginalCosts.png]]
+** Normal Conditions
+<Describe the activity and discuss your results and findings>
+#+NAME: ed_normalCondition
+| Load | Gen 1 | Gen 2 | Total Costs | Total Costs |
+|      |       |       |        Gen1 |       Gen 2 |
+|------+-------+-------+-------------+-------------|
+|  100 |    75 |    25 |         750 |         500 |
+|  110 |    85 |    25 |         850 |         500 |
+|  120 |    95 |    25 |         950 |         500 |
+|  130 |   100 |    30 |        1000 |         600 |
+|  140 |   100 |    40 |        1000 |         800 |
+|  150 |   100 |    50 |        1000 |        1000 |
+|  160 |   100 |    60 |        1000 |        1200 |
+|  170 |   100 |    70 |        1000 |        1400 |
+|  180 |   100 |    80 |        1000 |        1650 |
+|  190 |   100 |    90 |        1000 |        1950 |
+|  200 |   100 |   100 |        1000 |        2250 |
+|  210 |   100 |   110 |        1000 |        2550 |
+|  220 |   100 |   120 |        1000 |        2850 |
+|  230 |   100 |   130 |        1000 |        3150 |
+|  240 |   100 |   140 |        1000 |        3450 |
+|  250 |   100 |   150 |        1000 |        3750 |
+|  260 |   100 |   160 |        1000 |        4050 |
+|  270 |   100 |   170 |        1000 |        4350 |
+|  280 |   100 |   180 |        1000 |        4650 |
+|  290 |   100 |   190 |        1000 |        4950 |
+|  300 |   100 |   200 |        1000 |        5250 |
+
+** Reduced Generation Capacity
+<Describe the activity and discuss your results and findings>
+|------+-------+-------+-------------------+-------------------|
+| Load | Gen 1 | Gen 2 | Total Costs Gen 1 | Total Costs Gen 2 |
+|------+-------+-------+-------------------+-------------------|
+|  100 |    75 |    25 |               750 |               500 |
+|  110 |    85 |    25 |               850 |               500 |
+|  120 |    95 |    25 |               950 |               500 |
+|  130 |   100 |    30 |              1000 |               600 |
+|  140 |   100 |    40 |              1000 |               800 |
+|  150 |   100 |    50 |              1000 |              1000 |
+|  160 |   100 |    60 |              1000 |              1200 |
+|  170 |   100 |    70 |              1000 |              1400 |
+|  180 |   100 |    80 |              1000 |              1650 |
+|  190 |   100 |    90 |              1000 |              1950 |
+|  200 |   100 |   100 |              1000 |              2250 |
+|  210 |   100 |   110 |              1000 |              2550 |
+|  220 |   100 |   120 |              1000 |              2850 |
+|  230 |   100 |   130 |              1000 |              3150 |
+|  240 |   100 |   140 |              1000 |              3450 |
+|  250 |   100 |   150 |              1000 |              3750 |
+|  260 |   110 |   150 |              1400 |              3750 |
+|  270 |   120 |   150 |              1800 |              3750 |
+|  280 |   130 |   150 |              2200 |              3750 |
+|  290 |   140 |   150 |              2600 |              3750 |
+|  300 |   150 |   150 |              3000 |              3750 |
+** Analysis
+<Describe the activity and discuss your results and findings>
+* Optimal Power Flow
+** Marginal costs
+Draw the marginal costs for both generators.
+Discuss the differences with the previous cases.
+** Power flow simulation without consideration of thermal limits
+Disable the transmission constraints.
+Simulate the system (Tools/Single Solution – Full Newton) as you increase the load from 200MW to 300MW
+in 10MW increments.
+Discuss the results, including generation outputs and line flows.
+** ED without consideration of thermal limits
+Simulate the system (Add Ons/Primal LP) as you increase the load from 200MW to 300MW in 10MW
+increments.
+Discuss the results, including generation outputs and line flows.
+** OPF considering thermal limits
+Enable the transmission constraints. Check the thermal limits by double clicking on each line
+(Parameters/LimitA).
+Simulate the system (Add Ons/Primal LP) as you increase the load from 200MW to 300MW in 10MW
+increments.- Note the results and discuss the differences between power flow, ED and OPF simulations.
+Note: Make sure you discuss the differences between the PF, ED and OPF.
+** Analysis
+* Contingency Analysis
+* Seven bus example
+* Conclusion
+A good discussion would normally involve three components. 
+ 
+• Presentation of the results (What are you describing?): This typically involves showing the different 
+results as numbers, text but this can also involve the use of screenshots, figures, tables, etc. 
+ 
+• Description of the results (What happened?):  This usually involves explaining the procedure and the 
+different outcomes, e.g., explaining what is shown in figures and tables. 
+ 
+• Analysis (What does it mean?): This involves explaining the findings and their implications, e.g., the 
+connection between the findings and the characteristics of Power Flow (PF), Economic Dispatch (ED), 
+Optimal Power Flow (OPF) and Security Constrained OPF (SCOPF).
+
+ 
+
+ 
+
+
