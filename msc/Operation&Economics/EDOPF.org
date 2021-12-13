@@ -203,6 +203,25 @@ Discuss the results, including generation outputs and line flows.
 Simulate the system (Add Ons/Primal LP) as you increase the load from 200MW to 300MW in 10MW
 increments.
 Discuss the results, including generation outputs and line flows.
+
+<to verify the table>
+#+NAME: opf_ed
+|------+-------+-------+-----+-----+-----|
+| Load | Gen 1 | Gen 2 | L12 | L13 | L23 |
+|------+-------+-------+-----+-----+-----|
+|  200 |    50 |   150 |  33 | 117 |  83 |
+|  210 |    50 |   160 |  37 | 123 |  87 |
+|  220 |    50 |   170 |  40 | 130 |  90 |
+|  230 |    50 |   180 |  43 | 137 |  93 |
+|  240 |    50 |   190 |  47 | 143 |  97 |
+|  250 |    50 |   200 |  50 | 150 | 100 |
+|  260 |    50 |   210 |  53 | 157 | 103 |
+|  270 |    50 |   220 |  57 | 163 | 107 |
+|  280 |    50 |   230 |  60 | 170 | 110 |
+|  290 |    50 |   240 |  63 | 177 | 113 |
+|  300 |    50 |   250 |  67 | 183 | 117 |
+|------+-------+-------+-----+-----+-----|
+
 ** OPF considering thermal limits
 Enable the transmission constraints. Check the thermal limits by double clicking on each line
 (Parameters/LimitA).
