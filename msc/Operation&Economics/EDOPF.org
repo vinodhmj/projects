@@ -55,7 +55,7 @@
 |  290 |   100 |   190 |             10 |             30 |        1000 |        4950 |
 |  300 |   100 |   200 |             10 |             30 |        1000 |        5250 |
 *** python code to plot :noexport:
-#+BEGIN_SRC python :results file :exports both :var data=marginalCosts
+#+BEGIN_SRC python :results file :exports both :var data=ed_marginalCosts
 
   import matplotlib.pyplot as plt
 
@@ -171,12 +171,205 @@
 |  290 |   140 |   150 |              2600 |              3750 |
 |  300 |   150 |   150 |              3000 |              3750 |
 ** Analysis
-<Describe the activity and discuss your results and findings>
+*** Pycode: marginal costs                                        :noexport:
+#+BEGIN_SRC python
+    import numpy 
+    import matplotlib.pyplot as plt
+
+    x = numpy.arange(50, 250, 1)
+    y1 = 430 - (12.5*x) + (0.15 * pow(x,2))
+    y2 = 150 + (12*x) + (0.08 * pow(x,2))
+
+    # incremental Costs
+    y11 = -12.5 + 0.3*x;
+    y21 = 12 + 0.16* x
+
+   # plt.subplot(1, 2, 1) # row 1, col 2 index 1
+    plt.plot(x, y1, label = "Gen 1")
+    plt.plot(x, y2, label = "Gen 2")
+    plt.legend()
+    plt.title("Cost curve ")
+    plt.xlabel('X-axis ')
+    plt.ylabel('Y-axis ')
+
+    ''' Save the PNG file '''
+    filename = "ED_Analysis_Costs.png"
+    plt.savefig(filename)
+
+    plt.clf()
+   # plt.subplot(1, 2, 2) # index 2
+    plt.plot(x, y11, label = "Gen 1")
+    plt.plot(x, y21, label = "Gen 2")
+    plt.title("Marginal Cost Curve!")
+    plt.legend()
+    plt.xlabel('X-axis ')
+    plt.ylabel('Y-axis ')
+
+    ''' Save the PNG file '''
+    filename = "ED_Analysis_Marginal_Costs.png"
+    plt.savefig(filename)
+#+END_SRC
+
+#+RESULTS:
+: None
+
+*** Marginal Costs
+[[file:ED_Analysis_Costs.png]]
+[[file:ED_Analysis_Marginal_Costs.png]]
+
+*** Graphical Representation
+Draw the problem, including inequality constraints, equality constraints,
+objective function and result
+
+[[file:ED_Analysis_graphical.png]]
+[[file:ED_Analysis_graphical_400.png]]
+*** Generator output and line output
+*** Lagrangian Equations
+From the diagram<TOD>,
+
+To supply load L, by Generator 1 @ Bus1 generating P_1 power and Generator 2 @
+Bus2 generating P_2 power, the cost functions are given by:
+\begin{align}
+C1 = 430 - 12.5P_1 + 0.15P_1^{2} \\
+C2 = 150 + 12P_2 + 0.08P_2^{2} \\
+\end{align}
+
+Total Cost Objective Function C = C1 + C2: 
+\begin{align}
+C = 580 - 12.5P_1 + 0.15P_1^{2} + 12P_2 + 0.08P_2^{2} \\
+\text{Subject to:} \\
+L - P_1 - P_2 = 0 \\
+50 - P_1 \le 0 \\
+P_1 - 250 \le 0 \\
+25 - P_2 \le 0 \\
+P_2 - 200 \le 0 \\
+\end{align}
+
+**** Scenario 1 : Load = 200.00MW
+The Lagrangian is with binding constraints is given by:
+
+\begin{equation}
+l = (580 - 12.5P_1 + 0.15P_1^{2} + 12P_2 + 0.08P_2^{2}) + \lambda(200 - P_1 -
+P_2) + (25 - P_2)
+\end{equation}
+
+\begin{align}
+\frac{ \partial l}{ \partial P_1 } = -12.5 + 0.3P_1 - \lambda = 0 \\
+\frac{ \partial l}{ \partial P_2 } = 12 + 0.16P_2 - \lambda - \mu = 0 \\
+\frac{ \partial l}{ \partial \lambda } = 200 - P_1 - P_2 = 0 \\
+\frac{ \partial l}{ \partial \mu } = 25 - P_2 \le 0 \\
+\end{align}
+***** Complimentary Slackess condition for inequality constraints
+By trial and error approach:
+****** \mu > 0; g_j(P) = 0
+
+Applying this condition in the above equation:
+\begin{align}
+P1 = 175; P_2 = 25; \lamda = 40; \mu=-24
+\end{align}
+
+This fails to satisfy the Complimentary Slackess condition because \mu < 0
+****** \mu = 0; g_j(P) < 0
+
+Applying this in the above equations:
+\begin{align}
+P1 = 122.83; P_2 = 77.174; \lamda = 24.35; \mu=0
+\end{align}
+This satisfies the condition (25 - P_2) \le 0
+***** Solution
+| P_1 (MW) | P_2 (MW) | \lambda {\pounds / MWh} |
+|----------+----------+-------------------------|
+|   122.83 |   77.174 |            24.35        |
+**** Scenario 2 : Load = 400.00MW
+Here, it is assumed that no inequality constraints are binding and Economic
+Dispatch is solved with no constraints.
+
+The Lagrangian is with is given by:
+\begin{equation}
+l = (580 - 12.5P_1 + 0.15P_1^{2} + 12P_2 + 0.08P_2^{2}) + \lambda(400 - P_1 -
+P_2) + (25 - P_2)
+\end{equation}
+
+\begin{align}
+\frac{ \partial l}{ \partial P_1 } = -12.5 + 0.3P_1 - \lambda = 0 \\
+\frac{ \partial l}{ \partial P_2 } = 12 + 0.16P_2 - \lambda  = 0 \\
+\frac{ \partial l}{ \partial \lambda } = 400 - P_1 - P_2 = 0 \\
+\end{align}
+
+Solving the above equations for P1 and P2 gives:
+\begin{align}
+P1 = 192.39MW; P_2 = 207.39; \lamda = 45.217;
+\end{align}
+
+This fails to satisfy the inequality constraint for Generator 2 with and upper
+limit of 200MW. To bring the solution under constraints, increase lambda or reduce
+the generation of Generator 2 under the 200MW limit. The modified Lagrangian
+with P_2 = 199MW is :
+
+\begin{equation}
+\label{}
+l = (580 - 12.5P_1 + 0.15P_1^{2} + 2388 + 3168.1) + \lambda(400 - P_1 -199) \\
+&= 6136.08 - 12.5P_1 + 0.15P_1^{2}
+\end{equation}
+
+\begin{align}
+\frac{ \partial l}{ \partial P_1 } = -12.5 + 0.3P_1 - \lambda = 0 \\
+\end{align}
+
+Solving this in the above equations:
+\begin{align}
+P1 = 201; P_2 = 199; \lamda = 47.8; \mu=0
+\end{align}
+
+***** Solution
+| P_1 (MW) | P_2 (MW) | \lambda {\pounds / MWh} |
+|----------+----------+-------------------------|
+|   122.83 |   77.174 |                    47.8 |
+|          |          |                         |
+
 * Optimal Power Flow
+** No Export bits :noexport:
+#+begin_src python
+  import matplotlib.pyplot as plt
+  import numpy
+  x = numpy.arange(0, 500, 10)
+  y1 = 275 - x
+  y12 = 420 - x
+  y23 = 480 - 2 * x
+  y13 = (450 - x)/2
+  ax = plt.subplot(1, 1, 1)
+  ax.plot(x, y1, label = "L=P1+P2", linewidth=3)
+  ax.plot(x, y12, label = "L12", linestyle='--', linewidth=1)
+  ax.plot(x, y23, label = "L23", linestyle='--', linewidth=1)
+  ax.plot(x, y13, label = "L13",linestyle='--', linewidth=1)
+  ax.legend()
+  plt.axhline(y=50, xmin=0, xmax=300, color='gray', linestyle='--', linewidth=1)
+  plt.axhline(y=200, xmin=0, xmax=300, color='gray', linestyle='--', linewidth=1)
+  plt.axvline(x=50, ymin=0, ymax=300, color='gray', linestyle=':', linewidth=1)
+  plt.axvline(x=300, ymin=0, ymax=300, color='gray', linestyle=':', linewidth=1)
+  #plt.axvline(x=205, ymin=0, ymax=300, color='y', linestyle=':', linewidth=1)
+  ax.set_ylim(bottom=0.)
+  ax.set_ylim(top=310.)
+  ax.set_xlim(left=0.)
+  ax.set_xlim(right=310.)
+  plt.xticks(numpy.arange(0, 310, 25))
+  plt.yticks(numpy.arange(0, 310, 25))
+  plt.xlabel('G2')
+  plt.ylabel('G1')
+  plt.fill([50,50,300,300],[50,200,200,50],'lightgray',alpha=0.5)
+
+  ''' Save the PNG file '''
+  filename = "OPF_Analysis_Solution.png"
+  plt.savefig(filename)
+#+end_src
+
+#+RESULTS:
+: None
 ** Marginal costs
 Draw the marginal costs for both generators.
 Discuss the differences with the previous cases.
 ** Power flow simulation without consideration of thermal limits
+
 Disable the transmission constraints.
 Simulate the system (Tools/Single Solution – Full Newton) as you increase the load from 200MW to 300MW
 in 10MW increments.
@@ -209,17 +402,17 @@ Discuss the results, including generation outputs and line flows.
 |------+-------+-------+-----+-----+-----|
 | Load | Gen 1 | Gen 2 | L12 | L13 | L23 |
 |------+-------+-------+-----+-----+-----|
-|  200 |    50 |   150 |  33 | 117 |  83 |
-|  210 |    50 |   160 |  37 | 123 |  87 |
-|  220 |    50 |   170 |  40 | 130 |  90 |
-|  230 |    50 |   180 |  43 | 137 |  93 |
-|  240 |    50 |   190 |  47 | 143 |  97 |
-|  250 |    50 |   200 |  50 | 150 | 100 |
-|  260 |    50 |   210 |  53 | 157 | 103 |
-|  270 |    50 |   220 |  57 | 163 | 107 |
-|  280 |    50 |   230 |  60 | 170 | 110 |
-|  290 |    50 |   240 |  63 | 177 | 113 |
-|  300 |    50 |   250 |  67 | 183 | 117 |
+|  200 |    50 |   150 |  33 |  83 | 117 |
+|  210 |    50 |   160 |  37 |  87 | 123 |
+|  220 |    50 |   170 |  40 |  90 | 130 |
+|  230 |    50 |   180 |  43 |  93 | 137 |
+|  240 |    50 |   190 |  47 |  97 | 143 |
+|  250 |    50 |   200 |  50 | 100 | 150 |
+|  260 |    50 |   210 |  53 | 103 | 157 |
+|  270 |    50 |   220 |  57 | 107 | 163 |
+|  280 |    50 |   230 |  60 | 110 | 170 |
+|  290 |    50 |   240 |  63 | 113 | 177 |
+|  300 |    50 |   250 |  67 | 117 | 183 |
 |------+-------+-------+-----+-----+-----|
 
 ** OPF considering thermal limits
@@ -246,7 +439,131 @@ Note: Make sure you discuss the differences between the PF, ED and OPF.
 |------+-------+-------+-----+-----+-----|
 
 ** Analysis
+Gen1@Bus1 costs(£/h): Cost = 100.00 + 40.00 * P1 for 50.00 <= P1 <= 200.00
+Gen2@Bus2 costs(£/h): Cost = 1000.00 + 30.00 * P2 for 50.00 <= P2 <= 300.00
+Line_1-2: X: 0.10 pu Pmax: 140.00MW
+Line_1-3: X: 0.10 pu Pmax: 150.00MW
+Line_2-3: X: 0.10 pu Pmax: 160.00MW
+
+*** Scenario 1
+Load = 200.00MW
+
+Equality Constraint ==> 200 - P1 - P2 = 0
+
+Considering the impedance of all three lines are same, by using Superposition
+theorem in the linear system, power flow in the lines can be calculated using:
+\begin{align}
+\label{}
+P_{12} = \frac{P1}{3} - \frac{P2}{3} \\
+P_{23} = \frac{P1}{3} - \frac{2 * P2}{3} \\
+P_{13} = \frac{2 * P1}{3} - \frac{P2}{3} \\
+\end{align}
+
+The Marginal Cost of Generator 2 is less than that of Generator 1.
+Generator 1 output is set to minimum, and Generator 2 is allowed to generated
+the remaining load:
+
+P1 = 50 MW and P2 = 150MW
+
+Power flow in lines are calculated from the equations above:
+P12 = 33MW (reverse direction flow)
+P23 = 116.67MW
+P13 = 83.33MW
+
+All the lines are within its capacity and the generator limit constraints are
+satisfied.
+
+**** Solution
+| G1(MW) | G2(MW) |
+|--------+--------|
+|     50 |    150 |
+*** Scenario 2
+Load = 275.00MW
+**** Graphical solution
+[[file:OPF_Analysis_Solution.png]]
 * Contingency Analysis
+Referring to the equations given in OPF,
+** No Export bits :noexport:
+#+begin_src python
+  import matplotlib.pyplot as plt
+  import numpy
+  x = numpy.arange(0, 500, 10)
+  y =  125 - x
+
+  ax = plt.subplot(1, 1, 1)
+  ax.plot(x, y, label = "L=P1+P2", linewidth=3)
+
+  p1 = 50
+  p2 = 75
+  # a - case 1 without line 1-2
+  plt.axhline(y=75, xmin=0, xmax=300, label = "L23", linestyle='--', linewidth=1, color='orange')
+  plt.axvline(x=50, ymin=0, ymax=300, label = "L13", linestyle='--', linewidth=1, color='orange')
+
+  # b case 2 without line 1-3
+  y12 = x
+  y23 = x + y
+
+  # case 3 without line 2-3
+  ax.legend()
+  plt.axhline(y=50, xmin=0, xmax=300, color='gray', linestyle='--', linewidth=1)
+  plt.axhline(y=200, xmin=0, xmax=300, color='gray', linestyle='--', linewidth=1)
+  plt.axvline(x=50, ymin=0, ymax=300, color='gray', linestyle=':', linewidth=1)
+  plt.axvline(x=300, ymin=0, ymax=300, color='gray', linestyle=':', linewidth=1)
+  #plt.axvline(x=205, ymin=0, ymax=300, color='y', linestyle=':', linewidth=1)
+  ax.set_ylim(bottom=0.)
+  ax.set_ylim(top=310.)
+  ax.set_xlim(left=0.)
+  ax.set_xlim(right=310.)
+  plt.xticks(numpy.arange(0, 310, 25))
+  plt.yticks(numpy.arange(0, 310, 25))
+  plt.xlabel('G2')
+  plt.ylabel('G1')
+  plt.fill([50,50,300,300],[50,200,200,50],'lightgray',alpha=0.5)
+
+  ''' Save the PNG file '''
+  filename = "Contingency_Analysis_Solution.png"
+  plt.savefig(filename)
+#+end_src
+
+#+RESULTS:
+: None
+
+[[file:Contingency_Analysis_Solution.png]]
+
+** OPF Solution
+Only Transmission Line contingencies are considered:
+Following are the contingency cases and the line flows(all lines have same
+impedance) with respect to Generator output(P1 and P2) are calculated as:
+
+|-----------------+---------------+---------------+---------------|
+|                 | Line 1-2 Open | Line 1-3 open | Line 2-3 open |
+|-----------------+---------------+---------------+---------------|
+| P12 (max 140MW) | 0             | P1            | -P2           |
+| P23 (max 160MW) | P2            | P1 + P2       | 0             |
+| P13 (max 150MW) | P1            | 0             | P1 + P2       |
+|-----------------+---------------+---------------+---------------|
+
+*** Scenario 1 : Load = 125MW
+
+P1 = 50MW; P2 = 75MW
+|-----------------+---------------+---------------+--------------------------------|
+|                 | Line 1-2 Open | Line 1-3 open |                  Line 2-3 open |
+|-----------------+---------------+---------------+--------------------------------|
+| P12 (max 140MW) |             0 |            50 | -75 (75 in reverse direction)) |
+| P23 (max 160MW) |            75 |           125 |                              0 |
+| P13 (max 150MW) |            50 |             0 |                            125 |
+|-----------------+---------------+---------------+--------------------------------|
+
+*** Scenario 2 : Load = 150MW
+
+P1 = 50MW; P2 = 100MW
+|-----------------+---------------+---------------+---------------------------------|
+|                 | Line 1-2 Open | Line 1-3 open |                   Line 2-3 open |
+|-----------------+---------------+---------------+---------------------------------|
+| P12 (max 140MW) |             0 |            50 | -100(100 in reverse direction)) |
+| P23 (max 160MW) |           100 |           150 |                               0 |
+| P13 (max 150MW) |            50 |             0 |                             150 |
+|-----------------+---------------+---------------+---------------------------------|
 * Seven bus example
 * Conclusion
 A good discussion would normally involve three components. 
@@ -266,3 +583,4 @@ Optimal Power Flow (OPF) and Security Constrained OPF (SCOPF).
  
 
 
+ 
