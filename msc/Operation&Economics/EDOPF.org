@@ -310,6 +310,8 @@ C2 = 150 + 12.0P_2 + 0.08P_2^2 \Rightarrow 25.00 \le P_2 \le 200.00
   x = numpy.arange(0, 300, 10)
   y1 = 200 - x
   y2 = 400 - x
+
+
   #of = 580 - 12.5*x + 0.15*x*x + 12*y1 + 0.08 * y1 *y1
   ax = plt.subplot(1, 1, 1)
   ax.plot(x, y1, label = "200=G1+G2")
@@ -456,7 +458,7 @@ Solving this in the above equations:
 \begin{align*}
 P1 = 201; P_2 = 199; \lamda = 47.8; \mu=0
 \end{align*}
-**** Solution
+
 #+ATTR_LaTeX: :align |r|r|r|r|
 |----------+----------+-------------------------+-------------------------|
 | P_1 (MW) | P_2 (MW) | \lambda {\pounds / MWh} | Nodal Prices(all buses) |
@@ -625,11 +627,9 @@ Following are the observations from the simulation results table [[opf_powerflow
 ** Analysis
 \begin{align*}
 \label{opf_equations}
-Gen1@Bus1 costs(\pounds/h): Cost = 100.00 + 40.00 * P1 \\
-Gen2@Bus2 costs(\pounds/h): Cost = 1000.00 + 30.00 * P2 \\
+Gen1 costs(\pounds/h) = 100.00 + 40.00 * P1  \Rightarrow 50.00 <= P1 <= 200.00 \\
+Gen2 costs(\pounds/h) = 1000.00 + 30.00 * P2 \Rightarrow 50.00 <= P2 <= 300.00  \\
 \text{subject to: } \\
-50.00 <= P1 <= 200.00 \\
-50.00 <= P2 <= 300.00 \\
 Line_1-2 \le 140.00MW \\
 Line_1-3 \le 150.00MW \\
 Line_2-3 \le 160.00MW \\
@@ -664,13 +664,14 @@ Power flow in lines are calculated from the equations above:
 \end{flalign*}
 All the lines are within its capacity and the generator limit constraints are
 satisfied.
-**** Solution
-#+ATTR_LaTeX: :align |r|r|
-|--------+--------|
-| G1(MW) | G2(MW) |
-|--------+--------|
-|     50 |    150 |
-|--------+--------|
+
+#+ATTR_LaTeX: :align |r|r|r|
+|--------+--------+--------------------------------|
+| G1(MW) | G2(MW) | Cost of Security (\pounds /hr) |
+|        |        | OPF_{price} - ED_{price}       |
+|--------+--------+--------------------------------|
+|     50 |    150 | 0(6500 -6500)                  |
+|--------+--------+--------------------------------|
 *** Scenario 2 - Load = 275.00MW
 **** Graphical solution
 #+CAPTION: OPF Graphical Solution
@@ -700,22 +701,28 @@ Applying the generator values from graphical solution, P_1 = 69MW and P2=206MW,
 0.333 * 69 + 0.667 * 206 - 160 = 0.3172
 \end{align*}
 
-*This does not satisfy the condition*, /Adjusting the value of P1 and P2 to P1=70 and P2=205/
+*This does not satisfy the condition*. /Adjusting the values to P1=70 and P2=205:/
 
 \begin{align*}
 0.333 * 70 + 0.667 * 205 - 160 = -0.016
 \end{align*}
 satisfies the condition and is the proposed solution
-****** Solution
-#+ATTR_LaTeX: :align |r|r|r|r|
-|----------+----------|
-| P_1 (MW) | P_2 (MW) |
-|----------+----------|
-|       70 |      205 |
-|----------+----------|
-*** Conclusion
+
+#+ATTR_LaTeX: :align |r|r|r|
+|--------+--------+--------------------------------|
+| G1(MW) | G2(MW) | Cost of Security (\pounds /hr) |
+|        |        | OPF_{price} - ED_{price}       |
+|--------+--------+--------------------------------|
+|     70 |    205 | 200(8950 -8750)                |
+|--------+--------+--------------------------------|
+
+Marginal Costs at Bus 1, Bus 2 and Bus 3 is 40\pounds/hr,  30\pounds/hr,
+50\pounds/hr respectively. Bus 3 has a congestion price at 10\pounds/hr.
+
+--------------------------------------------------
+Max load that can be served is 310MW at 10700\pounds/hr
+--------------------------------------------------
 * Contingency Analysis
-Referring to the equations given in OPF Equations in the section above,
 ** No Export bits :noexport:
 #+begin_src python
   import matplotlib.pyplot as plt
@@ -764,10 +771,11 @@ Referring to the equations given in OPF Equations in the section above,
 [[file:Contingency_Analysis_Solution.png]]
 
 ** OPF Solution
-Only Transmission Line contingencies are considered:
-Following are the contingency cases and the line flows(all lines have same
-impedance) with respect to Generator output(P1 and P2) are calculated as:
-
+Only Transmission Line contingencies are considered: Following are the
+contingency cases and the line flows(same impedance lines) with respect to
+Generator output(P1 and P2) are calculated as:
+#+ATTR_LaTeX: :align |r|r|r|r|
+#+CAPTION: Line flows from Superposition method
 |-----------------+---------------+---------------+---------------|
 |                 | Line 1-2 Open | Line 1-3 open | Line 2-3 open |
 |-----------------+---------------+---------------+---------------|
@@ -776,44 +784,74 @@ impedance) with respect to Generator output(P1 and P2) are calculated as:
 | P13 (max 150MW) | P1            | 0             | P1 + P2       |
 |-----------------+---------------+---------------+---------------|
 
-*** Scenario 1 : Load = 125MW
+#+ATTR_LaTeX: :align |r|r|r|r|
+#+CAPTION: N-1 case for Load = 125MW; P1 = 50MW; P2 = 75MW
+|----------------------+---------------+---------------+-----------------------------|
+|                      | Line 1-2 Open | Line 1-3 open |               Line 2-3 open |
+|----------------------+---------------+---------------+-----------------------------|
+| P12 (max 140MW)      |             0 |            50 | -75 (75 in opp. direction)) |
+| P23 (max 160MW)      |            75 |           125 |                           0 |
+| P13 (max 150MW)      |            50 |             0 |                         125 |
+| ED cost(\pounds/hr)  |          4250 |          4250 |                        4250 |
+| OPF cost(\pounds/hr) |          4250 |          4250 |                        4250 |
+|----------------------+---------------+---------------+-----------------------------|
 
-P1 = 50MW; P2 = 75MW
-|-----------------+---------------+---------------+--------------------------------|
-|                 | Line 1-2 Open | Line 1-3 open |                  Line 2-3 open |
-|-----------------+---------------+---------------+--------------------------------|
-| P12 (max 140MW) |             0 |            50 | -75 (75 in reverse direction)) |
-| P23 (max 160MW) |            75 |           125 |                              0 |
-| P13 (max 150MW) |            50 |             0 |                            125 |
-|-----------------+---------------+---------------+--------------------------------|
-
-*** Scenario 2 : Load = 150MW
-
-P1 = 50MW; P2 = 100MW
-|-----------------+---------------+---------------+---------------------------------|
-|                 | Line 1-2 Open | Line 1-3 open |                   Line 2-3 open |
-|-----------------+---------------+---------------+---------------------------------|
-| P12 (max 140MW) |             0 |            50 | -100(100 in reverse direction)) |
-| P23 (max 160MW) |           100 |           150 |                               0 |
-| P13 (max 150MW) |            50 |             0 |                             150 |
-|-----------------+---------------+---------------+---------------------------------|
+#+ATTR_LaTeX: :align |r|r|r|r|
+#+CAPTION: N-1 case for Load = 150MW; P1 = 50MW; P2 = 100MW
+|------------------------------+---------------+---------------+------------------------------|
+|                              | Line 1-2 Open | Line 1-3 open |                Line 2-3 open |
+|------------------------------+---------------+---------------+------------------------------|
+| P12 (max 140MW)              |             0 |            50 | -100(100 in opp. direction)) |
+| P23 (max 160MW)              |           100 |           150 |                            0 |
+| P13 (max 150MW)              |            50 |             0 |                          150 |
+| ED cost(\pounds/hr)          |          5000 |          5000 |                         5000 |
+| OPF cost(\pounds/hr)         |          5000 |          5000 |                         5000 |
+| Maximum serviceable load(MW) |           310 |           160 |                          150 |
+|------------------------------+---------------+---------------+------------------------------|
+The cost has remained same but the maximum load that can be served changes with
+respect to each contingency.
 * Seven bus example
 ** Thermal Constraints
-|----------------+-------------+-------+------+-------+-----+-----+-----+-----+-----|
-| Network Limits | Hourly Cost |   Top | Left | Right |  G1 |  G2 |  G4 |  G6 |  G7 |
-|----------------+-------------+-------+------+-------+-----+-----+-----+-----+-----|
-| Disable        |       16416 | 12591 | 3325 |   501 | 220 | 290 | 127 | 200 | 200 |
-| Enabled        |       16666 |  9493 | 4738 |  2435 | 100 | 150 | 200 | 232 | 200 |
-|----------------+-------------+-------+------+-------+-----+-----+-----+-----+-----|
-Lines 1-2, 1-3 and 2-5 are overloaded
+Following table shows the results of 7-bus system with transmission line limits
+disabled and enabled in PowerWorld simulation:
+|----------+--------------+--------------+--------------+--------------+-----+-----+-----+-----+-----|
+| Network  |  Hourly Cost |     Top Area |    Left Area |   Right Area |  G1 |  G2 |  G4 |  G6 |  G7 |
+| Limits   | (\pounds/hr) | (\pounds/hr) | (\pounds/hr) | (\pounds/hr) |  MW |  MW |  MW |  MW |  MW |
+|----------+--------------+--------------+--------------+--------------+-----+-----+-----+-----+-----|
+| Disabled |        16416 |        12591 |         3325 |          501 | 220 | 290 | 127 | 200 | 200 |
+| Enabled  |        16666 |         9493 |         4738 |         2435 | 100 | 150 | 200 | 232 | 200 |
+|----------+--------------+--------------+--------------+--------------+-----+-----+-----+-----+-----|
+Observations:
+1. The lines  L1-2, L1-3 and L2-5 are overloaded in the system when constraints were disabled
+2. L2-5 was at 150% of its capacity.
+3. After enabling the limits, all lines were within limits
+4. The hourly cost increased by  \pounds 200
+5. The zonal price at Right Area went up four times after enabling the limits
+   whereas Top area had an advantage with \pounds 3000 reduction. Left had
+   moderate increase in price
 ** Contingency Analysis
-At normal run(with all lines functioning), the system seems to be stable within
-limits. The overall cost is 15612 \pounds/hr. Two contingencies, Line 1-2 and
-Line 1-3 makes the system vulnerable; identified by contingency
-analysis. Disabling either of these lines will cause the other to run at nearly
-full load(120MW), as verified by Power Flow solution. There is a marginal rise
-in cost at 15629 and 15632 respectively.
+Following are the observations after contingency analysis:
+1. At normal run(with all lines functioning), the system seems to be stable
+   within limits
+2. The overall cost is 15612 \pounds/hr
+3. Two contingencies, Line 1-2 and Line 1-3 makes the system vulnerable; as
+   identified by contingency analysis
+4. Disabling either of these lines will cause the other to run at nearly full
+   load(120MW), as verified by Power Flow solution
+5. There is a marginal rise in cost at 15629 and 15632 respectively.
 ** Security Constrained OPF
+By inserting contingencies and running SCOPF has identified two violations at
+L1-3 and L1-2, both exceeding the limits of 120MW. With normal OPF and SCOPF run
+on the seven bus system, following are the observations:
+1. The marginal costs remained same in both cases at all nodes
+2. The control Generators changed at buses. In normal OPF, Generator 1 was
+   controlling the changes at multiple nodes, with SCOPF, the load response
+   control was done by Generator 4, which was not present in normal OPF
+3. The control was also distributed among Gen 5 and Gen 7 at their respective
+   nodes in both cases
+4. By running the power flow in the system after inserting contingencies
+   separately at L1-2 and L1-3, it was noticed that the *Security of the system
+   improved* because when L1-2 was open, line L1-3 was not overloaded in SCOPF
 * Conclusion
 As mentioned in the introduction, energy as a commodity is define as “MWh at a
 given time and a given location, with a given level of supply security”. ([[References][Levi,
