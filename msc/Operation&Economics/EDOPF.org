@@ -382,7 +382,7 @@ P_2 - 200 \le 0 \\
 The Lagrangian is with binding constraints is given by:
 \begin{align*}
 l = (580 - 12.5P_1 + 0.15P_1^{2} + 12P_2 + 0.08P_2^{2}) + \lambda(200 - P_1 -
-P_2) + (25 - P_2)
+P_2) + \mu(25 - P_2)
 \end{align*}
 
 \begin{flalign*}
@@ -416,11 +416,11 @@ This satisfies the condition (25 - P_2) \le 0
 |----------+----------+-------------------------+-------------------------|
 *** Scenario 2 : Load = 400.00MW
 Here, it is assumed that inequality constraints are non-binding and Economic
-Dispatch is solved with no constraints.The Lagrangian is given by:
+Dispatch is solved with no inequality constraints.The Lagrangian is given by:
 
 \begin{align*}
 l = (580 - 12.5P_1 + 0.15P_1^{2} + 12P_2 + 0.08P_2^{2}) + \lambda(400 - P_1 -
-P_2) + (25 - P_2)
+P_2)
 \end{align*}
 
 \begin{flalign*}
@@ -683,7 +683,37 @@ be taken into consideration in selecting the generation. The intersection point
 with the solution(blue solid line) corresponds to  G2=206MW and G1=69MW on the x
 and y axis respectively. The same has been verified by simulations
 **** Lagrangian method - marginal costs of the transmission constraint
+The Lagrangian is with binding constraints is given by:
+\begin{align*}
+l = (1100 + 40P_1 + 30P_2) + \lambda(275 - P_1 - P_2) + \mu(0.333P_1 + 0.667P_2 - 160)
+\end{align*}
 
+\begin{flalign*}
+& \frac{ \partial l}{ \partial P_1 } = 40 - \lambda + 0.333\mu = 0 \\
+& \frac{ \partial l}{ \partial P_2 } = 30 - \lambda + 0.667\mu = 0 \\
+& \frac{ \partial l}{ \partial \lambda } = 275 - P_1 - P_2 = 0 \\
+& \frac{ \partial l}{ \partial \mu } = 0.333P_1 + 0.667P_2 - 160 \le 0 \\
+\end{flalign*}
+***** Complimentary Slackess - \mu = 0; g_j(P) < 0
+Applying the generator values from graphical solution, P_1 = 69MW and P2=206MW,
+\begin{align*}
+0.333 * 69 + 0.667 * 206 - 160 = 0.3172
+\end{align*}
+
+*This does not satisfy the condition*, /Adjusting the value of P1 and P2 to P1=70 and P2=205/
+
+\begin{align*}
+0.333 * 70 + 0.667 * 205 - 160 = -0.016
+\end{align*}
+satisfies the condition and is the proposed solution
+****** Solution
+#+ATTR_LaTeX: :align |r|r|r|r|
+|----------+----------|
+| P_1 (MW) | P_2 (MW) |
+|----------+----------|
+|       70 |      205 |
+|----------+----------|
+*** Conclusion
 * Contingency Analysis
 Referring to the equations given in OPF Equations in the section above,
 ** No Export bits :noexport:
