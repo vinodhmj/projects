@@ -24,9 +24,43 @@
 #+LATEX_HEADER: \hypersetup{colorlinks=true,linkcolor=blue,filecolor=blue,citecolor = black,urlcolor=cyan,}
 #+LATEX_HEADER: \usepackage{graphicx}
 #+EXPORT_EXCLUDE_TAGS: noexport
---------------------------------------------------
+\begin{titlepage}
+	\centering
+	\includegraphics[width=0.15\textwidth]{logo-university-of-manchester.png}\par\vspace{1cm}
+	{\scshape\LARGE Department of Electrical and Electronic Engineering \par}
+	\vspace{1cm}
+	{\scshape\Large EEEN60321/40321 Power System Operation and Economics \par}
+	\vspace{1.5cm}
+	{\huge\bfseries Economic Dispatch, Optimal Power Flow and Security Constrained OPF Laboratory Report \par}
+	\vspace{2cm}
+	{\Large\itshape Vinodh Jayakrishnan\par}
+	{\itshape Student ID : 10877410 \par}
+	{\itshape vinodh.jayakrishnan@postgrad.manchester.ac.uk \par}
+% Bottom of the page
+	\vspace{2cm}
+	\vspace{2cm}
+	{\large Version 1.0 \par}
+	{\large \today\par}
+\end{titlepage}
 * Introduction
+In Electrical Power System, energy as a commodity is define as “MWh at a given
+time and a given location, with a given level of supply security”. ([[References][Levi,
+2020]]). Power System Operational planning includes energy trade economics and
+safety parameters. Selection of generators and level of security is carried out
+using three major techniques called Power Flow(PF), Economic Dispatch(ED) and Optimal
+Power Flow(OPF). This report contains usage and explanation of these techniques, its
+outcomes used for decision making, and the key differences between them.
 * Economic Dispatch
+The cost of generating a unit of power at different circumstances has to be
+minimized to maximize profit. When multiple generators of varying specifications
+are part of the system, the choice of generators to provide the ever changing
+consume load is decided by economic dispatch. Ideally, the cheapest generator
+should provide for all the loads in the system, but practically, there are
+numerous constraints that does not allow this and hence increases the cost. For
+e.g. the upper limit of generation capacity. /The purpose of economic dispatch
+is to minimize costs or maximise profit. ED does not concern with transmission
+line network capabilities. This section looks at economic dispatch for a two
+generator system.
 ** No Export bits :noexport:
 *** table :noexport:
 #+NAME: ed_marginalCosts
@@ -58,14 +92,12 @@
 #+BEGIN_SRC python :results file :exports both :var data=ed_marginalCosts
 
   import matplotlib.pyplot as plt
-
+  import numpy 
   '''If you have formatting lines on your table
   (http://orgmode.org/manual/Column-groups.html) you need to remove them
   "by hand" with a line like:
   '''
   data = data[2:]
-
-
   '''Turn the table data into x and y data'''
   x = [a[0] for a in data]
   y1 = [a[1] for a in data]
@@ -76,34 +108,50 @@
   y6 = [a[6] for a in data]
 
   # Create Plot
+  plt.plot(x, y5, label = "Gen 1")
+  plt.plot(x, y6, label = "Gen 2")
+  plt.legend()
+  plt.title("Total cost curve ")
+  plt.xlabel('MW')
+  plt.ylabel('Cost (GBP/hour)')
 
-  fig, ax1 = plt.subplots() 
 
-  ax1.set_xlabel('X-axis') 
-  ax1.set_ylabel('Y1-axis', color = 'red') 
-  plot_1 = ax1.plot(x, y3, color = 'red', label='Sin x')
-  plot_2 = ax1.plot(x, y4, color = 'red', label='Sin x') 
-  ax1.tick_params(axis ='y', labelcolor = 'red') 
+  ''' Save the PNG file '''
+  filename = "ED_Total_Costs.png"
+  plt.savefig(filename)
 
-  # Adding Twin Axes
+  plt.clf()
+  x1 = numpy.arange(0, 250, 5)
+  y7 = []
+  y8 = []
+  # Create Plot
+  for i in x1:
+    if i > 100:
+      y7.append(40);
+    else:
+      y7.append(10);
 
-  ax2 = ax1.twinx() 
+    if i > 75:
+      y8.append(30)
+    else:
+      y8.append(20)
 
-  ax2.set_ylabel('Y2-axis', color = 'blue') 
-  plot_3 = ax2.plot(x, y5, color = 'blue', label = 'Cos x')
-  plot_4 = ax2.plot(x, y6, color = 'blue', label = 'Cos x') 
-  ax2.tick_params(axis ='y', labelcolor = 'blue') 
+  plt.xticks(numpy.arange(0, 250, 25))
+  plt.yticks(numpy.arange(0, 60, 10))
 
-  # Add legends
 
-  lns = plot_1 + plot_2 + plot_3 + plot_4
-  labels = [l.get_label() for l in lns]
-  plt.legend(lns, labels, loc=0)
+  plt.plot(x1, y7, label = "Gen 1")
+  plt.plot(x1, y8, label = "Gen 2")
+  plt.legend()
+  plt.title("Marginal cost curve ")
+  plt.xlabel('MW')
+  plt.ylabel('Cost (GBP/hour)')
+
 
   # Show plot
 
   ''' Save the PNG file '''
-  filename = "marginalCosts.png"
+  filename = "ED_Marginal_Costs.png"
   plt.savefig(filename)
 
   ''' Return the PNG file path to OrgMode '''
@@ -112,65 +160,100 @@
 #+END_SRC
 
 #+RESULTS:
-[[file:marginalCosts.png]]
-** Marginal Costs
-<Describe the activity and discuss your results and findings>
-[[file:marginalCosts.png]]
+[[file:ED_Marginal_Costs.png]]
+** Marginal Costs and Total Costs
+The marginal costs of a generator represents the cost of next unit of energy to
+be produced when demanded by load. Marginal Costs could be represented by a
+linear function or a piece-wise linear function. In the case below, marginal
+cost of two generators are represented as piece-function. Generator 1 is cheaper
+until 100MW load. The total cost plateaus at \pounds 1000 for Generator 1 and ED
+restricts its generation in normal generation condition. The total costs for
+Generator 2 is steadily increasing as it is providing the increase in load.
+#+BEGIN_center
+#+ATTR_LaTeX: :height 0.35\textwidth :center
+[[file:ED_Marginal_Costs.png]]
+#+ATTR_LaTeX: :height 0.35\textwidth :center
+[[file:ED_Total_Costs.png]]
+#+END_center
 ** Normal Conditions
-<Describe the activity and discuss your results and findings>
+For the two generator system, the load is increased from 100MW to 300MW in steps
+of 10. The generator output and total costs at each step are recorded in the
+table below. Under normal conditions, as seen from the marginal cost curve,
+Generator 1 is cheap until 100MW load, after that point, Generator 2 takes over
+the supply of load. Inequality constraints with respect to the lower limit of
+Generators are considered at all steps.
 #+NAME: ed_normalCondition
-| Load | Gen 1 | Gen 2 | Total Costs | Total Costs |
-|      |       |       |        Gen1 |       Gen 2 |
-|------+-------+-------+-------------+-------------|
-|  100 |    75 |    25 |         750 |         500 |
-|  110 |    85 |    25 |         850 |         500 |
-|  120 |    95 |    25 |         950 |         500 |
-|  130 |   100 |    30 |        1000 |         600 |
-|  140 |   100 |    40 |        1000 |         800 |
-|  150 |   100 |    50 |        1000 |        1000 |
-|  160 |   100 |    60 |        1000 |        1200 |
-|  170 |   100 |    70 |        1000 |        1400 |
-|  180 |   100 |    80 |        1000 |        1650 |
-|  190 |   100 |    90 |        1000 |        1950 |
-|  200 |   100 |   100 |        1000 |        2250 |
-|  210 |   100 |   110 |        1000 |        2550 |
-|  220 |   100 |   120 |        1000 |        2850 |
-|  230 |   100 |   130 |        1000 |        3150 |
-|  240 |   100 |   140 |        1000 |        3450 |
-|  250 |   100 |   150 |        1000 |        3750 |
-|  260 |   100 |   160 |        1000 |        4050 |
-|  270 |   100 |   170 |        1000 |        4350 |
-|  280 |   100 |   180 |        1000 |        4650 |
-|  290 |   100 |   190 |        1000 |        4950 |
-|  300 |   100 |   200 |        1000 |        5250 |
-
+#+ATTR_LaTeX: :align |r|r|r|r|r|
+|-------+-------+-------+-------------------+-------------------|
+|  Load | Gen 1 | Gen 2 | Total Costs Gen 1 | Total Costs Gen 2 |
+|  (MW) |  (MW) |  (MW) |     (\pounds /hr) |     (\pounds /hr) |
+|-------+-------+-------+-------------------+-------------------|
+|   100 |    75 |    25 |               750 |               500 |
+|   110 |    85 |    25 |               850 |               500 |
+|   120 |    95 |    25 |               950 |               500 |
+| *130* |   100 |    30 |              1000 |               600 |
+|   140 |   100 |    40 |              1000 |               800 |
+|   150 |   100 |    50 |              1000 |              1000 |
+|   160 |   100 |    60 |              1000 |              1200 |
+|   170 |   100 |    70 |              1000 |              1400 |
+|   180 |   100 |    80 |              1000 |              1650 |
+|   190 |   100 |    90 |              1000 |              1950 |
+|   200 |   100 |   100 |              1000 |              2250 |
+|   210 |   100 |   110 |              1000 |              2550 |
+|   220 |   100 |   120 |              1000 |              2850 |
+|   230 |   100 |   130 |              1000 |              3150 |
+|   240 |   100 |   140 |              1000 |              3450 |
+|   250 |   100 |   150 |              1000 |              3750 |
+|   260 |   100 |   160 |              1000 |              4050 |
+|   270 |   100 |   170 |              1000 |              4350 |
+|   280 |   100 |   180 |              1000 |              4650 |
+|   290 |   100 |   190 |              1000 |              4950 |
+|   300 |   100 |   200 |              1000 |              5250 |
+|-------+-------+-------+-------------------+-------------------|
 ** Reduced Generation Capacity
-<Describe the activity and discuss your results and findings>
-|------+-------+-------+-------------------+-------------------|
-| Load | Gen 1 | Gen 2 | Total Costs Gen 1 | Total Costs Gen 2 |
-|------+-------+-------+-------------------+-------------------|
-|  100 |    75 |    25 |               750 |               500 |
-|  110 |    85 |    25 |               850 |               500 |
-|  120 |    95 |    25 |               950 |               500 |
-|  130 |   100 |    30 |              1000 |               600 |
-|  140 |   100 |    40 |              1000 |               800 |
-|  150 |   100 |    50 |              1000 |              1000 |
-|  160 |   100 |    60 |              1000 |              1200 |
-|  170 |   100 |    70 |              1000 |              1400 |
-|  180 |   100 |    80 |              1000 |              1650 |
-|  190 |   100 |    90 |              1000 |              1950 |
-|  200 |   100 |   100 |              1000 |              2250 |
-|  210 |   100 |   110 |              1000 |              2550 |
-|  220 |   100 |   120 |              1000 |              2850 |
-|  230 |   100 |   130 |              1000 |              3150 |
-|  240 |   100 |   140 |              1000 |              3450 |
-|  250 |   100 |   150 |              1000 |              3750 |
-|  260 |   110 |   150 |              1400 |              3750 |
-|  270 |   120 |   150 |              1800 |              3750 |
-|  280 |   130 |   150 |              2200 |              3750 |
-|  290 |   140 |   150 |              2600 |              3750 |
-|  300 |   150 |   150 |              3000 |              3750 |
+For the two generator system, the load is increased from 100MW to 300MW in steps
+of 10. The generator output and total costs at each step are recorded in the
+table below. Under reduced generation conditions, Generator 2 has a upper limit
+of 150MW. Once it hits the limit, Generator 2 is asked to supply the remaining
+load even though it is pricier. Inequality constraints with respect to the lower
+limit of Generators are considered at all steps.
+#+NAME: ed_reducedGenerationCondition
+#+ATTR_LaTeX: :align |r|r|r|r|r|
+|-------+-------+-------+-------------------+-------------------|
+|  Load | Gen 1 | Gen 2 | Total Costs Gen 1 | Total Costs Gen 2 |
+|-------+-------+-------+-------------------+-------------------|
+|   100 |    75 |    25 |               750 |               500 |
+|   110 |    85 |    25 |               850 |               500 |
+|   120 |    95 |    25 |               950 |               500 |
+| *130* |   100 |    30 |              1000 |               600 |
+|   140 |   100 |    40 |              1000 |               800 |
+|   150 |   100 |    50 |              1000 |              1000 |
+|   160 |   100 |    60 |              1000 |              1200 |
+|   170 |   100 |    70 |              1000 |              1400 |
+|   180 |   100 |    80 |              1000 |              1650 |
+|   190 |   100 |    90 |              1000 |              1950 |
+|   200 |   100 |   100 |              1000 |              2250 |
+|   210 |   100 |   110 |              1000 |              2550 |
+|   220 |   100 |   120 |              1000 |              2850 |
+|   230 |   100 |   130 |              1000 |              3150 |
+|   240 |   100 |   140 |              1000 |              3450 |
+|   250 |   100 |   150 |              1000 |              3750 |
+| *260* |   110 |   150 |              1400 |              3750 |
+|   270 |   120 |   150 |              1800 |              3750 |
+|   280 |   130 |   150 |              2200 |              3750 |
+|   290 |   140 |   150 |              2600 |              3750 |
+|   300 |   150 |   150 |              3000 |              3750 |
+|-------+-------+-------+-------------------+-------------------|
 ** Analysis
+Given the cost function and constraints for generators:
+\begin{align}
+\label{}
+Gen1@Bus1 costs (\pounds /h): Cost = 430 – 12.5*P1 + 0.15*P1^2 \\
+Gen2@Bus2 costs (\pounds /h): Cost = 150 + 12.0*P2 + 0.08*P2^2 \\
+subject to :\\
+50.00 <= P1 <= 250.00 \\
+25.00 <= P2 <= 200.00
+\end{align}
 *** Pycode: marginal costs                                        :noexport:
 #+BEGIN_SRC python
     import numpy 
@@ -188,9 +271,9 @@
     plt.plot(x, y1, label = "Gen 1")
     plt.plot(x, y2, label = "Gen 2")
     plt.legend()
-    plt.title("Cost curve ")
-    plt.xlabel('X-axis ')
-    plt.ylabel('Y-axis ')
+    plt.title("Total cost curve ")
+    plt.xlabel('MW')
+    plt.ylabel('Cost (GBP/hour)')
 
     ''' Save the PNG file '''
     filename = "ED_Analysis_Costs.png"
@@ -200,10 +283,10 @@
    # plt.subplot(1, 2, 2) # index 2
     plt.plot(x, y11, label = "Gen 1")
     plt.plot(x, y21, label = "Gen 2")
-    plt.title("Marginal Cost Curve!")
+    plt.title("Marginal Cost Curve")
     plt.legend()
-    plt.xlabel('X-axis ')
-    plt.ylabel('Y-axis ')
+    plt.xlabel('MW')
+    plt.ylabel('Cost (GBP/hour) ')
 
     ''' Save the PNG file '''
     filename = "ED_Analysis_Marginal_Costs.png"
@@ -212,23 +295,65 @@
 
 #+RESULTS:
 : None
+**** Graphical solution  :noexport:
+#+begin_src python
+  import matplotlib.pyplot as plt
+  import numpy
+  x = numpy.arange(0, 300, 10)
+  y1 = 200 - x
+  y2 = 400 - x
+  #of = 580 - 12.5*x + 0.15*x*x + 12*y1 + 0.08 * y1 *y1
+  ax = plt.subplot(1, 1, 1)
+  ax.plot(x, y1, label = "200=G1+G2")
+  ax.plot(x, y2, label = "400=G1+G2")
+  #ax.plot(x, of, label = "of")
+  ax.legend()
+  plt.title("Graphical representation of ED problem")
+  plt.axhline(y=25, xmin=0, xmax=300, color='gray', linestyle='--', linewidth=1)
+  plt.axhline(y=200, xmin=0, xmax=300, color='gray', linestyle='--', linewidth=1)
+  plt.axvline(x=50, ymin=0, ymax=300, color='gray', linestyle=':', linewidth=1)
+  plt.axvline(x=250, ymin=0, ymax=300, color='gray', linestyle=':', linewidth=1)
+  #plt.axvline(x=205, ymin=0, ymax=300, color='y', linestyle=':', linewidth=1)
+  ax.set_ylim(bottom=0.)
+  ax.set_ylim(top=310.)
+  ax.set_xlim(left=0.)
+  ax.set_xlim(right=310.)
+  plt.xticks(numpy.arange(0, 310, 25))
+  plt.yticks(numpy.arange(0, 310, 25))
+  plt.xlabel('G1 (MW)')
+  plt.ylabel('G2 (MW)')
+  plt.fill([50,50,250,250],[25,200,200,25],'lightgray',alpha=0.5)
+
+  ''' Save the PNG file '''
+  filename = "ED_Graphical_Solution.png"
+  plt.savefig(filename)
+#+end_src
+
+#+RESULTS:
+: None
 
 *** Marginal Costs
-[[file:ED_Analysis_Costs.png]]
+The marginal costs of the quadratic function is calculated by the first
+derivative of the cost function as shown in the figure.
+#+BEGIN_center
+#+ATTR_LaTeX: :height 0.35\textwidth :center
 [[file:ED_Analysis_Marginal_Costs.png]]
-
+#+ATTR_LaTeX: :height 0.35\textwidth :center
+[[file:ED_Analysis_Costs.png]]
+#+END_center
 *** Graphical Representation
-Draw the problem, including inequality constraints, equality constraints,
-objective function and result
-
-[[file:ED_Analysis_graphical.png]]
-[[file:ED_Analysis_graphical_400.png]]
-*** Generator output and line output
+The equality and inequality constraints can be graphically represented by the
+following diagram. The solution curve for both scenarios of load is also
+represented.
+#+ATTR_LaTeX: :scale 0.8
+[[file:ED_Graphical_Solution.png]]
 *** Lagrangian Equations
-From the diagram<TOD>,
+Economic Dispatch is carried out to determine the optimal generator output with
+respect to the objective function. Transmission line network and its output is
+neglected as it does not take part in ED. Hence, to supply load L, by Generator
+1 @ Bus1 generating P_1 power and Generator 2 @ Bus2 generating P_2 power, the
+cost functions are given by:
 
-To supply load L, by Generator 1 @ Bus1 generating P_1 power and Generator 2 @
-Bus2 generating P_2 power, the cost functions are given by:
 \begin{align}
 C1 = 430 - 12.5P_1 + 0.15P_1^{2} \\
 C2 = 150 + 12P_2 + 0.08P_2^{2} \\
@@ -244,7 +369,6 @@ P_1 - 250 \le 0 \\
 25 - P_2 \le 0 \\
 P_2 - 200 \le 0 \\
 \end{align}
-
 **** Scenario 1 : Load = 200.00MW
 The Lagrangian is with binding constraints is given by:
 
@@ -277,11 +401,13 @@ P1 = 122.83; P_2 = 77.174; \lamda = 24.35; \mu=0
 \end{align}
 This satisfies the condition (25 - P_2) \le 0
 ***** Solution
+|----------+----------+-------------------------|
 | P_1 (MW) | P_2 (MW) | \lambda {\pounds / MWh} |
 |----------+----------+-------------------------|
-|   122.83 |   77.174 |            24.35        |
+|   122.83 |   77.174 |                   24.35 |
+|----------+----------+-------------------------|
 **** Scenario 2 : Load = 400.00MW
-Here, it is assumed that no inequality constraints are binding and Economic
+Here, it is assumed that inequality constraints are non-binding and Economic
 Dispatch is solved with no constraints.
 
 The Lagrangian is with is given by:
@@ -301,11 +427,11 @@ Solving the above equations for P1 and P2 gives:
 P1 = 192.39MW; P_2 = 207.39; \lamda = 45.217;
 \end{align}
 
-This fails to satisfy the inequality constraint for Generator 2 with and upper
-limit of 200MW. To bring the solution under constraints, increase lambda or reduce
-the generation of Generator 2 under the 200MW limit. The modified Lagrangian
-with P_2 = 199MW is :
+/This fails to satisfy the inequality constraint for Generator 2 with and upper/
+/limit of 200MW. To bring the solution under constraints, increase lambda or reduce/
+/the generation of Generator 2 under the 200MW limit./
 
+The modified Lagrangian with P_2 = 199MW is :
 \begin{equation}
 \label{}
 l = (580 - 12.5P_1 + 0.15P_1^{2} + 2388 + 3168.1) + \lambda(400 - P_1 -199) \\
@@ -320,14 +446,23 @@ Solving this in the above equations:
 \begin{align}
 P1 = 201; P_2 = 199; \lamda = 47.8; \mu=0
 \end{align}
-
 ***** Solution
+|----------+----------+-------------------------|
 | P_1 (MW) | P_2 (MW) | \lambda {\pounds / MWh} |
 |----------+----------+-------------------------|
 |   122.83 |   77.174 |                    47.8 |
-|          |          |                         |
-
+|----------+----------+-------------------------|
 * Optimal Power Flow
+Power Flow or Load Flow studies gives a snapshot of the network. It is conducted
+to find out the line flows in the system, to verify if any lines are getting
+overloaded. One generator in the system is assumed to have infinite power which
+provides for the next load. Power flow never concerns about money.
+
+Economic dispatch finds maximum profit by minimising cost and does not concern
+with transmission lines.
+
+Optimal Power Flow is marriage between Power Flow and Economic Dispatch. It
+finds the optimum solution with generation, price and availability.
 ** No Export bits :noexport:
 #+begin_src python
   import matplotlib.pyplot as plt
@@ -577,10 +712,5 @@ different outcomes, e.g., explaining what is shown in figures and tables.
 • Analysis (What does it mean?): This involves explaining the findings and their implications, e.g., the 
 connection between the findings and the characteristics of Power Flow (PF), Economic Dispatch (ED), 
 Optimal Power Flow (OPF) and Security Constrained OPF (SCOPF).
-
- 
-
- 
-
-
- 
+* References
+[1]  Victor Levi, EEEN60321 Concepts of Operation & Economics, 2020, The University of Manchester.
