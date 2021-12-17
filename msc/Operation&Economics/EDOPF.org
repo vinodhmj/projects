@@ -52,15 +52,15 @@ Power Flow(OPF). This report contains usage and explanation of these techniques,
 outcomes used for decision making, and the key differences between them.
 * Economic Dispatch
 The cost of generating a unit of power at different circumstances has to be
-minimized to maximize profit. When multiple generators of varying specifications
-are part of the system, the choice of generators to provide the ever changing
-consume load is decided by economic dispatch. Ideally, the cheapest generator
-should provide for all the loads in the system, but practically, there are
-numerous constraints that does not allow this and hence increases the cost. For
-e.g. the upper limit of generation capacity. /The purpose of economic dispatch
-is to minimize costs or maximise profit. ED does not concern with transmission
-line network capabilities. This section looks at economic dispatch for a two
-generator system.
+minimized to maximize the profit. When multiple generators of varying
+specifications are part of the system, the choice of generators to provide the
+ever changing consumer load is decided by economic dispatch. Ideally, the
+cheapest generator should provide for all the loads in the system, but
+practically, there are numerous constraints that does not allow this, and hence
+increases the cost. For e.g. the upper limit of generation capacity. The purpose
+of economic dispatch is to minimize costs or maximise the profit. ED does not
+concern with transmission line network capabilities. This section looks at
+economic dispatch for a two generator system.
 ** No Export bits :noexport:
 *** table :noexport:
 #+NAME: ed_marginalCosts
@@ -305,38 +305,34 @@ C2 = 150 + 12.0P_2 + 0.08P_2^2 \Rightarrow 25.00 \le P_2 \le 200.00
 : None
 **** Graphical solution  :noexport:
 #+begin_src python
-  import matplotlib.pyplot as plt
-  import numpy
-  x = numpy.arange(0, 300, 10)
-  y1 = 200 - x
-  y2 = 400 - x
+     import matplotlib.pyplot as plt
+     import numpy
+     x = numpy.arange(0, 300, 10)
+     y1 = 200 - x
+     y2 = 400 - x
+     ax = plt.subplot(1, 1, 1)
+     ax.plot(x, y1, label = "200=G1+G2")
+     ax.plot(x, y2, label = "400=G1+G2")
+     ax.legend()
+     plt.title("Graphical representation of ED problem")
+     plt.axhline(y=25, xmin=0, xmax=300, color='gray', linestyle='--', linewidth=1)
+     plt.axhline(y=200, xmin=0, xmax=300, color='gray', linestyle='--', linewidth=1)
+     plt.axvline(x=50, ymin=0, ymax=300, color='gray', linestyle=':', linewidth=1)
+     plt.axvline(x=250, ymin=0, ymax=300, color='gray', linestyle=':', linewidth=1)
+     #plt.axvline(x=205, ymin=0, ymax=300, color='y', linestyle=':', linewidth=1)
+     ax.set_ylim(bottom=0.)
+     ax.set_ylim(top=310.)
+     ax.set_xlim(left=0.)
+     ax.set_xlim(right=310.)
+     plt.xticks(numpy.arange(0, 310, 25))
+     plt.yticks(numpy.arange(0, 310, 25))
+     plt.xlabel('G1 (MW)')
+     plt.ylabel('G2 (MW)')
+     plt.fill([50,50,250,250],[25,200,200,25],'lightgray',alpha=0.5)
 
-
-  #of = 580 - 12.5*x + 0.15*x*x + 12*y1 + 0.08 * y1 *y1
-  ax = plt.subplot(1, 1, 1)
-  ax.plot(x, y1, label = "200=G1+G2")
-  ax.plot(x, y2, label = "400=G1+G2")
-  #ax.plot(x, of, label = "of")
-  ax.legend()
-  plt.title("Graphical representation of ED problem")
-  plt.axhline(y=25, xmin=0, xmax=300, color='gray', linestyle='--', linewidth=1)
-  plt.axhline(y=200, xmin=0, xmax=300, color='gray', linestyle='--', linewidth=1)
-  plt.axvline(x=50, ymin=0, ymax=300, color='gray', linestyle=':', linewidth=1)
-  plt.axvline(x=250, ymin=0, ymax=300, color='gray', linestyle=':', linewidth=1)
-  #plt.axvline(x=205, ymin=0, ymax=300, color='y', linestyle=':', linewidth=1)
-  ax.set_ylim(bottom=0.)
-  ax.set_ylim(top=310.)
-  ax.set_xlim(left=0.)
-  ax.set_xlim(right=310.)
-  plt.xticks(numpy.arange(0, 310, 25))
-  plt.yticks(numpy.arange(0, 310, 25))
-  plt.xlabel('G1 (MW)')
-  plt.ylabel('G2 (MW)')
-  plt.fill([50,50,250,250],[25,200,200,25],'lightgray',alpha=0.5)
-
-  ''' Save the PNG file '''
-  filename = "ED_Graphical_Solution.png"
-  plt.savefig(filename)
+     ''' Save the PNG file '''
+     filename = "ED_Graphical_Solution.png"
+     plt.savefig(filename)
 #+end_src
 
 #+RESULTS:
@@ -344,7 +340,15 @@ C2 = 150 + 12.0P_2 + 0.08P_2^2 \Rightarrow 25.00 \le P_2 \le 200.00
 
 *** Marginal Costs
 The marginal costs of the quadratic function is calculated by the first
-derivative of the cost function as shown in the figure.
+derivative of the cost function as shown in the figure. Constant Marginal costs
+or Piece-wise linear marginal costs does not affect the ED solution at the every
+increment, It changes at thresholds or limits. Meanwhile quadratic cost curves
+generate a ramp curve for marginal costs. In the example shown below, the curves
+overlap at certain point. From that point the generators swap roles from an ED
+perspective. A single MW increment after the overlapping point(175MW) on G1 axis
+would require change in generator outputs at both sides. Part of the reason this
+involves both generators is because of the lower limits or minimum required
+generation by the unit.
 #+BEGIN_center
 #+ATTR_LaTeX: :height 0.35\textwidth :center
 [[file:ED_Analysis_Marginal_Costs.png]]
@@ -381,7 +385,7 @@ P_1 - 250 \le 0 \\
 P_2 - 200 \le 0 \\
 \end{align*}
 *** Scenario 1 : Load = 200.00MW
-The Lagrangian is with binding constraints is given by:
+The Lagrangian with binding constraints is given by:
 \begin{align*}
 l = (580 - 12.5P_1 + 0.15P_1^{2} + 12P_2 + 0.08P_2^{2}) + \lambda(200 - P_1 -
 P_2) + \mu(25 - P_2)
@@ -442,7 +446,6 @@ P1 = 192.39MW; P_2 = 207.39; \lamda = 45.217;
 /the generation of Generator 2 under the 200MW limit./
 --------------------------------------------------
 
-
 The modified Lagrangian with P_2 = 199MW is :
 \begin{flalign*}
 \label{}
@@ -456,7 +459,7 @@ The modified Lagrangian with P_2 = 199MW is :
 
 Solving this in the above equations:
 \begin{align*}
-P1 = 201; P_2 = 199; \lamda = 47.8; \mu=0
+P1 = 201; P_2 = 199; \lambda = 47.8; \mu=0
 \end{align*}
 
 #+ATTR_LaTeX: :align |r|r|r|r|
@@ -477,11 +480,11 @@ and nodal prices are identified by the Lagrangian coefficient.
 Power Flow or Load Flow studies gives a snapshot of the network. It is conducted
 to find out the line flows in the system, to verify if any lines are getting
 overloaded. One generator in the system is assumed to have infinite power which
-provides for the next load. Power flow never concerns about money. Economic
-dispatch finds maximum profit by minimising cost and does not concern with
-transmission lines. Optimal Power Flow is marriage between Power Flow and
-Economic Dispatch. It finds the optimum solution with generation, price and
-availability.
+provides for the next load increment. Power flow never concerns about
+money. Economic dispatch finds maximum profit by minimising cost and does not
+concern with transmission lines. Optimal Power Flow is marriage between Power
+Flow and Economic Dispatch. It finds the optimum solution with generation, price
+and availability.
 ** No Export bits :noexport:
 #+begin_src python
     import matplotlib.pyplot as plt
@@ -528,10 +531,6 @@ availability.
     ''' Save the PNG file '''
     filename = "OPF_Analysis_Marginal_Costs.png"
     plt.savefig(filename)
-
-
-
-
 #+end_src
 
 #+RESULTS:
@@ -541,10 +540,11 @@ The marginal costs of the generators are given by:
 #+ATTR_LaTeX: :scale 0.5
 #+CAPTION: OPF Marginal Costs of generator
 [[file:OPF_Analysis_Marginal_Costs.png]]
-** Power flow simulation without consideration of thermal limits
-By disabling the transmission constraints, Power Flow Analysis is performed on
-the system by increasing the load from 200MW to 300MW in steps of 10MW. The
-results are recorded below:
+** Power flow, ED and OPF simulation
+By disabling the transmission constraints, Power Flow Analysis and OPF is
+performed on the system. OPF is run again by enabling transmission
+constraints. The generator and line outputs are recorded at steps by increasing
+the load from 200MW to 300MW in steps of 10MW. The results are tabulated below:
 #+NAME: opf_powerflow
 #+CAPTION: Power flow without thermal limits(Units in MW)
 #+ATTR_LaTeX: :align |r|r|r|r|r|r|
@@ -563,10 +563,7 @@ results are recorded below:
 |  290 |   240 |    50 |  63 | 177 | 113 |
 |  300 |   250 |    50 |  67 | 183 | 117 |
 |------+-------+-------+-----+-----+-----|
-** OPF without consideration of thermal limits
-By disabling the transmission constraints, OPF is performed on the system by
-increasing the load from 200MW to 300MW in steps of 10MW. The results are
-recorded below:
+\pagebreak
 #+NAME: opf_ed
 #+CAPTION: OPF without thermal limits(Units in MW)
 #+ATTR_LaTeX: :align |r|r|r|r|r|r|
@@ -585,10 +582,7 @@ recorded below:
 |  290 |    50 |   240 |  63 | 113 | 177 |
 |  300 |    50 |   250 |  67 | 117 | 183 |
 |------+-------+-------+-----+-----+-----|
-** OPF considering thermal limits
-By enabling the transmission constraints, OPF is performed on the system by
-increasing the load from 200MW to 300MW in steps of 10MW. The results are
-recorded below:
+
 #+NAME: opf_opf
 #+CAPTION: OPF with thermal limits(Units in MW)
 #+ATTR_LaTeX: :align |r|r|r|r|r|r|
@@ -675,7 +669,7 @@ satisfied.
 *** Scenario 2 - Load = 275.00MW
 **** Graphical solution
 #+CAPTION: OPF Graphical Solution
-#+ATTR_LATEX: :scale 0.6
+#+ATTR_LATEX: :scale 0.5
 [[file:OPF_Analysis_Solution.png]]
 
 The red and orange dashed lines are not binding. The green dashed line
