@@ -1,0 +1,508 @@
+#+STARTUP: overview
+# +TITLE: Stability
+# +date: \today
+# +author: Vinodh Jayakrishnan
+# +email: vinodh.jayakrishnan@postgrad.manchester.ac.uk
+#+language: en
+#+select_tags: export
+#+exclude_tags: noexport
+#+creator: Emacs 27.2 (Org mode 9.4.5)
+#+options: toc:nil
+#+LATEX_CLASS_OPTIONS: [a4paper,11pt]
+#+latex_header: \usepackage[scaled]{times} \renewcommand\familydefault{\sfdefault}
+#+latex_header: \usepackage{mathtools}
+#+latex_header: \usepackage{textcomp}
+#+latex_header: \usepackage{siunitx}
+#+LATEX_HEADER: \usepackage{booktabs}
+#+LATEX_HEADER: \usepackage{xcolor}
+#+LATEX_HEADER: \usepackage{colortbl}
+#+LATEX_HEADER: \makeatletter \@ifpackageloaded{geometry}{\geometry{margin=2cm}}{\usepackage[margin=2cm]{geometry}} \makeatother
+#+LATEX_HEADER: \usepackage{amsmath}
+#+LATEX_HEADER: \usepackage{hyperref}
+#+LATEX_HEADER: \usepackage{wrapfig}
+#+LATEX_HEADER: \hypersetup{colorlinks=true,linkcolor=blue,filecolor=blue,citecolor = black,urlcolor=cyan,}
+#+LATEX_HEADER: \usepackage{graphicx}
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+BEGIN_SRC latex
+  \begin{titlepage}
+    \centering
+    \includegraphics[width=0.15\textwidth]{logo-university-of-manchester.png}\par\vspace{1cm}
+                    {\scshape\LARGE Department of Electrical and Electronic Engineering \par}
+                    \vspace{1cm}
+                           {\scshape\Large EEEN60342: Power System Dynamics and Quality of Supply \par}
+                           \vspace{1.5cm}
+                                  {\huge\bfseries Laboratory: Power System Dynamic Performance Report \par}
+                                  \vspace{2cm}
+                                         {\Large\itshape Vinodh Jayakrishnan\par}
+                                         {\itshape Student ID : 10877410 \par}
+                                         {\itshape vinodh.jayakrishnan@postgrad.manchester.ac.uk \par}
+                                         % Bottom of the page
+                                         \vspace{2cm}
+                                         \vspace{2cm}
+                                                {\large Version 1.0 \par}
+                                                {\large \today\par}
+  \end{titlepage}
+#+END_SRC
+* Introduction
+This report contains the observations and conclusions of Power System stability
+analysis for a large disturbance behaviour in a 6-bus test network.
+* Steady State Voltage Stability Assessment
+** Initial State of the system
+The initial values of load at Bus 4,5 and 6 were  50MW, 50MW, and 150MW
+respectively. Active power at each bus is incremented in steps of 10MW.
+#+caption: Voltage Stability - Initial State
+#+name:vs1
+#+ATTR_LATEX: :placement [h] :center t
+#+ATTR_LaTeX: :align |c|l|l|l|
+|----------------+--------------+--------------+--------------|
+| Load increment | Bus 4        | Bus 5        | Bus 6        |
+|           (MW) | (pu, degree) | (pu, degree) | (pu, degree) |
+|----------------+--------------+--------------+--------------|
+|              0 | 1.004, -11.7 | 0.988, 4.2   | 0.987, 3.4   |
+|             10 | 0.998, -14.7 | 0.987, 0.2   | 0.986, -0.6  |
+|             20 | 0.989, -17.8 | 0.986, -3.8  | 0.984, -4.8  |
+|             30 | 0.977, -21.1 | 0.983, -8.0  | 0.982, -9.0  |
+|             40 | 0.961, -24.6 | 0.979, -12.3 | 0.978, -13.4 |
+|             50 | 0.941, -28.4 | 0.975, -16.9 | 0.973, -18.1 |
+|             60 | 0.915, -32.7 | 0.968, -21.8 | 0.966, -23.2 |
+|             70 | 0.879, -37.8 | 0.959, -27.5 | 0.957, -29.0 |
+|             80 | 0.821, -44.9 | 0.946, -34.5 | 0.943, -36.3 |
+|----------------+--------------+--------------+--------------|
+
+#+BEGIN_center
+--------------------------------------------------
+System Critical load : 490MW (130MW, 130MW, 230MW  at Bus 4, Bus 5 and Bus 6) \\
+Voltage at Bus 4 collapses first in the system.
+--------------------------------------------------
+#+END_center
+
+** Reactive power limits
+Reactive power limits of -50MVAR and 50MVAR is introduced at
+generators and experiment conducted same as the previous case. 
+#+caption: Voltage Stability - With reactive power limits
+#+name:vs2
+#+ATTR_LATEX: :placement [h] :center t
+#+ATTR_LaTeX: :align |c|l|l|l|
+|----------------+-------+-------+-------|
+| Load increment | Bus 4 | Bus 5 | Bus 6 |
+|           (MW) |  (pu) |  (pu) |  (pu) |
+|----------------+-------+-------+-------|
+|              0 | 1.004 | 0.988 | 0.987 |
+|             10 | 0.998 | 0.987 | 0.986 |
+|             20 | 0.989 | 0.986 | 0.984 |
+|             30 | 0.977 | 0.983 | 0.982 |
+|             40 | 0.961 | 0.979 | 0.978 |
+|             50 | 0.941 | 0.975 | 0.973 |
+|             60 | 0.915 | 0.968 | 0.966 |
+|             70 | 0.879 | 0.959 | 0.957 |
+|----------------+-------+-------+-------|
+#+BEGIN_center
+--------------------------------------------------
+The total system critical load is 460MW
+--------------------------------------------------
+#+END_center
+
+** Graphs for section 1.1 and 1.2
+#+BEGIN_center
+#+ATTR_LaTeX: :height 0.45\textwidth :center
+[[file:vs1.png]]
+#+END_center
+*** python code to plot :noexport:
+#+BEGIN_SRC python :results file :exports both :var data=vs2
+  import matplotlib.pyplot as plt
+  import numpy
+
+  data = data[2:]
+  x = numpy.arange(250, 470, 30)
+  y1 = [a[1] for a in data]
+  y2 = [a[2] for a in data]
+  y3 = [a[3] for a in data]
+  # Create Plot
+  plt.plot(x, y1, 'r', label = "Bus 4")
+  plt.plot(x, y2, 'g', label = "Bus 5")
+  plt.plot(x, y3, 'b', label = "Bus 6")
+  plt.plot([460, 490], [0.879, 0.821], 'r', label = "Bus 4 without VAR limits", linestyle='dotted')
+  plt.plot([460, 490], [0.959, 0.946], 'g', label = "Bus 5 without VAR limits", linestyle='dotted')
+  plt.plot([460, 490], [0.957, 0.943], 'b', label = "Bus 6 without VAR limits", linestyle='dotted')
+  plt.yticks(numpy.arange(0.825, 1.02, 0.02))
+  plt.legend()
+  plt.grid()
+  plt.title("Voltage Stability Curve")
+  plt.xlabel('Total System Load (MW)')
+  plt.ylabel('Voltage (pu)')
+
+
+  ''' Save the PNG file '''
+  filename = "vs1.png"
+  plt.savefig(filename)
+
+  ''' Return the PNG file path to OrgMode '''
+  return(filename)
+
+#+END_SRC
+
+#+RESULTS:
+[[file:vs1.png]]
+** Load change at Bus 4
+Procedure from section 1.1 is repeated but, only the active power at
+bus 4 is incremented in steps of 20 MW.
+#+caption: Voltage Stability - Active power change at Bus 4
+#+name:vs3
+#+ATTR_LATEX: :placement [h] :center t
+#+ATTR_LaTeX: :align |c|l|l|l|
+|----------------+-------+-------+-------|
+| Load increment | Bus 4 | Bus 5 | Bus 6 |
+|           (MW) |  (pu) |  (pu) |  (pu) |
+|----------------+-------+-------+-------|
+|              0 | 1.004 | 0.988 | 0.987 |
+|             20 | 0.989 | 0.986 | 0.984 |
+|             40 | 0.972 | 0.984 | 0.980 |
+|             60 | 0.951 | 0.981 | 0.976 |
+|             80 | 0.925 | 0.977 | 0.970 |
+|            100 | 0.891 | 0.972 | 0.963 |
+|            120 | 0.841 | 0.964 | 0.953 |
+|----------------+-------+-------+-------|
+
+#+BEGIN_center
+--------------------------------------------------
+The total system critical load is 370MW
+--------------------------------------------------
+#+END_center
+
+** Constant Impedance model
+Procedure in section 1.4 is repeated for a constant impedance load model.
+#+caption: Voltage Stability - Constant impedance model
+#+name:vs4
+#+ATTR_LATEX: :placement [h] :center t
+#+ATTR_LaTeX: :align |c|l|l|l|
+|----------------+-------+-------+-------|
+| Load increment | Bus 4 | Bus 5 | Bus 6 |
+|           (MW) |  (pu) |  (pu) |  (pu) |
+|----------------+-------+-------+-------|
+|            150 | 1.003 | 0.988 | 0.987 |
+|            200 | 0.974 | 0.984 | 0.981 |
+|            250 | 0.941 | 0.979 | 0.974 |
+|            300 | 0.905 | 0.974 | 0.966 |
+|            350 | 0.869 | 0.969 | 0.959 |
+|            400 | 0.833 | 0.963 | 0.951 |
+|            450 | 0.797 | 0.958 | 0.944 |
+|            500 | 0.761 | 0.949 | 0.931 |
+|            550 | 0.725 | 0.936 | 0.914 |
+|----------------+-------+-------+-------|
+
+#+BEGIN_center
+--------------------------------------------------
+The total system critical load is 850MW
+--------------------------------------------------
+#+END_center
+
+** Constant Power vs Constant Impedance load model
+#+BEGIN_center
+#+ATTR_LaTeX: :height 0.45\textwidth :center
+[[file:vs2.png]]
+#+END_center
+*** python code to plot :noexport:
+#+BEGIN_SRC python :results file :exports both :var data1=vs3 :var data2=vs4
+      import matplotlib.pyplot as plt
+      import numpy
+
+      data1 = data1[2:]
+      x1 = [a[0] for a in data1]
+      y1 = [a[1] for a in data1]
+
+      data2 = data2[2:]
+      x2 = [a[0] for a in data2]
+      y4 = [a[1] for a in data2]
+
+      x1 = [value + 250 for value in x1]
+      x2 = [value + 200 for value in x2]
+      # Create Plot
+      plt.plot(x1, y1, 'r', label = "Bus 4")
+      plt.plot(x2, y4, 'b', label = "Bus 4 Case 2")
+
+      plt.legend()
+      plt.grid()
+      plt.title("Voltage Stability Curve")
+      plt.xlabel('Total System Load (MW)')
+      plt.ylabel('Voltage (pu)')
+
+      plt.xticks(numpy.arange(250, 800, 50))
+      ''' Save the PNG file '''
+      filename = "vs2.png"
+      plt.savefig(filename)
+
+      ''' Return the PNG file path to OrgMode '''
+      return(filename)
+
+#+END_SRC
+
+#+RESULTS:
+[[file:vs2.png]]
+
+Plot, on one figure, the voltage magnitude at bus 4 as a function of the total system active
+power load.[3 marks]
+Compare the curves and discuss the influence of the load model used. [3 marks]
+*** Observations
+
+* Large Disturbance Transient Stability Assessment
+** 2.1
+Using the original system with the constant power load model and with constant
+excitation apply a three phase fault at bus 4. Use the Study Case 1. Constant
+Power Load Network.
+
+Run a transient simulation and clear the fault after 80 ms without disconnecting
+any lines. Plot terminal voltage, real power and rotor angle responses of
+Generator 2 only. [1 mark]
+#+BEGIN_center
+#+ATTR_LaTeX: :height 0.35\textwidth :center
+[[file:screenshots/2.1.png]]
+#+END_center
+** 2.2
+Repeat simulations of section 2.1 with the AVR (Kavr = 100, Tavr = 0.05 s) activated at all
+generators (PSSs should not be activated).
+Plot terminal voltage, real power and rotor angle response of Generator 2 only.
+#+BEGIN_center
+#+ATTR_LaTeX: :height 0.35\textwidth :center
+[[file:screenshots/2.2.png]]
+#+END_center
+
+Why wouldn't you change the AVR for the generator connected to the infinite bus?
+
+Repeat simulations of section 2.1 with the AVR (Kavr = 100, Tavr = 0.05 s)
+activated at all generators (PSSs should not be activated).  
+
+Discuss briefly the influence of AVR on system stability. [2 marks]  
+
+Estimate from the graph the frequency of the critical mode. [2 marks]  
+
+??? TODO 
+** 2.3
+For the system of part 2.2 and the fault details from part 2.1, vary the gain
+and time constant of the AVRs using the following pairs for Kavr and Tavr:
+Kavr/Tavr = 20/0.5, 20/0.1, 200/0.1, 200/0.05.
+
+[Test this again with gen 3 controls not out of service] 
+
+20/0.5 
+#+BEGIN_center
+#+ATTR_LaTeX: :height 0.35\textwidth :center
+[[file:screenshots/2.3.1.png]]
+#+END_center
+20/0.1 
+#+BEGIN_center
+#+ATTR_LaTeX: :height 0.35\textwidth :center
+[[file:screenshots/2.3.2.png]]
+#+END_center
+200/0.1 
+#+BEGIN_center
+#+ATTR_LaTeX: :height 0.35\textwidth :center
+[[file:screenshots/2.3.3.png]]
+#+END_center
+200/0.05 
+#+BEGIN_center
+#+ATTR_LaTeX: :height 0.35\textwidth :center
+[[file:screenshots/2.3.4.png]]
+#+END_center
+Discuss briefly the influence of the AVR parameters on system stability. [3 marks]
+
+Suggest an ‘optimal’ combination of AVR gain and time constant for the test
+system and justify your selection (choose an ‘optimal’ combination only from the
+parameter set-pairs provided)
+** 2.4
+Repeat section 2.2 but increase the fault duration time until the system loses
+stability in order to identify the critical clearing time with a precision of 10
+ms.
+i) the maximum fault duration before the system loses stability, and
+ii) a well damped response (with a reasonably short fault clearing time
+
+G2 active output is 100MW 
+
+Voltage at busbar 2 is 1pu @ 11.6 degrees
+
+For each of the following cases:  
+
+(a) Constant excitation, system without AVR or PSS. 
+
+At 20ms clearing time 
+
+2.4.a.1 
+#+BEGIN_center
+#+ATTR_LaTeX: :height 0.35\textwidth :center
+[[file:screenshots/2.4.a.1.png]]
+#+END_center
+
+At 30ms clearing time
+2.4.a.2 
+#+BEGIN_center
+#+ATTR_LaTeX: :height 0.35\textwidth :center
+[[file:screenshots/2.4.a.2.png]]
+#+END_center
+
+(b) AVR (Kavr = 100, Tavr = 0.05 s) activated and no PSS.
+At 0.28s or 80ms clearing time
+2.4.b.1 
+#+BEGIN_center
+#+ATTR_LaTeX: :height 0.35\textwidth :center
+[[file:screenshots/2.4.b.1.png]]
+#+END_center
+
+At 0.34s or 140ms clearing time
+2.4.b.2 
+#+BEGIN_center
+#+ATTR_LaTeX: :height 0.35\textwidth :center
+[[file:screenshots/2.4.b.2.png]]
+#+END_center
+
+
+At 0.35s or 150ms clearing time
+2.4.b.3 
+#+BEGIN_center
+#+ATTR_LaTeX: :height 0.35\textwidth :center
+[[file:screenshots/2.4.b.3.png]]
+#+END_center
+
+
+(c) As in (b) with PSS activated (Kpss = 5, T1/T2 = 0.6/0.65, T3/T4 = 0.3/0.01). 
+
+At 0.28s
+2.4.c.1 
+#+BEGIN_center
+#+ATTR_LaTeX: :height 0.35\textwidth :center
+[[file:screenshots/2.4.c.1.png]]
+#+END_center
+
+
+At 1.03 sec
+2.4.c.2 
+#+BEGIN_center
+#+ATTR_LaTeX: :height 0.35\textwidth :center
+[[file:screenshots/2.4.c.2.png]]
+#+END_center
+
+At 1.04 sec
+2.4.c.3 
+#+BEGIN_center
+#+ATTR_LaTeX: :height 0.35\textwidth :center
+[[file:screenshots/2.4.c.3.png]]
+#+END_center
+
+ 
+
+Plot terminal voltage, real power and rotor angle responses of Generator 2 for two characteristic scenarios: [3 marks] 
+
+ i) the maximum fault duration before the system loses stability, and  
+
+ii) a well damped response (with a reasonably short fault clearing time).  
+
+State the critical fault clearing time before system loses stability. [3 marks] 
+
+ 
+
+Eigen Values
+ 
+
+Case A 
+Case B 
+#+BEGIN_center
+#+ATTR_LaTeX: :height 0.35\textwidth :center
+[[file:screenshots/2.4.eigen.A1.png]]
+#+END_center
+
+Case B 
+#+BEGIN_center
+#+ATTR_LaTeX: :height 0.35\textwidth :center
+[[file:screenshots/2.4.eigen.A2.png]]
+#+END_center
+Case C 
+Case B 
+#+BEGIN_center
+#+ATTR_LaTeX: :height 0.35\textwidth :center
+[[file:screenshots/2.4.eigen.A2.png]]
+#+END_center
+
+** 2.5
+PSS 
+
+ 5, 50, 100, and 150. 
+
+2.5.1 
+#+BEGIN_center
+#+ATTR_LaTeX: :height 0.35\textwidth :center
+[[file:screenshots/2.5.1.png]]
+#+END_center
+2.5.2 
+#+BEGIN_center
+#+ATTR_LaTeX: :height 0.35\textwidth :center
+[[file:screenshots/2.5.2.png]]
+#+END_center
+2.5.3 
+#+BEGIN_center
+#+ATTR_LaTeX: :height 0.35\textwidth :center
+[[file:screenshots/2.5.3.png]]
+#+END_center
+2.5.4 
+#+BEGIN_center
+#+ATTR_LaTeX: :height 0.35\textwidth :center
+[[file:screenshots/2.5.4.png]]
+#+END_center
+
+** 2.6
+ 
+
+Use 2.2 
+#+BEGIN_center
+#+ATTR_LaTeX: :height 0.35\textwidth :center
+[[file:screenshots/2.2.png]]
+#+END_center
+
+2.6.2 
+#+BEGIN_center
+#+ATTR_LaTeX: :height 0.35\textwidth :center
+[[file:screenshots/2.6.2.png]]
+#+END_center
+
+2.6.3 
+#+BEGIN_center
+#+ATTR_LaTeX: :height 0.35\textwidth :center
+[[file:screenshots/2.6.3.png]]
+#+END_center
+
+** 2.7
+Use 2.2 
+#+BEGIN_center
+#+ATTR_LaTeX: :height 0.35\textwidth :center
+[[file:screenshots/2.2.png]]
+#+END_center
+
+2.7.2 
+#+BEGIN_center
+#+ATTR_LaTeX: :height 0.35\textwidth :center
+[[file:screenshots/2.7.2.png]]
+#+END_center
+
+2.7.3 
+#+BEGIN_center
+#+ATTR_LaTeX: :height 0.35\textwidth :center
+[[file:screenshots/2.7.3.png]]
+#+END_center
+
+** 2.8
+
+2.8.1 
+#+BEGIN_center
+#+ATTR_LaTeX: :height 0.35\textwidth :center
+[[file:screenshots/2.8.1.png]]
+#+END_center
+
+2.8.2 - use 2.2 
+#+BEGIN_center
+#+ATTR_LaTeX: :height 0.35\textwidth :center
+[[file:screenshots/2.2.png]]
+#+END_center
+
+2.8.3
+#+BEGIN_center
+#+ATTR_LaTeX: :height 0.35\textwidth :center
+[[file:screenshots/2.8.3.png]]
+#+END_center
+

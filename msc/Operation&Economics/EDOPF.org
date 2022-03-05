@@ -3,7 +3,7 @@
 # +TITLE: EEEN60372
 # +date: \today
 # +author: Vinodh Jayakrishnan
-# +email: vinodh.jayakrishnan@postgrad.manchester.ac.uk
+n# +email: vinodh.jayakrishnan@postgrad.manchester.ac.uk
 #+language: en
 #+select_tags: export
 #+exclude_tags: noexport
@@ -147,7 +147,6 @@ economic dispatch for a two generator system.
   plt.title("Marginal cost curve ")
   plt.xlabel('MW')
   plt.ylabel('Cost (GBP/hour)')
-
 
   # Show plot
 
@@ -856,3 +855,7 @@ given location based on transmission constraints and nodal prices. The security
 of the system is confirmed by Contingency analysis and SCOPF.
 * References
 [1]  Victor Levi, EEEN60321 Concepts of Operation & Economics, 2020, The University of Manchester.
+
+# Local Variables:
+# org-babel-python-command: /usr/bin/python3
+# End:
