@@ -11,6 +11,9 @@
 #+LATEX_CLASS_OPTIONS: [a4paper,11pt]
 #+latex_header: \usepackage[scaled]{times} \renewcommand\familydefault{\sfdefault}
 #+latex_header: \usepackage{mathtools}
+#+latex_header: \usepackage{float}
+#+latex_header: \restylefloat{table}
+#+latex_header: \restylefloat{image}
 #+latex_header: \usepackage{textcomp}
 #+latex_header: \usepackage{siunitx}
 #+LATEX_HEADER: \usepackage{booktabs}
@@ -43,7 +46,6 @@
                                                 {\large \today\par}
   \end{titlepage}
 #+END_SRC
-* Introduction
 This report contains the observations and conclusions of Power System stability
 analysis for a large disturbance behaviour in a 6-bus test network.
 * Steady State Voltage Stability Assessment
@@ -52,8 +54,7 @@ The initial values of load at Bus 4,5 and 6 were  50MW, 50MW, and 150MW
 respectively. Active power at each bus is incremented in steps of 10MW.
 #+caption: Voltage Stability - Initial State
 #+name:vs1
-#+ATTR_LATEX: :placement [h] :center t
-#+ATTR_LaTeX: :align |c|l|l|l|
+#+ATTR_LATEX: :placement [H] :center t :align |c|l|l|l|
 |----------------+--------------+--------------+--------------|
 | Load increment | Bus 4        | Bus 5        | Bus 6        |
 |           (MW) | (pu, degree) | (pu, degree) | (pu, degree) |
@@ -79,10 +80,9 @@ Voltage at Bus 4 collapses first in the system.
 ** Reactive power limits
 Reactive power limits of -50MVAR and 50MVAR is introduced at
 generators and experiment conducted same as the previous case. 
-#+caption: Voltage Stability - With reactive power limits
-#+name:vs2
-#+ATTR_LATEX: :placement [h] :center t
-#+ATTR_LaTeX: :align |c|l|l|l|
+#+CAPTION: Voltage Stability - With reactive power limits
+#+NAME:vs2
+#+ATTR_LATEX: :placement [H] :center t :align |c|l|l|l|
 |----------------+-------+-------+-------|
 | Load increment | Bus 4 | Bus 5 | Bus 6 |
 |           (MW) |  (pu) |  (pu) |  (pu) |
@@ -103,10 +103,9 @@ The total system critical load is 460MW
 #+END_center
 
 ** Graphs for section 1.1 and 1.2
-#+BEGIN_center
-#+ATTR_LaTeX: :height 0.45\textwidth :center
+#+caption: Voltage Stability with and without MVAR limits
+#+ATTR_LATEX: :scale 0.6 :placement [H] 
 [[file:vs1.png]]
-#+END_center
 *** python code to plot :noexport:
 #+BEGIN_SRC python :results file :exports both :var data=vs2
   import matplotlib.pyplot as plt
@@ -148,8 +147,7 @@ Procedure from section 1.1 is repeated but, only the active power at
 bus 4 is incremented in steps of 20 MW.
 #+caption: Voltage Stability - Active power change at Bus 4
 #+name:vs3
-#+ATTR_LATEX: :placement [h] :center t
-#+ATTR_LaTeX: :align |c|l|l|l|
+#+ATTR_LATEX: :placement [H] :center t :align |c|l|l|l|
 |----------------+-------+-------+-------|
 | Load increment | Bus 4 | Bus 5 | Bus 6 |
 |           (MW) |  (pu) |  (pu) |  (pu) |
@@ -173,8 +171,7 @@ The total system critical load is 370MW
 Procedure in section 1.4 is repeated for a constant impedance load model.
 #+caption: Voltage Stability - Constant impedance model
 #+name:vs4
-#+ATTR_LATEX: :placement [h] :center t
-#+ATTR_LaTeX: :align |c|l|l|l|
+#+ATTR_LATEX: :placement [H] :center t :align |c|l|l|l|
 |----------------+-------+-------+-------|
 | Load increment | Bus 4 | Bus 5 | Bus 6 |
 |           (MW) |  (pu) |  (pu) |  (pu) |
@@ -197,10 +194,10 @@ The total system critical load is 850MW
 #+END_center
 
 ** Constant Power vs Constant Impedance load model
-#+BEGIN_center
-#+ATTR_LaTeX: :height 0.45\textwidth :center
+#+caption: Constant Power vs Constant Impedance load model
+#+ATTR_LATEX: :scale 0.6 :placement [H] 
 [[file:vs2.png]]
-#+END_center
+
 *** python code to plot :noexport:
 #+BEGIN_SRC python :results file :exports both :var data1=vs3 :var data2=vs4
       import matplotlib.pyplot as plt
@@ -217,12 +214,12 @@ The total system critical load is 850MW
       x1 = [value + 250 for value in x1]
       x2 = [value + 200 for value in x2]
       # Create Plot
-      plt.plot(x1, y1, 'r', label = "Bus 4")
-      plt.plot(x2, y4, 'b', label = "Bus 4 Case 2")
+      plt.plot(x1, y1, 'r', label = "Constant Power : Bus 4 ")
+      plt.plot(x2, y4, 'b', label = "Constant Impedance : Bus 4")
 
       plt.legend()
       plt.grid()
-      plt.title("Voltage Stability Curve")
+      plt.title("Constant Power vs Constant Impedance load model ")
       plt.xlabel('Total System Load (MW)')
       plt.ylabel('Voltage (pu)')
 
@@ -243,266 +240,163 @@ Plot, on one figure, the voltage magnitude at bus 4 as a function of the total s
 power load.[3 marks]
 Compare the curves and discuss the influence of the load model used. [3 marks]
 *** Observations
+1. The impedance curve is linear whereas power curve bends towards the nose point
+2. The active power in the system  can only be increased to an extent in
+   constant power model
+3. Impedance model keeps the ratio constant by reducing the voltage
 
 * Large Disturbance Transient Stability Assessment
-** 2.1
-Using the original system with the constant power load model and with constant
-excitation apply a three phase fault at bus 4. Use the Study Case 1. Constant
-Power Load Network.
-
-Run a transient simulation and clear the fault after 80 ms without disconnecting
-any lines. Plot terminal voltage, real power and rotor angle responses of
-Generator 2 only. [1 mark]
-#+BEGIN_center
-#+ATTR_LaTeX: :height 0.35\textwidth :center
+** Transient Stability without controls
+#+caption: EMT Analysis of the system without controls
+#+ATTR_LaTeX: :placement [H] :height 0.35\textwidth :center t
 [[file:screenshots/2.1.png]]
-#+END_center
-** 2.2
-Repeat simulations of section 2.1 with the AVR (Kavr = 100, Tavr = 0.05 s) activated at all
-generators (PSSs should not be activated).
-Plot terminal voltage, real power and rotor angle response of Generator 2 only.
-#+BEGIN_center
-#+ATTR_LaTeX: :height 0.35\textwidth :center
+** Transient Stability with AVR activated
+#+caption: EMT Analysis with AVR (Kavr = 100, Tavr = 0.05 s)
+#+ATTR_LaTeX: :placement [H] :height 0.35\textwidth :center t
 [[file:screenshots/2.2.png]]
+
+1. AVR helps in transient stability of the system by adjusting the excitation voltage
+2. AVR helps in reducing the initial rotor angle swing following the fault
+3. This is accomplished by boosting the voltage applied to the field winding
+   through the action of the amplifiers in the forward path of the voltage
+   regulators. The increased air gap flux exerts a restraining torque on the
+   rotor, which  tends to slow down its motion.
+
+\begin{equation}\label{eq:freq}
+Frequency = \frac{1}{(2 * t_{pp})} \\
+\end{equation}
+where, t_{pp} is the time between peak to peak angle of the final oscillation
+within the simulation time.
+#+BEGIN_center
+--------------------------------------------------
+The frequency of the critical mode is 0.657Hz
+--------------------------------------------------
 #+END_center
-
-Why wouldn't you change the AVR for the generator connected to the infinite bus?
-
-Repeat simulations of section 2.1 with the AVR (Kavr = 100, Tavr = 0.05 s)
-activated at all generators (PSSs should not be activated).  
-
-Discuss briefly the influence of AVR on system stability. [2 marks]  
-
-Estimate from the graph the frequency of the critical mode. [2 marks]  
-
-??? TODO 
-** 2.3
+** Effect of Automatic Voltage Regulator on System Stability
 For the system of part 2.2 and the fault details from part 2.1, vary the gain
 and time constant of the AVRs using the following pairs for Kavr and Tavr:
-Kavr/Tavr = 20/0.5, 20/0.1, 200/0.1, 200/0.05.
 
-[Test this again with gen 3 controls not out of service] 
-
-20/0.5 
-#+BEGIN_center
-#+ATTR_LaTeX: :height 0.35\textwidth :center
-[[file:screenshots/2.3.1.png]]
-#+END_center
-20/0.1 
-#+BEGIN_center
-#+ATTR_LaTeX: :height 0.35\textwidth :center
-[[file:screenshots/2.3.2.png]]
-#+END_center
-200/0.1 
-#+BEGIN_center
-#+ATTR_LaTeX: :height 0.35\textwidth :center
-[[file:screenshots/2.3.3.png]]
-#+END_center
-200/0.05 
-#+BEGIN_center
-#+ATTR_LaTeX: :height 0.35\textwidth :center
-[[file:screenshots/2.3.4.png]]
-#+END_center
-Discuss briefly the influence of the AVR parameters on system stability. [3 marks]
-
-Suggest an ‘optimal’ combination of AVR gain and time constant for the test
+#+caption: EMT Analysis for AVR at [Kavr/Tavr = 20/0.5, 20/0.1, 200/0.1, 200/0.05] (Left to Right)
+#+ATTR_LaTeX: :placement [H] :height 0.7\textwidth :center t
+[[file:screenshots/2.3.png]]
+*** Observations
+1. Higher the AVR gain, higher the synchronising torque, 
+2. Increasing AVR gain, makes the system oscillate around the steady state value But it introduces negative damping
+3. Reducing time constant reduces the settling time and attains steady state
+   quickly. Speed of the response high meaning system has to respond quickly
+   which might not be ideal for electro-mechanical systems
+*** Optimal Combination 
 system and justify your selection (choose an ‘optimal’ combination only from the
 parameter set-pairs provided)
-** 2.4
-Repeat section 2.2 but increase the fault duration time until the system loses
-stability in order to identify the critical clearing time with a precision of 10
-ms.
-i) the maximum fault duration before the system loses stability, and
-ii) a well damped response (with a reasonably short fault clearing time
+200/0.5
+** System Controls and Modal Analysis
+*** EMT Analysis by increasing the fault duration towards Instability
+The figure below shows the generator response for the following cases
+1. Constant excitation
+   - System without AVR or PSS
+   - Fault is cleared at 0.22s and at 0.23s
+   - The critical fault clearing time before system loses stability is 30ms
+2. AVR activated
+   - Kavr = 100, Tavr = 0.05s
+   - Fault is cleared at 0.28s, and at 0.34s
+   - The critical fault clearing time before system loses stability is 140ms
+3. AVR and PSS activated
+   - Kavr = 100, Tavr = 0.05s, Kpss = 5, T1/T2 = 0.6/0.65, T3/T4 = 0.3/0.01
+   - Fault is cleared at 0.28s, and at 1.03 sec
+   - The critical fault clearing time before system loses stability is 840s
 
-G2 active output is 100MW 
+#+caption: EMT Analysis at different fault clearing time, for adequate damping(Column 1) and Verge of instability(Column 2) with No controls(Row 1), AVR(Row 2), AVR and PSS(Row 3)
+#+NAME:24abc
+#+ATTR_LaTeX: :placement [H] 
+[[file:screenshots/2.4abc.png]]
 
-Voltage at busbar 2 is 1pu @ 11.6 degrees
+*** Effect of fault clearing times on System Stability
+Critical clearing time is the maximum elapsed time from the initiation of a
+fault until its isolation such that the system is transiently stable.
 
-For each of the following cases:  
+1. The quicker the fault is cleared, faster system returns to stable operating point
+2. With AVR added, the system can afford longer time before it collapses to
+   instability, but this causes negative damping
+3. AVR with PSS, enables the longer clearing times and increases the damping
+*** Frequency of the critical mode
+Using the equation \eqref{eq:freq} , the frequency of critical modes are
+calculated as follows:
+#+caption: Frequency of critical mode
+#+name:frequencycritical
+#+ATTR_LATEX: :placement [H] :center t :align |c|l|l|l|
+|----------------+-----------------------+-----------------------+-----------------------|
+|                | Constant excitation   | AVR                   | AVR and PSS           |
+|----------------+-----------------------+-----------------------+-----------------------|
+| t_{pp} (sec)   | 2.89 - 2.279 = 0.6126 | 9.367 - 8.524 = 0.843 | 8.846 - 7.475 = 1.371 |
+|----------------+-----------------------+-----------------------+-----------------------|
+| Frequency (Hz) | 0.8162                | 0.593                 | 0.365                 |
+|----------------+-----------------------+-----------------------+-----------------------|
+*** Damping of the critical mode for system without controls
+Using logarithmic decrement method and considering two successive peaks,
+If x1 is the first Maximum Peak Overshoot amplitude and x2 is the successive
+peak overshoot amplitude, then:
 
-(a) Constant excitation, system without AVR or PSS. 
+\begin{equation}\label{eq:logdecdelta}
+\delta = \ln \frac{x1}{x2}
+\end{equation}
 
-At 20ms clearing time 
+The damping ratio is then found by:
+\begin{equation}\label{eq:logdeczeta}
+\zeta = \frac{1}{\sqrt{1 + (\frac{2\pi}{\delta})^2}}
+\end{equation}
 
-2.4.a.1 
+For x1 = 10.2 degrees and x2 = 0.6 degrees, \delta = 2.833;
 #+BEGIN_center
-#+ATTR_LaTeX: :height 0.35\textwidth :center
-[[file:screenshots/2.4.a.1.png]]
+--------------------------------------------------
+Damping ratio, \zeta = 0.411
+--------------------------------------------------
 #+END_center
 
-At 30ms clearing time
-2.4.a.2 
-#+BEGIN_center
-#+ATTR_LaTeX: :height 0.35\textwidth :center
-[[file:screenshots/2.4.a.2.png]]
-#+END_center
+*** Eigen Values
+Determine the order of the mathematical model of the system (size of the system state
+matrix) 
+- 17 x 17
+- 21 x 21
+- 27 x 27
+Determine the order of the mathematical model of the AVRs and PSSs included in the
+system. Consider that the AVR and PSS of all generators are of the same type
+(same order).
+10 x 10
 
-(b) AVR (Kavr = 100, Tavr = 0.05 s) activated and no PSS.
-At 0.28s or 80ms clearing time
-2.4.b.1 
-#+BEGIN_center
-#+ATTR_LaTeX: :height 0.35\textwidth :center
-[[file:screenshots/2.4.b.1.png]]
-#+END_center
+For case (a), identify the electromechanical modes of the system and provide their frequency,
+and damping, with 3 decimal points precision. [2 marks]
+For cases (b) and (c), estimate/identify the electromechanical modes and provide their
+frequency, with 3 decimal points precision. Briefly state your criteria for the
+estimation/identification
 
-At 0.34s or 140ms clearing time
-2.4.b.2 
-#+BEGIN_center
-#+ATTR_LaTeX: :height 0.35\textwidth :center
-[[file:screenshots/2.4.b.2.png]]
-#+END_center
+** Effect of Power System Stabilisers on System Stability
+#+caption: EMT Analysis for different values of PSS 5, 50, 100, and 150.
+#+ATTR_LaTeX: :placement [H] :height 0.7\textwidth :center t
+[[file:screenshots/2.5.png]]
 
+Discuss briefly the influence of the PSS gain on system stability.
+1. It increases the damping torque and hence the damping of the system
+2. It reduces the synchronising torque
+3. Bandwidth will also be brought down
+** Effect of Fault Location on System Stability
+#+caption: EMT Analysis Fault location
+#+ATTR_LaTeX: :placement [H] :height 0.7\textwidth :center t
+[[file:screenshots/2.6.png]]
 
-At 0.35s or 150ms clearing time
-2.4.b.3 
-#+BEGIN_center
-#+ATTR_LaTeX: :height 0.35\textwidth :center
-[[file:screenshots/2.4.b.3.png]]
-#+END_center
+1. Farther the fault, more power is transferred into the system and is hence
+   is subtracted from the power input to the generator. The more power is
+   transferred to the system during the fault, the lower the acceleration of the
+   machine rotor and greater the degree of stability.
+** Effect of Initial generator loading on System Stability
+#+caption: EMT Generator Initial Loading
+#+ATTR_LaTeX: :placement [H] :height 0.7\textwidth :center t
+[[file:screenshots/2.7.png]]
 
+Higher the initial loading, unstable the system gets.
+** Effect of System Inertia on System Stability
+#+caption: EMT Analysis for Fault clearing time 20ms and 30ms 
+#+ATTR_LaTeX: :placement [H] :height 0.7\textwidth :center t
+[[file:screenshots/2.8.png]]
 
-(c) As in (b) with PSS activated (Kpss = 5, T1/T2 = 0.6/0.65, T3/T4 = 0.3/0.01). 
-
-At 0.28s
-2.4.c.1 
-#+BEGIN_center
-#+ATTR_LaTeX: :height 0.35\textwidth :center
-[[file:screenshots/2.4.c.1.png]]
-#+END_center
-
-
-At 1.03 sec
-2.4.c.2 
-#+BEGIN_center
-#+ATTR_LaTeX: :height 0.35\textwidth :center
-[[file:screenshots/2.4.c.2.png]]
-#+END_center
-
-At 1.04 sec
-2.4.c.3 
-#+BEGIN_center
-#+ATTR_LaTeX: :height 0.35\textwidth :center
-[[file:screenshots/2.4.c.3.png]]
-#+END_center
-
- 
-
-Plot terminal voltage, real power and rotor angle responses of Generator 2 for two characteristic scenarios: [3 marks] 
-
- i) the maximum fault duration before the system loses stability, and  
-
-ii) a well damped response (with a reasonably short fault clearing time).  
-
-State the critical fault clearing time before system loses stability. [3 marks] 
-
- 
-
-Eigen Values
- 
-
-Case A 
-Case B 
-#+BEGIN_center
-#+ATTR_LaTeX: :height 0.35\textwidth :center
-[[file:screenshots/2.4.eigen.A1.png]]
-#+END_center
-
-Case B 
-#+BEGIN_center
-#+ATTR_LaTeX: :height 0.35\textwidth :center
-[[file:screenshots/2.4.eigen.A2.png]]
-#+END_center
-Case C 
-Case B 
-#+BEGIN_center
-#+ATTR_LaTeX: :height 0.35\textwidth :center
-[[file:screenshots/2.4.eigen.A2.png]]
-#+END_center
-
-** 2.5
-PSS 
-
- 5, 50, 100, and 150. 
-
-2.5.1 
-#+BEGIN_center
-#+ATTR_LaTeX: :height 0.35\textwidth :center
-[[file:screenshots/2.5.1.png]]
-#+END_center
-2.5.2 
-#+BEGIN_center
-#+ATTR_LaTeX: :height 0.35\textwidth :center
-[[file:screenshots/2.5.2.png]]
-#+END_center
-2.5.3 
-#+BEGIN_center
-#+ATTR_LaTeX: :height 0.35\textwidth :center
-[[file:screenshots/2.5.3.png]]
-#+END_center
-2.5.4 
-#+BEGIN_center
-#+ATTR_LaTeX: :height 0.35\textwidth :center
-[[file:screenshots/2.5.4.png]]
-#+END_center
-
-** 2.6
- 
-
-Use 2.2 
-#+BEGIN_center
-#+ATTR_LaTeX: :height 0.35\textwidth :center
-[[file:screenshots/2.2.png]]
-#+END_center
-
-2.6.2 
-#+BEGIN_center
-#+ATTR_LaTeX: :height 0.35\textwidth :center
-[[file:screenshots/2.6.2.png]]
-#+END_center
-
-2.6.3 
-#+BEGIN_center
-#+ATTR_LaTeX: :height 0.35\textwidth :center
-[[file:screenshots/2.6.3.png]]
-#+END_center
-
-** 2.7
-Use 2.2 
-#+BEGIN_center
-#+ATTR_LaTeX: :height 0.35\textwidth :center
-[[file:screenshots/2.2.png]]
-#+END_center
-
-2.7.2 
-#+BEGIN_center
-#+ATTR_LaTeX: :height 0.35\textwidth :center
-[[file:screenshots/2.7.2.png]]
-#+END_center
-
-2.7.3 
-#+BEGIN_center
-#+ATTR_LaTeX: :height 0.35\textwidth :center
-[[file:screenshots/2.7.3.png]]
-#+END_center
-
-** 2.8
-
-2.8.1 
-#+BEGIN_center
-#+ATTR_LaTeX: :height 0.35\textwidth :center
-[[file:screenshots/2.8.1.png]]
-#+END_center
-
-2.8.2 - use 2.2 
-#+BEGIN_center
-#+ATTR_LaTeX: :height 0.35\textwidth :center
-[[file:screenshots/2.2.png]]
-#+END_center
-
-2.8.3
-#+BEGIN_center
-#+ATTR_LaTeX: :height 0.35\textwidth :center
-[[file:screenshots/2.8.3.png]]
-#+END_center
+Smaller the H, larger the angular swing during any time interval
 
