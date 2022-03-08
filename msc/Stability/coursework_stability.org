@@ -296,12 +296,10 @@ The figure below shows the generator response for the following cases
    - System without AVR or PSS
    - Fault is cleared at 0.22s and at 0.23s
    - The critical fault clearing time before system loses stability is 30ms
-2. AVR activated
-   - Kavr = 100, Tavr = 0.05s
+2. AVR activated (Kavr = 100, Tavr = 0.05s)
    - Fault is cleared at 0.28s, and at 0.34s
    - The critical fault clearing time before system loses stability is 140ms
-3. AVR and PSS activated
-   - Kavr = 100, Tavr = 0.05s, Kpss = 5, T1/T2 = 0.6/0.65, T3/T4 = 0.3/0.01
+3. AVR and PSS activated (Kpss = 5, T1/T2 = 0.6/0.65, T3/T4 = 0.3/0.01)
    - Fault is cleared at 0.28s, and at 1.03 sec
    - The critical fault clearing time before system loses stability is 840s
 
@@ -309,7 +307,6 @@ The figure below shows the generator response for the following cases
 #+NAME:24abc
 #+ATTR_LaTeX: :placement [H] 
 [[file:screenshots/2.4abc.png]]
-
 *** Effect of fault clearing times on System Stability
 Critical clearing time is the maximum elapsed time from the initiation of a
 fault until its isolation such that the system is transiently stable.
@@ -352,51 +349,87 @@ Damping ratio, \zeta = 0.411
 --------------------------------------------------
 #+END_center
 
-*** Eigen Values
-Determine the order of the mathematical model of the system (size of the system state
-matrix) 
-- 17 x 17
-- 21 x 21
-- 27 x 27
-Determine the order of the mathematical model of the AVRs and PSSs included in the
-system. Consider that the AVR and PSS of all generators are of the same type
-(same order).
-10 x 10
+*** Modal Analysis
+**** Order of system and controls
+#+caption: Modal Analysis
+#+name:modalanalysis
+#+ATTR_LATEX: :placement [H] :center t :align |c|l|l|l|
+|-------------------------------+---------------------|
+|                               | Order of the system |
+|-------------------------------+---------------------|
+| System without controls       | 17 x 17             |
+| AVR activated                 | 21 x 21             |
+| AVR and PSS activated         | 27 x 27             |
+| Order of model of controllers | 10 x 10             |
+|-------------------------------+---------------------|
 
-For case (a), identify the electromechanical modes of the system and provide their frequency,
-and damping, with 3 decimal points precision. [2 marks]
-For cases (b) and (c), estimate/identify the electromechanical modes and provide their
-frequency, with 3 decimal points precision. Briefly state your criteria for the
-estimation/identification
+**** Modes and Damping
+#+caption: Modal Analysis : Constant Excitation
+#+name:modalconstant
+#+ATTR_LATEX: :placement [H] :center t :align |c|l|l|l|
+|-------------------------+----------------|
+| Electro-mechanical modes | Frequency (Hz) |
+|-------------------------+----------------|
+| -1.208\pm9.618          |          1.531 |
+| -1.21\pm4.319           |          0.687 |
+| -0.187\pm0.018          |          0.003 |
+|-------------------------+----------------|
 
+#+caption: Modal Analysis : Constant Excitation with AVR and PSS
+#+name:modalavrpss
+#+ATTR_LATEX: :placement [H] :center t :align |c|l|l|l|
+|---------+-------------------------+----------------|
+|         | Electro-mechanical modes | Frequency (Hz) |
+|---------+-------------------------+----------------|
+| AVR     | -1.031\pm9.589          |          1.526 |
+|         | -0.179\pm4.329          |          0.689 |
+|         | -0.506\pm0.02           |          0.003 |
+|---------+-------------------------+----------------|
+| AVR+PSS | -1.169\pm3.825          |          0.609 |
+|         | -0.504\pm0.02           |          0.003 |
+|---------+-------------------------+----------------|
+
+- Real Eigen values and Faster Poles/Zeros(far left from the imaginary axis) are
+  ignored
+- AVR+PSS shows the ideal controls for the power system 
+- Provides stable system response using negative feedback, and positive damping with PSS.
 ** Effect of Power System Stabilisers on System Stability
 #+caption: EMT Analysis for different values of PSS 5, 50, 100, and 150.
-#+ATTR_LaTeX: :placement [H] :height 0.7\textwidth :center t
+#+ATTR_LaTeX: :placement [H] :height 0.6\textwidth :center t
 [[file:screenshots/2.5.png]]
 
-Discuss briefly the influence of the PSS gain on system stability.
-1. It increases the damping torque and hence the damping of the system
+1. PSS increases the damping torque and hence the damping of the system
 2. It reduces the synchronising torque
-3. Bandwidth will also be brought down
+3. System bandwidth will also be brought down
 ** Effect of Fault Location on System Stability
 #+caption: EMT Analysis Fault location
-#+ATTR_LaTeX: :placement [H] :height 0.7\textwidth :center t
+#+ATTR_LaTeX: :placement [H] :height 0.5\textwidth :center t
 [[file:screenshots/2.6.png]]
 
 1. Farther the fault, more power is transferred into the system and is hence
-   is subtracted from the power input to the generator. The more power is
-   transferred to the system during the fault, the lower the acceleration of the
-   machine rotor and greater the degree of stability.
+   is subtracted from the power input to the generator
+2. When more power is transferred to the system during the fault, the lower the
+   acceleration of the machine rotor and greater the degree of stability
 ** Effect of Initial generator loading on System Stability
 #+caption: EMT Generator Initial Loading
-#+ATTR_LaTeX: :placement [H] :height 0.7\textwidth :center t
+#+ATTR_LaTeX: :placement [H] :height 0.5\textwidth :center t
 [[file:screenshots/2.7.png]]
 
-Higher the initial loading, unstable the system gets.
+1. Higher the initial loading, unstable the system gets
+2. The starting rotor angle position is very high 
 ** Effect of System Inertia on System Stability
 #+caption: EMT Analysis for Fault clearing time 20ms and 30ms 
-#+ATTR_LaTeX: :placement [H] :height 0.7\textwidth :center t
+#+ATTR_LaTeX: :placement [H] :height 0.5\textwidth :center t
 [[file:screenshots/2.8.png]]
 
 Smaller the H, larger the angular swing during any time interval
-
+* Conclusion
+* References
+1. Kundur, P. (1994) Power System Stability and Control. Electric Power Research
+   Institute, (McGraw-Hill, Inc.), New York.
+2. K. R. Padiyar, Power System Dynamics Stability and Control. Hyderabad, India:
+   BS Publications, 2008
+3. Machowski, J., Bialek, J. W., & Bumby, J. R. (1997). Power system dynamics:
+   Stability and control. Chichester, U.K: Wiley.
+4. Grainger, J. J., Stevenson, W. D., & Stevenson, W. D. (1994). Power system analysis
+5. https://en.wikipedia.org/wiki/Logarithmic_decrement
