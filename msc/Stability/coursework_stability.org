@@ -46,8 +46,9 @@
                                                 {\large \today\par}
   \end{titlepage}
 #+END_SRC
-This report contains the observations and conclusions of Power System stability
-analysis for a large disturbance behaviour in a 6-bus test network.
+This report contains the observations and conclusions of Voltage Stability
+analysis and Rotor angle stability analysis for a large disturbance behaviour in
+a 6-bus test Power System network.
 * Steady State Voltage Stability Assessment
 ** Initial State of the system
 The initial values of load at Bus 4,5 and 6 were  50MW, 50MW, and 150MW
@@ -104,7 +105,7 @@ The total system critical load is 460MW
 
 ** Graphs for section 1.1 and 1.2
 #+caption: Voltage Stability with and without MVAR limits
-#+ATTR_LATEX: :scale 0.6 :placement [H] 
+#+ATTR_LATEX: :scale 0.7 :placement [H] 
 [[file:vs1.png]]
 *** python code to plot :noexport:
 #+BEGIN_SRC python :results file :exports both :var data=vs2
@@ -195,7 +196,7 @@ The total system critical load is 850MW
 
 ** Constant Power vs Constant Impedance load model
 #+caption: Constant Power vs Constant Impedance load model
-#+ATTR_LATEX: :scale 0.6 :placement [H] 
+#+ATTR_LATEX: :scale 0.7 :placement [H] 
 [[file:vs2.png]]
 
 *** python code to plot :noexport:
@@ -273,27 +274,27 @@ The frequency of the critical mode is 0.657Hz
 --------------------------------------------------
 #+END_center
 ** Effect of Automatic Voltage Regulator on System Stability
-For the system of part 2.2 and the fault details from part 2.1, vary the gain
-and time constant of the AVRs using the following pairs for Kavr and Tavr:
+Varying the gain and time constant of for the previous system,
 
 #+caption: EMT Analysis for AVR at [Kavr/Tavr = 20/0.5, 20/0.1, 200/0.1, 200/0.05] (Left to Right)
 #+ATTR_LaTeX: :placement [H] :height 0.7\textwidth :center t
 [[file:screenshots/2.3.png]]
 *** Observations
-1. Higher the AVR gain, higher the synchronising torque, 
-2. Increasing AVR gain, makes the system oscillate around the steady state value But it introduces negative damping
+1. Higher the AVR gain, higher the synchronising torque
+2. Increasing AVR gain makes the system oscillate around the steady state
+   value, but it introduces negative damping
 3. Reducing time constant reduces the settling time and attains steady state
    quickly. Speed of the response high meaning system has to respond quickly
-   which might not be ideal for electro-mechanical systems
+   which might not be ideal for Electro-mechanical systems
 *** Optimal Combination 
-system and justify your selection (choose an ‘optimal’ combination only from the
-parameter set-pairs provided)
-200/0.5
+The Kavr/Tavr of *200/0.1* is identified as optimal. The system with gain of 20,
+tries to settle around a new operating point, so Kavr = 200 is
+preferred. Response time of 0.05 is high for slow Electro-mechanical
+systems. Hence Tavr=0.1 is preferred.
 ** System Controls and Modal Analysis
 *** EMT Analysis by increasing the fault duration towards Instability
 The figure below shows the generator response for the following cases
-1. Constant excitation
-   - System without AVR or PSS
+1. Constant excitation - System without AVR or PSS
    - Fault is cleared at 0.22s and at 0.23s
    - The critical fault clearing time before system loses stability is 30ms
 2. AVR activated (Kavr = 100, Tavr = 0.05s)
@@ -394,15 +395,17 @@ Damping ratio, \zeta = 0.411
 - AVR+PSS shows the ideal controls for the power system 
 - Provides stable system response using negative feedback, and positive damping with PSS.
 ** Effect of Power System Stabilisers on System Stability
-#+caption: EMT Analysis for different values of PSS 5, 50, 100, and 150.
+#+caption: EMT Analysis for different values of PSS 5, 50, 100, and 150. [Left to Right]
 #+ATTR_LaTeX: :placement [H] :height 0.6\textwidth :center t
 [[file:screenshots/2.5.png]]
 
-1. PSS increases the damping torque and hence the damping of the system
-2. It reduces the synchronising torque
-3. System bandwidth will also be brought down
+1. PSS is used to avoid subsequent signal variation after first swing control by
+   AVR
+2. PSS increases the damping torque and hence the damping of the system and
+   reduces the synchronising torque to and extent
+3. System bandwidth is also reduced
 ** Effect of Fault Location on System Stability
-#+caption: EMT Analysis Fault location
+#+caption: EMT Analysis Fault location. Bus 4, Bus 5 and Bus 2. [Left to Right]
 #+ATTR_LaTeX: :placement [H] :height 0.5\textwidth :center t
 [[file:screenshots/2.6.png]]
 
@@ -411,19 +414,55 @@ Damping ratio, \zeta = 0.411
 2. When more power is transferred to the system during the fault, the lower the
    acceleration of the machine rotor and greater the degree of stability
 ** Effect of Initial generator loading on System Stability
-#+caption: EMT Generator Initial Loading
+#+caption: EMT Generator Initial Loading. P2\P3 = 100 MW, P2\P3 = 110 MW, P2\P3 = 120 MW [Left to Right]
 #+ATTR_LaTeX: :placement [H] :height 0.5\textwidth :center t
 [[file:screenshots/2.7.png]]
 
-1. Higher the initial loading, unstable the system gets
-2. The starting rotor angle position is very high 
+1. Higher the initial loading, higher the system instability
+2. The starting rotor angle magnitude is large initial loading is high
+3. System inertia is reduced if the power rating at the start is high
+
+Using the equation \eqref{eq:freq} , the frequency of critical mode is:
+#+caption: Effect of Initial Generator loading
+#+name:genloading
+#+ATTR_LATEX: :placement [H] :center t :align |c|c|
+|------------------------+-----------------------------|
+| Generator Loading (MW) | Critical mode frequency(Hz) |
+|------------------------+-----------------------------|
+|                    110 |                       0.588 |
+|------------------------+-----------------------------|
+
 ** Effect of System Inertia on System Stability
-#+caption: EMT Analysis for Fault clearing time 20ms and 30ms 
+#+caption: EMT Analysis for System inertia H = 1.1 s, 3.84 s and H = 10 s. [Left to Right]
 #+ATTR_LaTeX: :placement [H] :height 0.5\textwidth :center t
 [[file:screenshots/2.8.png]]
 
-Smaller the H, larger the angular swing during any time interval
+1. Smaller the H, larger the angular swing during any time interval
+2. If the Inertia constant of the system generators are decreased, the frequency
+   variation will be high in the system
+3. Higher rate of change of frequency will push the system stability into
+   critical mode
+
+Using the equation \eqref{eq:freq} , the frequency of critical modes are:
+#+caption: Effect of System Inertia
+#+name:inertiaconstant
+#+ATTR_LATEX: :placement [H] :center t :align |c|c|
+|----------------------+-----------------------------|
+| Inertia Constant (s) | Critical mode frequency(Hz) |
+|----------------------+-----------------------------|
+|                 3.84 |                       0.625 |
+|                   10 |                       0.455 |
+|----------------------+-----------------------------|
+
 * Conclusion
+Power System, in terms of Voltage Stability and Rotor Angle stability was
+analysed and experimented on a test model using DigSilent PowerFactory software.
+Voltage Stability depends on the Reactive power. The type of load modelling has
+a profound impact on the analysis. Rotor Angle stability concerns with the Real
+Power transfer in the system and its effect. The stability and damping improves
+significantly with Negative feedback and control parameters. Generator
+properties and system loading and Fault characteristics affects the stability in
+general.
 * References
 1. Kundur, P. (1994) Power System Stability and Control. Electric Power Research
    Institute, (McGraw-Hill, Inc.), New York.
@@ -433,3 +472,4 @@ Smaller the H, larger the angular swing during any time interval
    Stability and control. Chichester, U.K: Wiley.
 4. Grainger, J. J., Stevenson, W. D., & Stevenson, W. D. (1994). Power system analysis
 5. https://en.wikipedia.org/wiki/Logarithmic_decrement
+6. Khaldon Ahmed Qaid et al 2021 IOP Conf. Ser.: Mater. Sci. Eng. 1127 012034
