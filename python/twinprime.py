@@ -1,4 +1,13 @@
+#!/usr/bin/env python3
+
+#----------------------------------------------------------------------------
+# Created By  : V. Jayakrishnan
+# Created Date: 
+# version ='1.0'
+#----------------------------------------------------------------------------
+
 def isPrime(num):
+    """Check if the number is prime"""
     if num> 1:  
         for n in range(2,num):  
             if (num % n) == 0:  
@@ -6,25 +15,30 @@ def isPrime(num):
         return True
     else:
         return False
+#----------------------------------------------------------------------------
 
+def twinPrime(num):
+    """Function returns the largest twin prime number p, for p<=n"""
+    #  https://mathworld.wolfram.com/TwinPrimes.html
 
-def twinPrime(n):
-    # function returns the largest number p<=n that is a twin prime
     output = None;
-    for i in range(n, 2, -1):
-        if isPrime(i) and (isPrime(i+2) or isPrime(i-2)):
-            output = int(i);
+
+    # Loop backwards from the incoming number to reach 2
+    for value in range(num, 2, -1):
+        if isPrime(value) and (isPrime(value+2) or isPrime(value-2)):
+            output = int(value);
             break
 
     return output
-    
+#----------------------------------------------------------------------------
+
 def main():
+    # test twinPrime method
     print(twinPrime(1))
     print(twinPrime(2))
     print(twinPrime(50))
     
-
-
+#----------------------------------------------------------------------------
 # This is the standard boilerplate that calls the main() function.
 if __name__ == '__main__':
   main()

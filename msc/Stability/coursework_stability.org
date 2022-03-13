@@ -107,6 +107,9 @@ The total system critical load is 460MW
 #+caption: Voltage Stability with and without MVAR limits
 #+ATTR_LATEX: :scale 0.7 :placement [H] 
 [[file:vs1.png]]
+
+- The system collapses faster with VAR limits
+- More power could be transferred to load points without VAR limits.
 *** python code to plot :noexport:
 #+BEGIN_SRC python :results file :exports both :var data=vs2
   import matplotlib.pyplot as plt
@@ -398,7 +401,7 @@ Damping ratio, \zeta = 0.411
 #+caption: EMT Analysis for different values of PSS 5, 50, 100, and 150. [Left to Right]
 #+ATTR_LaTeX: :placement [H] :height 0.6\textwidth :center t
 [[file:screenshots/2.5.png]]
-
+*** Observations
 1. PSS is used to avoid subsequent signal variation after first swing control by
    AVR
 2. PSS increases the damping torque and hence the damping of the system and
@@ -414,10 +417,10 @@ Damping ratio, \zeta = 0.411
 2. When more power is transferred to the system during the fault, the lower the
    acceleration of the machine rotor and greater the degree of stability
 ** Effect of Initial generator loading on System Stability
-#+caption: EMT Generator Initial Loading. P2\P3 = 100 MW, P2\P3 = 110 MW, P2\P3 = 120 MW [Left to Right]
+#+caption: EMT Generator Initial Loading. P2=P3 = 100 MW, P2=P3 = 110 MW, P2=P3 = 120 MW [Left to Right]
 #+ATTR_LaTeX: :placement [H] :height 0.5\textwidth :center t
 [[file:screenshots/2.7.png]]
-
+*** Observations
 1. Higher the initial loading, higher the system instability
 2. The starting rotor angle magnitude is large initial loading is high
 3. System inertia is reduced if the power rating at the start is high
@@ -436,7 +439,7 @@ Using the equation \eqref{eq:freq} , the frequency of critical mode is:
 #+caption: EMT Analysis for System inertia H = 1.1 s, 3.84 s and H = 10 s. [Left to Right]
 #+ATTR_LaTeX: :placement [H] :height 0.5\textwidth :center t
 [[file:screenshots/2.8.png]]
-
+*** Observations
 1. Smaller the H, larger the angular swing during any time interval
 2. If the Inertia constant of the system generators are decreased, the frequency
    variation will be high in the system
