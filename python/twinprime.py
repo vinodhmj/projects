@@ -19,7 +19,7 @@ def isPrime(num):
 
 def twinPrime(num):
     """Function returns the largest twin prime number p, for p<=n"""
-    #  https://mathworld.wolfram.com/TwinPrimes.html
+    #  https://en.wikipedia.org/wiki/Twin_prime
 
     output = None;
 
@@ -34,9 +34,12 @@ def twinPrime(num):
 
 def main():
     # test twinPrime method
-    print(twinPrime(1))
-    print(twinPrime(2))
-    print(twinPrime(50))
+    assert twinPrime(1) == None
+    assert twinPrime(50) == 43
+
+    # print the results
+    print("Twin prime of 1: ",twinPrime(1))
+    print("Twin prime of 50: ", twinPrime(50))
     
 #----------------------------------------------------------------------------
 # This is the standard boilerplate that calls the main() function.
