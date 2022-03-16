@@ -1,0 +1,135 @@
+#+SETUPFILE: ~/.emacs.d/orgsetuplatex.org
+# +TITLE: Protection
+#+BEGIN_SRC latex
+  \begin{titlepage}
+  \centering
+  \includegraphics[width=0.15\textwidth]{logo-university-of-manchester.png}\par\vspace{1cm}
+  {\scshape\LARGE Department of Electrical and Electronic Engineering \par}
+  \vspace{1cm}
+         {\scshape\Large EEEN60076&40076: Power System Protection \par}
+                               \vspace{1.5cm}
+                                      {\huge\bfseries Overcurrent Protection Laboratory \par}
+                                      \vspace{2cm}
+                                             {\Large\itshape Vinodh Jayakrishnan\par}
+                                             {\itshape Student ID : 10877410 \par}
+                                             {\itshape vinodh.jayakrishnan@postgrad.manchester.ac.uk \par}
+                                             % Bottom of the page
+                                             \vspace{2cm}
+                                             \vspace{2cm}
+                                                    {\large Version 1.0 \par}
+                                                    {\large \today\par}
+      \end{titlepage}
+#+END_SRC
+* Executive Summary	10
+* Introduction	15
+** Basic operation
+Over Current Relay(OCR) protection is one of the oldest techniques in Power
+System Protection. If the magnitude of the current flowing in the system is
+above a certain threshold, the faulty section of the system is to be isolated
+within a certain time frame. System current is measured using a Current
+Transformer(CT), which reduces the current range to the relay
+specifications. The secondary current of the CT is passed through a coil. The
+current carrying coil induces a magnetic field which produces a mechanical
+torque on a metallic disc prodding it into rotational motion. The mechanical
+torque on the disc is proportional to the magnetic field, which is proportional
+to the current the coil is carrying. During fault conditions, the moving disc is
+expected to make contact with the tripping lead by overcoming the restraining
+torque of the attached spring. Under normal operating conditions, the
+restraining spring holds the disc. 
+** Time and Distance
+The aforementioned type of OCR is an instantaneous one. Further delay to relay
+operations can be introduced by increasing the time taken to energise the relay
+disc or by increasing the distance between disc contact and tripping lead. The
+former is achieved by adding resistance in front of the relay coil, forcing it
+to demand more current from the CT to operate, and the latter is achieved by
+placing the tripping lead farther away from the disc contact. These settings are
+conventionally called as Plug Setting Multiplier(PSM) and Time Multiplier Setting
+(TMS) respectively.
+
+* Experiment
+** Theory	36
+*** Fuse Characteristics
+#+caption: Fuse Characteristics
+#+name:fuse
+#+ATTR_LATEX: :placement [H] :center t :align |c|c|
+|--------------------+-------------|
+| Operating time (s) | Current (A) |
+|--------------------+-------------|
+|               0.01 |         480 |
+|                0.1 |         210 |
+|                0.4 |         150 |
+|                  1 |         130 |
+|                 10 |         105 |
+|--------------------+-------------|
+*** Maximum Fault Current 
+#+caption: Maximum load current at each bus
+#+name:loadcurrent
+#+ATTR_LATEX: :placement [H] :center t :align |c|c|
+|------------+-------------|
+| Bus number | Current (A) |
+|------------+-------------|
+|          4 |        1270 |
+|          3 |        1587 |
+|          2 |        2120 |
+|          1 |        3180 |
+|------------+-------------|
+*** Fuse at leaf node
+For a load of 0.5MW @ 11kV and assuming a resistive load the max load current is
+given by, 
+
+\begin{align}
+I_{fusemax} 
+&= \frac{0.5 \times 10^{6}}{\sqrt{3} \times 11 \times 10^{3}} \\
+&= 26.24A \notag
+\end{align}
+
+For a remote fault, that is beyond the fuse, the fault current at Bus 4, 1270A
+will flow through the fuse into the fault location. This would mean that the
+fuse will operate in time less than *_0.01s_* as per the characteristics
+mentioned in Table [[fuse]].
+*** Relay T
+The minimum grading margin with respect to leaf node fuse is given by:
+\begin{flalign*}
+t_{min}
+&= 0.01 + 0.5 s
+&= 0.51s
+\end{flalign*}
+
+t_{min} is the minimum operating time for relay T for a remote fault beyond the
+fuse. 
+**** PSM and TMS
+The current setting of the relay is selected based on the following criteria:
+\begin{equation}
+2 \times I_{maxLoad} \lt I_{setting} \lt \frac{I_{fault}}{2}
+\end{equation}
+
+Maximum load current is 
+*** Generation of Log-Log graphs
+*** 
+#+caption:IDMT : Standard Inverse settings
+#+name:idmtstandard
+#+ATTR_LATEX: :placement [H] :center t :align |r|c|c|c|
+|---------------------------------+---+---+---|
+|                                 | T | S | R |
+|---------------------------------+---+---+---|
+| Maximum fault current for relay |   |   |   |
+|---------------------------------+---+---+---|
+| PSM setting (%)                 |   |   |   |
+|---------------------------------+---+---+---|
+| Required trip time for relay    |   |   |   |
+|---------------------------------+---+---+---|
+| Calculated TMS                  |   |   |   |
+|---------------------------------+---+---+---|
+| Chosen TMS                      |   |   |   |
+|---------------------------------+---+---+---|
+| Trip time for maximum fault     |   |   |   |
+| current at the relay point      |   |   |   |
+|---------------------------------+---+---+---|
+** Log-log graph	14
+** PSCAD Model	10
+Details of your PSCAD simulation.  Detail what is necessary and sufficient for
+the experiment to be repeated exactly should you need to.
+** Standard Inverse Tests 	25
+** Extremely Inverse Characteristic 	25
+* Conclusions and Recommendations (3)	15
+

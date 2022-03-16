@@ -1,29 +1,7 @@
-#+STARTUP: overview
-
+#+SETUPFILE: ~/.emacs.d/orgsetuplatex.org
 # +TITLE: EEEN60372
-# +date: \today
-# +author: Vinodh Jayakrishnan
-n# +email: vinodh.jayakrishnan@postgrad.manchester.ac.uk
-#+language: en
-#+select_tags: export
-#+exclude_tags: noexport
-#+creator: Emacs 27.2 (Org mode 9.4.5)
-#+options: toc:nil
-#+LATEX_CLASS_OPTIONS: [a4paper,11pt]
-#+latex_header: \usepackage[scaled]{times} \renewcommand\familydefault{\sfdefault}
-#+latex_header: \usepackage{mathtools}
-#+latex_header: \usepackage{textcomp}
-#+latex_header: \usepackage{siunitx}
-#+LATEX_HEADER: \usepackage{booktabs}
-#+LATEX_HEADER: \usepackage{xcolor}
-#+LATEX_HEADER: \usepackage{colortbl}
-#+LATEX_HEADER: \makeatletter \@ifpackageloaded{geometry}{\geometry{margin=2cm}}{\usepackage[margin=2cm]{geometry}} \makeatother
-#+LATEX_HEADER: \usepackage{amsmath}
-#+LATEX_HEADER: \usepackage{hyperref}
-#+LATEX_HEADER: \usepackage{wrapfig}
-#+LATEX_HEADER: \hypersetup{colorlinks=true,linkcolor=blue,filecolor=blue,citecolor = black,urlcolor=cyan,}
-#+LATEX_HEADER: \usepackage{graphicx}
-#+EXPORT_EXCLUDE_TAGS: noexport
+
+#+BEGIN_SRC latex
 \begin{titlepage}
 	\centering
 	\includegraphics[width=0.15\textwidth]{logo-university-of-manchester.png}\par\vspace{1cm}
@@ -42,6 +20,7 @@ n# +email: vinodh.jayakrishnan@postgrad.manchester.ac.uk
 	{\large Version 1.0 \par}
 	{\large \today\par}
 \end{titlepage}
+#+END_SRC
 * Introduction
 In Electrical Power System, energy as a commodity is define as “MWh at a given
 time and a given location, with a given level of supply security”. ([[References][Levi,
@@ -449,7 +428,7 @@ The modified Lagrangian with P_2 = 199MW is :
 \begin{flalign*}
 \label{}
 & l = (580 - 12.5P_1 + 0.15P_1^{2} + 2388 + 3168.1) + \lambda(400 - P_1 -199) \\
-& = 6136.08 - 12.5P_1 + 0.15P_1^{2}
+& = 6136.08 - 12.5P_1 + 0.15P_1^{2} \notag \\
 \end{flalign*}
 
 \begin{align*}
@@ -855,7 +834,3 @@ given location based on transmission constraints and nodal prices. The security
 of the system is confirmed by Contingency analysis and SCOPF.
 * References
 [1]  Victor Levi, EEEN60321 Concepts of Operation & Economics, 2020, The University of Manchester.
-
-# Local Variables:
-# org-babel-python-command: /usr/bin/python3
-# End:

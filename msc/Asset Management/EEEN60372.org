@@ -1,29 +1,6 @@
-#+STARTUP: overview
-
+#+SETUPFILE: ~/.emacs.d/orgsetuplatex.org
 # +TITLE: EEEN60372
-# +date: \today
-# +author: Vinodh Jayakrishnan
-# +email: vinodh.jayakrishnan@postgrad.manchester.ac.uk
-#+language: en
-#+select_tags: export
-#+exclude_tags: noexport
-#+creator: Emacs 27.2 (Org mode 9.4.5)
-#+LATEX_CLASS_OPTIONS: [a4paper,11pt]
-#+latex_header: \usepackage[scaled]{helvet} \renewcommand\familydefault{\sfdefault}
-#+latex_header: \usepackage{mathtools}
-#+latex_header: \usepackage{textcomp}
-#+latex_header: \usepackage{siunitx}
-#+options: toc:nil
-#+LATEX_HEADER: \usepackage{booktabs}
-#+LATEX_HEADER: \usepackage{xcolor}
-#+LATEX_HEADER: \usepackage{colortbl}
-#+LATEX_HEADER: \makeatletter \@ifpackageloaded{geometry}{\geometry{margin=2cm}}{\usepackage[margin=2cm]{geometry}} \makeatother
-#+LATEX_HEADER: \usepackage{amsmath}
-#+LATEX_HEADER: \usepackage{hyperref}
-#+LATEX_HEADER: \usepackage{wrapfig}
-#+LATEX_HEADER: \hypersetup{colorlinks=true,linkcolor=blue,filecolor=blue,citecolor = black,urlcolor=cyan,}
-#+LATEX_HEADER: \usepackage{graphicx}
-
+#+BEGIN_SRC latex
 \begin{titlepage}
 	\centering
 	\includegraphics[width=0.15\textwidth]{logo-university-of-manchester.png}\par\vspace{1cm}
@@ -43,13 +20,11 @@
 	{\large Version 1.0 \par}
 	{\large \today\par}
 \end{titlepage}
-
+#+END_SRC
 #+BEGIN_EXPORT latex
 \setcounter{tocdepth}{2}
 \tableofcontents
 #+END_EXPORT
-
-
 --------------------------------------------------
 * Introduction
  This report contains a design for the proposed new transmission system between

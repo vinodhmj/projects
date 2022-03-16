@@ -1,31 +1,5 @@
-#+STARTUP: overview
+#+SETUPFILE: ~/.emacs.d/orgsetuplatex.org
 # +TITLE: Stability
-# +date: \today
-# +author: Vinodh Jayakrishnan
-# +email: vinodh.jayakrishnan@postgrad.manchester.ac.uk
-#+language: en
-#+select_tags: export
-#+exclude_tags: noexport
-#+creator: Emacs 27.2 (Org mode 9.4.5)
-#+options: toc:nil
-#+LATEX_CLASS_OPTIONS: [a4paper,11pt]
-#+latex_header: \usepackage[scaled]{times} \renewcommand\familydefault{\sfdefault}
-#+latex_header: \usepackage{mathtools}
-#+latex_header: \usepackage{float}
-#+latex_header: \restylefloat{table}
-#+latex_header: \restylefloat{image}
-#+latex_header: \usepackage{textcomp}
-#+latex_header: \usepackage{siunitx}
-#+LATEX_HEADER: \usepackage{booktabs}
-#+LATEX_HEADER: \usepackage{xcolor}
-#+LATEX_HEADER: \usepackage{colortbl}
-#+LATEX_HEADER: \makeatletter \@ifpackageloaded{geometry}{\geometry{margin=2cm}}{\usepackage[margin=2cm]{geometry}} \makeatother
-#+LATEX_HEADER: \usepackage{amsmath}
-#+LATEX_HEADER: \usepackage{hyperref}
-#+LATEX_HEADER: \usepackage{wrapfig}
-#+LATEX_HEADER: \hypersetup{colorlinks=true,linkcolor=blue,filecolor=blue,citecolor = black,urlcolor=cyan,}
-#+LATEX_HEADER: \usepackage{graphicx}
-#+EXPORT_EXCLUDE_TAGS: noexport
 #+BEGIN_SRC latex
   \begin{titlepage}
     \centering
