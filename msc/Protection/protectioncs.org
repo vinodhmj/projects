@@ -45,10 +45,11 @@ to demand more current from the CT to operate, and the latter is achieved by
 placing the tripping lead farther away from the disc contact. These settings are
 conventionally called as Plug Setting Multiplier(PSM) and Time Multiplier Setting
 (TMS) respectively.
-
-* Experiment
-** Theory	36
-*** Fuse Characteristics
+* Standard IDMT Analysis	36
+** Important Assumptions
+1. Higher values(above hundred) of current are rounded off to first significant figure
+2. 
+** Fuse Characteristics
 #+caption: Fuse Characteristics
 #+name:fuse
 #+ATTR_LATEX: :placement [H] :center t :align |c|c|
@@ -61,9 +62,16 @@ conventionally called as Plug Setting Multiplier(PSM) and Time Multiplier Settin
 |                  1 |         130 |
 |                 10 |         105 |
 |--------------------+-------------|
-*** Maximum Fault Current 
-#+caption: Maximum load current at each bus
-#+name:loadcurrent
+** Maximum Fault Current 
+For a 11kV system, the maximum fault current at each bus, where X_n is the
+magnitude of Evenings impedance at the bus n, is calculated using the
+following equation:
+
+\begin{equation}
+I_f = \frac{11000 \times 0.5774}{X_n}
+\end{equation}
+#+caption: Maximum fault current at each bus
+#+name:faultcurrent
 #+ATTR_LATEX: :placement [H] :center t :align |c|c|
 |------------+-------------|
 | Bus number | Current (A) |
@@ -73,7 +81,7 @@ conventionally called as Plug Setting Multiplier(PSM) and Time Multiplier Settin
 |          2 |        2120 |
 |          1 |        3180 |
 |------------+-------------|
-*** Fuse at leaf node
+** Fuse at leaf node
 For a load of 0.5MW @ 11kV and assuming a resistive load the max load current is
 given by, 
 
@@ -87,49 +95,139 @@ For a remote fault, that is beyond the fuse, the fault current at Bus 4, 1270A
 will flow through the fuse into the fault location. This would mean that the
 fuse will operate in time less than *_0.01s_* as per the characteristics
 mentioned in Table [[fuse]].
-*** Relay T
+** Relay T
+*** PSM
+The current setting of the relay is selected based on the following criteria:
+\begin{align}\label{eq:currentsetting}
+(2 \times I_{maxLoad}) < I_{setting} < \frac{I_{fault}}{2} 
+\end{align}
+
+Maximum load current is 105A and maximum fault current is 1270A. By equation
+\eqref{eq:currentsetting}, the current setting I_{setting} is chosen as 225A,
+such that: 210A < I_{setting} < 635A. If I_{N} is the Rated primary current
+of the CT or the nominal current of the CT:
+
+\begin{equation}\label{eq:psm}
+Plug Setting = \frac{I_{setting}}{I_{N}} \times 100%
+\end{equation}
+
+
+For a CT primary value of 100A,
+#+BEGIN_center
+--------------------------------------------------
+Plug setting chosen for relay T is 325%
+--------------------------------------------------
+#+END_center
+*** TMS
+For I_N defined in the equation \eqref{eq:psm}, and if I is the fault current
+seen on the primary of the CT, the operating time or standard characteristic
+time of an IDMT relay is given by the following formula:
+\begin{equation}\label{eq:tms}
+t = TMS \times \frac{0.14}{(\frac{I}{PSM \times I_N})^{0.02} -1}
+\end{equation}
+
 The minimum grading margin with respect to leaf node fuse is given by:
 \begin{flalign*}
 t_{min}
-&= 0.01 + 0.5 s
+&= 0.01 + 0.5 s\\
 &= 0.51s
 \end{flalign*}
 
-t_{min} is the minimum operating time for relay T for a remote fault beyond the
-fuse. 
-**** PSM and TMS
-The current setting of the relay is selected based on the following criteria:
-\begin{equation}
-2 \times I_{maxLoad} \lt I_{setting} \lt \frac{I_{fault}}{2}
-\end{equation}
+For t_{min}=0.51s, the minimum operating time for relay T for a remote fault
+beyond the fuse, TMS is calculated from \eqref{eq:tms} as 0.101 and rounded off
+to 0.1. The close in or local fault action time of the relay, for a maximum
+fault current of 1587A is calculated from the equation \eqref{eq:tms} as 0.434s.
+#+BEGIN_center
+--------------------------------------------------
+Time multiplier setting chosen for relay T is 0.1 and operating time for local
+fault is 0.434s
+--------------------------------------------------
+#+END_center
+** Relay S and Relay R
+*** PSM
+The current setting of the relays S and R are selected using the equation
+\eqref{eq:currentsetting}, and the plug setting are calculated using the
+equation \eqref{eq:psm} as:
 
-Maximum load current is 
-*** Generation of Log-Log graphs
-*** 
+#+BEGIN_center
+--------------------------------------------------
+Plug setting for relay S and R is 550% and 725% respectively.
+--------------------------------------------------
+#+END_center
+*** TMS: Relay S
+The minimum grading margin with respect to relay T's local fault action time is
+given by:
+
+\begin{flalign*}
+t_{min}
+&= 0.434 + 0.5 s\\
+&= 0.934s
+\end{flalign*}
+
+For t_{min}=0.934s, the minimum operating time for relay S for a remote fault beyond the
+Relay T, the TMS is calculated from \eqref{eq:tms} as 0.143 and rounded off to
+0.15. The close in or local fault action time of the relay S, for a maximum fault
+current of 2120A is calculated from the equation \eqref{eq:tms} as 0.768s
+#+BEGIN_center
+--------------------------------------------------
+Time multiplier setting chosen for relay S is 0.15 and operating time for local
+fault is 0.768s
+--------------------------------------------------
+#+END_center
+*** TMS Relay R
+The minimum grading margin with respect to relay S's local fault action time is
+given by:
+
+\begin{flalign*}
+t_{min}
+&= 0.768 + 0.5 s\\
+&= 1.268s
+\end{flalign*}
+
+For t_{min}=1.268s, the minimum operating time for relay R for a remote fault beyond the
+Relay S, the TMS is calculated from \eqref{eq:tms} as 0.196 and rounded off to 0.2.
+
+The close in or local fault action time of the relay R, for a maximum fault
+current of 3180A is calculated from the equation \eqref{eq:tms} as 0.933s
+
+#+BEGIN_center
+--------------------------------------------------
+Time multiplier setting chosen for relay R is 0.2 and operating time for local
+fault is 0.933s
+--------------------------------------------------
+#+END_center
+** Table
 #+caption:IDMT : Standard Inverse settings
 #+name:idmtstandard
 #+ATTR_LATEX: :placement [H] :center t :align |r|c|c|c|
-|---------------------------------+---+---+---|
-|                                 | T | S | R |
-|---------------------------------+---+---+---|
-| Maximum fault current for relay |   |   |   |
-|---------------------------------+---+---+---|
-| PSM setting (%)                 |   |   |   |
-|---------------------------------+---+---+---|
-| Required trip time for relay    |   |   |   |
-|---------------------------------+---+---+---|
-| Calculated TMS                  |   |   |   |
-|---------------------------------+---+---+---|
-| Chosen TMS                      |   |   |   |
-|---------------------------------+---+---+---|
-| Trip time for maximum fault     |   |   |   |
-| current at the relay point      |   |   |   |
-|---------------------------------+---+---+---|
+|-------------------------------------+-------+-------+-------|
+|                                     |     T |     S |     R |
+|-------------------------------------+-------+-------+-------|
+| Maximum fault current for relay (A) |  1587 |  2120 |  3180 |
+|-------------------------------------+-------+-------+-------|
+| PSM setting (%)                     |   325 |   550 |   725 |
+|-------------------------------------+-------+-------+-------|
+| Required trip time for relay (s)    |  0.51 | 0.934 | 1.268 |
+|-------------------------------------+-------+-------+-------|
+| Calculated TMS                      | 0.101 | 0.143 | 0.196 |
+|-------------------------------------+-------+-------+-------|
+| Chosen TMS                          |   0.1 |  0.15 |   0.2 |
+|-------------------------------------+-------+-------+-------|
+| Trip time for maximum fault         | 0.434 | 0.768 | 0.933 |
+| current at the relay point (s)      |       |       |       |
+|-------------------------------------+-------+-------+-------|
+** Observations
+The fuse characteristics is only given up to 480A of current, even though the
+maximum fault current seen at the bus to which fuse is connected is in range of
+thousands of Amperes. 
 ** Log-log graph	14
-** PSCAD Model	10
+#+caption: Standard IDMT characteristics 
+#+ATTR_LATEX: :scale 0.3 :placement [H] 
+[[file:standardidmt.png]]
+* PSCAD Model	10
 Details of your PSCAD simulation.  Detail what is necessary and sufficient for
 the experiment to be repeated exactly should you need to.
-** Standard Inverse Tests 	25
-** Extremely Inverse Characteristic 	25
+* Standard Inverse Tests 	25
+* Extremely Inverse Characteristic 	25
 * Conclusions and Recommendations (3)	15
 
