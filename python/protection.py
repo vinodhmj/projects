@@ -2,13 +2,21 @@ import math
 import numpy as np
 import matplotlib
 from matplotlib import pyplot as plt
+bStandardIDMT = True;
 
 def findTMS(t, I, psm, In):
-    tms = t / (0.14/(math.pow((I/(psm*In)), 0.02) - 1));
+    if bStandardIDMT:
+        tms = t / (0.14/(math.pow((I/(psm*In)), 0.02) - 1));
+    else:
+        tms = t / (80/(math.pow((I/(psm*In)), 2) - 1));
     return round(tms, 3);
 
 def findOperatingTime(tms, I, psm, In):
-    t = tms * (0.14/(math.pow((I/(psm*In)), 0.02) - 1));
+    if bStandardIDMT:
+        t = tms * (0.14/(math.pow((I/(psm*In)), 0.02) - 1));
+    else:
+        t = tms * (80/(math.pow((I/(psm*In)), 2) - 1));
+        
     return round(t, 3);
 
 def relayCoordination(tmsT, tmsS, tmsR):
@@ -111,15 +119,19 @@ def relayCoordination(tmsT, tmsS, tmsR):
     plt.savefig(filename)
 
 def main():
-    tmsT = 0.1
-    tmsS = 0.15
-    tmsR = 0.2
-    #relayCoordination(tmsT, tmsS, tmsR);
-    
+    global bStandardIDMT
+
+    print("Standard IDMT")
     tmsT = 0.1
     tmsS = 0.15
     tmsR = 0.2
     relayCoordination(tmsT, tmsS, tmsR);
+ #   bStandardIDMT = False;
+  #  print("Extreme IDMT")
+   # tmsT = 0.1
+    #tmsS = 0.1
+#    tmsR = 0.15
+ #   relayCoordination(tmsT, tmsS, tmsR);
 
 if __name__ == '__main__':
        main()

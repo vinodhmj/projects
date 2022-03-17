@@ -21,6 +21,50 @@
       \end{titlepage}
 #+END_SRC
 * Executive Summary	10
+Electrical Power System needs to be protected from abnormal occurrences or
+faults. Different parts of the system are categorised into zones with primary
+and backup protection equipment assigned for them. The protection devices have
+built-in controls which needs to be set by the user for it to identify
+faults. These settings are crucial because it helps discriminate between normal
+condition and faulty condition, Backup protection not operate before primary
+protection. Wrong settings could cause catastrophic failures like system
+blackout or permanent damage to large power system assets and customer
+equipment. It could also incorrectly disconnect a sect of customers at different
+zones, causing Loss of Load Supplied. The study conducted in this project
+identifies the correct relay settings for the system and discusses the merits
+and disadvantages of different combinations.
+
+In the given radial system, Over-Current protection is used to isolate the
+faulty systems. Inverse Definite Minimum Time(IDMT) relays with Current
+Transformers are used to measure, identify and trigger alarm signal during fault
+conditions. A Circuit breaker receives the signal and acts upon it to isolate
+affected part of the system from the rest. At the leaf node of the system fuses
+act as primary protection. The upstream relays acts as backup protection for the
+fuses and the downstream relays. The Plug Setting Multiplier and Time Multiplier
+setting in relays
+
+Once your audience understands the policy problem, you can demonstrate your key
+findings from your research. It is important to keep this description at a high
+level, as you will expand upon your findings inside the body of the
+document. You can briefly mention methods; but this will not replace a
+methodology section in the body of your report. Ultimately, the middle of your
+executive summary answers: What did you learn?
+
+
+    Outline the recommended solution, or the project’s objectives. How is the
+    project going to solve the problem you established in the first part? What
+    are the project goals and objectives?
+
+    Explain the solution’s value. Once you’ve finished your project, what will
+    happen? How will this improve and solve the problem you established in the
+    first part?
+
+    Wrap up with a conclusion about the importance of the work. This is another
+    opportunity to reiterate why the problem is important, and why the project
+    matters. It can also be helpful to reference your audience and how your
+    solution will solve their problem. Finally, include any relevant next steps.
+
+
 * Introduction	15
 ** Basic operation
 Over Current Relay(OCR) protection is one of the oldest techniques in Power
@@ -48,7 +92,8 @@ conventionally called as Plug Setting Multiplier(PSM) and Time Multiplier Settin
 * Standard IDMT Analysis	36
 ** Important Assumptions
 1. Higher values(above hundred) of current are rounded off to first significant figure
-2. 
+2. Upstream relays are graded with respect to immediate downstream relays rather
+   than the fuses
 ** Fuse Characteristics
 #+caption: Fuse Characteristics
 #+name:fuse
@@ -64,7 +109,7 @@ conventionally called as Plug Setting Multiplier(PSM) and Time Multiplier Settin
 |--------------------+-------------|
 ** Maximum Fault Current 
 For a 11kV system, the maximum fault current at each bus, where X_n is the
-magnitude of Evenings impedance at the bus n, is calculated using the
+magnitude of Thevinin impedance at the bus n, is calculated using the
 following equation:
 
 \begin{equation}
@@ -196,7 +241,7 @@ Time multiplier setting chosen for relay R is 0.2 and operating time for local
 fault is 0.933s
 --------------------------------------------------
 #+END_center
-** Table
+** Standard IDMT Relay Settings
 #+caption:IDMT : Standard Inverse settings
 #+name:idmtstandard
 #+ATTR_LATEX: :placement [H] :center t :align |r|c|c|c|
@@ -229,5 +274,43 @@ Details of your PSCAD simulation.  Detail what is necessary and sufficient for
 the experiment to be repeated exactly should you need to.
 * Standard Inverse Tests 	25
 * Extremely Inverse Characteristic 	25
+** Extreme IDMT Relay Settings
+#+caption:IDMT : Extreme Inverse settings
+#+name:idmtextreme
+#+ATTR_LATEX: :placement [H] :center t :align |r|c|c|c|
+|-------------------------------------+-------+-------+-------|
+|                                     |     T |     S |     R |
+|-------------------------------------+-------+-------+-------|
+| Maximum fault current for relay (A) |  1587 |  2120 |  3180 |
+|-------------------------------------+-------+-------+-------|
+| PSM setting (%)                     |   325 |   550 |   725 |
+|-------------------------------------+-------+-------+-------|
+| Required trip time for relay (s)    |  0.51 |  0.85 | 1.366 |
+|-------------------------------------+-------+-------+-------|
+| Calculated TMS                      | 0.091 | 0.078 | 0.102 |
+|-------------------------------------+-------+-------+-------|
+| Chosen TMS                          |   0.1 |   0.1 |  0.15 |
+|-------------------------------------+-------+-------+-------|
+| Trip time for maximum fault         |  0.35 | 0.577 | 0.658 |
+| current at the relay point (s)      |       |       |       |
+|-------------------------------------+-------+-------+-------|
+** Extreme inverse Log-Log curve
+#+caption: Extreme IDMT characteristics 
+#+ATTR_LATEX: :scale 0.3 :placement [H] 
+[[file:extremeidmt.png]]
+** Comparison with Standard IDMT curves
+| Relay        | PSM |  TMS | t@1270A | t@1586A | t@2120A | t@3180A |
+|              |     |      |     (s) |     (s) | (s)     | (s)     |
+|--------------+-----+------+---------+---------+---------+---------|
+| T (Standard) | 325 |  0.1 |   0.507 |   0.434 | -       | -       |
+| T (Extreme)  | 325 |  0.1 |   0.561 |    0.35 | -       | -       |
+|--------------+-----+------+---------+---------+---------+---------|
+| S (Standard) | 550 | 0.15 |   1.244 |    0.98 | 0.768   | -       |
+| S (Extreme)  | 550 |  0.1 |   1.847 |   1.092 | *0.577* | -       |
+|--------------+-----+------+---------+---------+---------+---------|
+| R (Standard) | 725 |  0.2 |   2.483 |   1.773 | 1.291   | 0.933   |
+| R (Extreme)  | 725 | 0.15 |   5.801 |   3.165 | 1.589   | *0.658* |
+|--------------+-----+------+---------+---------+---------+---------|
+
 * Conclusions and Recommendations (3)	15
 
