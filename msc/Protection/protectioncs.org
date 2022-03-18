@@ -1,5 +1,14 @@
 #+SETUPFILE: ~/.emacs.d/orgsetuplatex.org
 # +TITLE: Protection
+#+LATEX_HEADER: \usepackage{fancyhdr}
+#+LATEX_HEADER: \pagestyle{fancyplain}
+#+LATEX_HEADER: \chead{Overcurrent Protection Laboratory}
+#+LATEX_HEADER: \lhead{10877410}
+#+LATEX_HEADER: \rhead{\today}
+#+LATEX_HEADER: \cfoot{\thepage}
+#+LATEX_HEADER: \lfoot{}
+#+LATEX_HEADER: \rfoot{}
+
 #+BEGIN_SRC latex
   \begin{titlepage}
   \centering
@@ -20,77 +29,77 @@
                                                     {\large \today\par}
       \end{titlepage}
 #+END_SRC
-* Executive Summary	10
-Electrical Power System needs to be protected from abnormal occurrences or
-faults. Different parts of the system are categorised into zones with primary
-and backup protection equipment assigned for them. The protection devices have
-built-in controls which needs to be set by the user for it to identify
-faults. These settings are crucial because it helps discriminate between normal
-condition and faulty condition, Backup protection not operate before primary
-protection. Wrong settings could cause catastrophic failures like system
-blackout or permanent damage to large power system assets and customer
-equipment. It could also incorrectly disconnect a sect of customers at different
-zones, causing Loss of Load Supplied. The study conducted in this project
-identifies the correct relay settings for the system and discusses the merits
-and disadvantages of different combinations.
+* Executive Summary
+Electrical Power System needs protection from abnormal occurrences in the
+network called faults. Different parts of the system are categorised into zones
+with primary and backup protection equipment assigned for each zone. The
+protection devices have built-in controls which is set by the user for it to
+identify faults. These settings are crucial, because it helps discriminate
+between normal condition and faulty condition. It should also prevent backup
+protection acting ahead of primary protection. Incorrect settings could cause
+catastrophic failures like system blackout, or permanent damage to large power
+system assets and customer equipment. It could also prematurely disconnect sect
+of customers at different zones. The study conducted in this project identifies
+the correct relay settings for the system, and discusses the merits and
+disadvantages of different combinations.  \\
 
-In the given radial system, Over-Current protection is used to isolate the
-faulty systems. Inverse Definite Minimum Time(IDMT) relays with Current
-Transformers are used to measure, identify and trigger alarm signal during fault
-conditions. A Circuit breaker receives the signal and acts upon it to isolate
-affected part of the system from the rest. At the leaf node of the system fuses
-act as primary protection. The upstream relays acts as backup protection for the
-fuses and the downstream relays. The Plug Setting Multiplier and Time Multiplier
-setting in relays
+Over-current protection technique is used to isolate the faults in the given
+radial system by the client. Inverse Definite Minimum Time(IDMT) relays with
+Current Transformers are used to measure current, identify threshold crossing,
+and to send alarm signal during fault conditions. A Circuit Breaker(CB) receives
+the signal and acts upon it to isolate affected part of the system from the
+rest. At the leaf node of the system, fuses act as primary protection. The
+upstream relays acts as backup protection for the fuses as well as the
+downstream relays. The Plug Setting Multiplier(PSM) and Time Multiplier
+Setting(TMS) in relays decide the time of relay operation. For the relays R, S
+and T given in the client network, from upstream to downstream relays has chose
+PSM 325%, 550% and 725% respectively. The TMS for the above relays, in a
+standard inverse setting is identified as 0.1, 0.15 and 0.2 respectively. The
+fuses and relays are graded with respect to time and current. The calculations
+are verified using PSCAD software simulations on model based power system
+network. Graphs and tables supporting the studies are also incorporated in the
+report.\\
 
-Once your audience understands the policy problem, you can demonstrate your key
-findings from your research. It is important to keep this description at a high
-level, as you will expand upon your findings inside the body of the
-document. You can briefly mention methods; but this will not replace a
-methodology section in the body of your report. Ultimately, the middle of your
-executive summary answers: What did you learn?
+Relay Coordination performed in this project has identified the necessary
+control settings for the relays to ensure primary and backup protection and is
+tested for different scenarios of fault magnitudes. 
 
-
-    Outline the recommended solution, or the project’s objectives. How is the
-    project going to solve the problem you established in the first part? What
-    are the project goals and objectives?
-
-    Explain the solution’s value. Once you’ve finished your project, what will
-    happen? How will this improve and solve the problem you established in the
-    first part?
-
-    Wrap up with a conclusion about the importance of the work. This is another
-    opportunity to reiterate why the problem is important, and why the project
-    matters. It can also be helpful to reference your audience and how your
-    solution will solve their problem. Finally, include any relevant next steps.
-
-
-* Introduction	15
-** Basic operation
+* Introduction
+** Over-Current Protection
 Over Current Relay(OCR) protection is one of the oldest techniques in Power
-System Protection. If the magnitude of the current flowing in the system is
-above a certain threshold, the faulty section of the system is to be isolated
-within a certain time frame. System current is measured using a Current
-Transformer(CT), which reduces the current range to the relay
-specifications. The secondary current of the CT is passed through a coil. The
-current carrying coil induces a magnetic field which produces a mechanical
-torque on a metallic disc prodding it into rotational motion. The mechanical
-torque on the disc is proportional to the magnetic field, which is proportional
-to the current the coil is carrying. During fault conditions, the moving disc is
-expected to make contact with the tripping lead by overcoming the restraining
-torque of the attached spring. Under normal operating conditions, the
-restraining spring holds the disc. 
+System Protection. If magnitude of the current flowing in the system is above a
+certain threshold, then the faulty section of the system is isolated within a
+certain time frame. System current is measured using a Current Transformer(CT),
+which reduces the current range to the relay specifications. The secondary
+current of the CT is passed through a coil. The current carrying coil induces a
+magnetic field which produces a mechanical torque on a metallic disc prodding it
+into rotational motion. The mechanical torque on the disc is proportional to the
+magnetic field, which is proportional to the current the coil is carrying. Under
+normal operating conditions, the current magnitude is expected to be less than a
+certain threshold. A restraining spring holds the disc from motion. During fault
+conditions, the current in the coil is expected to be high. Here, the moving
+disc is expected to make contact with the tripping lead by overcoming the
+restraining torque of the attached spring.
 ** Time and Distance
 The aforementioned type of OCR is an instantaneous one. Further delay to relay
 operations can be introduced by increasing the time taken to energise the relay
-disc or by increasing the distance between disc contact and tripping lead. The
-former is achieved by adding resistance in front of the relay coil, forcing it
-to demand more current from the CT to operate, and the latter is achieved by
+disc, or by increasing the distance between disc contact and tripping lead. The
+former is achieved by adding resistance in front of the relay coil, thus forcing
+it to demand more current from the CT to operate. The latter is achieved by
 placing the tripping lead farther away from the disc contact. These settings are
-conventionally called as Plug Setting Multiplier(PSM) and Time Multiplier Setting
-(TMS) respectively.
-* Standard IDMT Analysis	36
-** Important Assumptions
+conventionally called as Plug Setting Multiplier(PSM) and Time Multiplier
+Setting (TMS) respectively.
+* Standard IDMT Analysis
+** Method and Assumptions
+The method used for relay coordination is to discriminate the operation time of
+fuses and relays with respect to time and current. This is done for a remote
+fault(farther away from relay) or a close-in/local fault(fault next to the
+relay). As the protection grading moves from downstream to upstream, the time of
+relay operation should increase for a remote fault. For a close-in fault, the
+relay would see high current immediately and the operation time should be small.
+This is achieved by PSM and TMS calculation using Standard inverse characteristics.
+
+Following are the assumptions considered:
 1. Higher values(above hundred) of current are rounded off to first significant figure
 2. Upstream relays are graded with respect to immediate downstream relays rather
    than the fuses
@@ -261,18 +270,136 @@ fault is 0.933s
 | Trip time for maximum fault         | 0.434 | 0.768 | 0.933 |
 | current at the relay point (s)      |       |       |       |
 |-------------------------------------+-------+-------+-------|
-** Observations
-The fuse characteristics is only given up to 480A of current, even though the
-maximum fault current seen at the bus to which fuse is connected is in range of
-thousands of Amperes. 
-** Log-log graph	14
+** Log-log graph
 #+caption: Standard IDMT characteristics 
 #+ATTR_LATEX: :scale 0.3 :placement [H] 
 [[file:standardidmt.png]]
+** Observations
+Following are the observations of relay coordination:
+1. All relays operate under a second for its respective local fault
+2. The fuse characteristics is only given up to 480A of current, even though the
+   maximum fault current seen at the bus to which fuse is connected is in range
+   of thousands of Amperes. The horizontal line extends to higher currents at
+   0.01 as fuse characteristic extrapolation
+3. At 480A, the leaf node fuse is backed up by Relay T with 1.8s. As the current
+   increases, the backup time reduces
+4. At the local fault for relay T, at 1587A, the time of operation is 0.434s. It
+   is backed up by relay S and R at 0.98s and 1.78s respectively
+5. For relay S local fault at 2120A, the time of operation is 0.768s. It
+   is backed up by relay R at 1.291s
+6. Relay R local fault operation time is 0.933s
+7. Downstream to upstream discrimination is at least 0.5s
+
+** Python code
+Python code with all the calculations can be found at :
+ 
 * PSCAD Model	10
-Details of your PSCAD simulation.  Detail what is necessary and sufficient for
-the experiment to be repeated exactly should you need to.
+#+caption: PSCAD model
+#+ATTR_LATEX: :placement [H] 
+[[file:screenshots/system.png]]
+
+#+caption: System Parameters
+#+name:sysparam
+#+ATTR_LATEX: :placement [H] :center t :align |c|c|
+|---------------------+-----------|
+| Entity              | Value     |
+|---------------------+-----------|
+| Line Inductance     | 0.003183H |
+| Per phase Load      | 0.6667MW  |
+| Fault starting time | 5s        |
+| Fault clearing time | 7.5s      |
+|---------------------+-----------|
+
+The placement of load in the PSCAD is different from the diagram given. This is
+due to the position of free programmable blocks Is1, Is2 and Is3 used to measure
+the current input to relays. Also, the relay operation is not affected with this
+placement of loads.
 * Standard Inverse Tests 	25
+** Fault at F3
+Procedure : Three phase to ground, Double phase to ground, Double phase and
+single phase fault applied at F3. For fault inception at 5s and fault duration
+of 2.5s, test if relay T is operating to break circuit breaker T.
+
+#+BEGIN_center
+#+ATTR_LaTeX: :height 0.5\textwidth :center
+[[file:screenshots/3phToGbus4allenabledF3.PNG]]
+#+ATTR_LaTeX: :height 0.5\textwidth :center
+[[file:screenshots/2phToGbus4allenabledF3.PNG]]
+
+Left to Right : 3\phi-g, 2\phi-g at F3 with all breakers
+enabled.
+#+END_center
+#+BEGIN_center
+#+ATTR_LaTeX: :height 0.5\textwidth :center
+[[file:screenshots/2phbus4allenabledF3.PNG]]
+#+ATTR_LaTeX: :height 0.5\textwidth :center
+[[file:screenshots/1phToGbus4allenabledF3.PNG]]
+
+Left to Right : \phi-\phi and \phi-g at F3 with all breakers enabled.
+#+END_center
+** Backup protection for fault at F3
+Procedure : Circuit Breaker “T” is disabled to see if a three phase fault at F3
+is protected by relay S and circuit breaker S.
+#+BEGIN_center
+#+ATTR_LaTeX: :height 0.7\textwidth :center
+[[file:screenshots/3phToGbus4alldisabledF3.PNG]]
+
+Left to Right : 3\phi-g at F3 with circuit breaker T disabled.
+#+END_center
+** Fault at F2
+Procedure : Three phase to ground, Double phase to ground, Double phase and
+single phase fault applied at F2. For fault inception at 5s and fault duration
+of 2.5s, test if relay S is operating to break circuit breaker S.
+
+#+BEGIN_center
+#+ATTR_LaTeX: :height 0.5\textwidth :center
+[[file:screenshots/3phToGbus4allenabledF2.PNG]]
+#+ATTR_LaTeX: :height 0.5\textwidth :center
+[[file:screenshots/2phToGbus4allenabledF2.PNG]]
+
+Left to Right : 3\phi-g, 2\phi-g at F2 with all breakers enabled.
+#+END_center
+#+BEGIN_center
+#+ATTR_LaTeX: :height 0.5\textwidth :center
+[[file:screenshots/2phbus4allenabledF2.PNG]]
+#+ATTR_LaTeX: :height 0.5\textwidth :center
+[[file:screenshots/1phToGbus4allenabledF2.PNG]]
+
+Left to Right : \phi-\phi and \phi-g at F2 with all breakers enabled.
+#+END_center
+** Backup protection for fault at F2
+Procedure : Circuit Breaker “S” is disabled to see if a three phase fault at F2
+is protected by relay R and circuit breaker R.
+#+BEGIN_center
+#+ATTR_LaTeX: :height 0.5\textwidth :center
+[[file:screenshots/3phToGbus4alldisabledF2.PNG]]
+
+Left to Right : 3\phi-g at F2 with circuit breaker S disabled.
+#+END_center
+
+** Fault at F1
+Procedure : Three phase to ground, Double phase to ground, Double phase and
+single phase fault applied at F1. For fault inception at 5s and fault duration
+of 2.5s, test if relay R is operating to break circuit breaker R.
+
+#+BEGIN_center
+#+ATTR_LaTeX: :height 0.5\textwidth :center
+[[file:screenshots/3phToGbus4allenabledF1.PNG]]
+#+ATTR_LaTeX: :height 0.5\textwidth :center
+[[file:screenshots/2phToGbus4allenabledF1.PNG]]
+
+Left to Right : 3\phi-g, 2\phi-g at F1 with all breakers enabled.
+#+END_center
+
+#+BEGIN_center
+#+ATTR_LaTeX: :height 0.5\textwidth :center
+[[file:screenshots/2phbus4allenabledF1.PNG]]
+#+ATTR_LaTeX: :height 0.5\textwidth :center
+[[file:screenshots/1phToGbus4allenabledF1.PNG]]
+
+Left to Right : \phi-\phi and \phi-g F1 with all breakers enabled.
+#+END_center
+
 * Extremely Inverse Characteristic 	25
 ** Extreme IDMT Relay Settings
 #+caption:IDMT : Extreme Inverse settings
