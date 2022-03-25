@@ -1,0 +1,30 @@
+#+STARTUP: overview
+#+TITLE: Even Advanced Metering Infrastructure
+#+AUTHOR: Vinodh Jayakrishnan
+* The product
+EAMI are next generation smart meters that can measure and manage energy in a
+household or micro industries. Following are the key features:
+1. Bidirectional energy flow measurement for prosumers
+2. Information and Communication system and Home Area Network of Smart
+   Appliances
+3. Tap and pair new smart appliances
+4. Weekly report for load and Price profile
+5. Peer to peer/Peak Demand response energy transaction RRR(Request,Release and Receive)
+6. Control and automation of Home appliances
+* Team
+1. R&D
+2. Implementation
+3. Marketing
+* Time scale
+Split into two set of features. Must have and Nice to have.
+Must haves are compulsorily delivered by the end of release deadline. Some
+'Nice-to-Have' features might be added to it. 
+* Resources needed
+1. Hardware
+   - Microcontroller computer
+   - sensors
+2. Software
+   - Improvement to existing smartphone app
+   - Driver for hardware
+* Cost
+20000 pounds
