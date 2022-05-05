@@ -1,0 +1,275 @@
+#+SETUPFILE: ~/.emacs.d/orgsetuplatex.org
+# +TITLE: Smart Grid Laboratory
+#+LATEX_HEADER: \usepackage{fancyhdr}
+#+LATEX_HEADER: \pagestyle{fancyplain}
+#+LATEX_HEADER: \chead{EEEN60352 : Smart Grids Laboratory}
+#+LATEX_HEADER: \lhead{10877410}
+#+LATEX_HEADER: \rhead{\today}
+#+LATEX_HEADER: \cfoot{\thepage/\pageref{LastPage}}
+#+LATEX_HEADER: \lfoot{}
+#+LATEX_HEADER: \rfoot{}
+
+#+BEGIN_SRC latex
+  \begin{titlepage}
+  \centering
+  \includegraphics[width=0.15\textwidth]{logo-university-of-manchester.png}\par\vspace{1cm}
+  {\scshape\Large Department of Electrical and Electronic Engineering \par}
+  \vspace{1cm}
+         {\scshape\Large EEEN60352: Smart Grids and Sustainable Electricity Systems \par}
+                               \vspace{1.5cm}
+                                      {\huge\bfseries Optimal economic and secure operation of low carbon energy systems \par}
+                                      \vspace{2cm}
+                                             {\Large\shape Vinodh Jayakrishnan\par}
+                                             {\shape ID : 10877410 \par}
+                                             {\shape vinodh.jayakrishnan@postgrad.manchester.ac.uk \par}
+                                             % Bottom of the page
+                                             \vspace{2cm}
+                                             \vspace{2cm}
+                                                    {\large Version 1.0 \par}
+                                                    {\large \today\par}
+      \end{titlepage}
+#+END_SRC
+
+* Executive Summary
+The need for proliferation of low-carbon technologies for a sustainable future
+is demanding disruptive innovative strategies to be integrate renewable energy 
+generation into the existing units to either replace the conventional power
+plants or to co-exist with them. The challenges associated with renewable
+integration are multi-faceted. This could be broadly categorised into Social,
+Technical and Economical challenges. Social challenge demands power security;
+Lights must be always on. Emergency services like quick-response reserve power
+plants are needed for this. Technical challenges are associated with the
+capacity of the grid and idiosyncrasies of the generating units. 
+
+In this experiment, the aforementioned challenges are studied in the test case
+to identify optimal solutions for different scenarios of load and generation.
+Contingency analysis is also performed to deal with worst case situations. 
+Power world software is used to model and perform Optimal Power Flow Analysis. 
+
+* Data and Assumptions
+** Important Assumptions
+- For System Security, all units except High-flex CCGT and OCGT units are kept
+  online all times and would produce at least the minimum stable generation
+- Wind generation could be dispatched in proportions, whereas Solar(RTPV) output
+  cannot be controlled
+** Load
+Heating and Cooling power demands are provided in the question as MW_h. The
+Coefficient of Performance(COP) is also given for the above demands. 
+
+\begin{equation}
+\frac{MW_e}{MW_h} = \frac{1}{COP}
+\end{equation}
+
+The electrical equivalent load is hence calculated as:
+#+caption:Electrical Load in Summer and Winter
+#+name:electricalload
+#+ATTR_LATEX: :placement [H] :center t :align |r|c|c|
+|--------+-------+-------|
+|        | Bus 4 | Bus 3 |
+|--------+-------+-------|
+| Summer | 150MW | 300MW |
+| Winter | 200MW | 400MW |
+|--------+-------+-------|
+* Optimal Power Flow
+** Case a : Reserve Calculation
+#+caption:System Reserve 
+#+name:systemreserve
+#+ATTR_LATEX: :placement [H] :center t :align |r|c|c|c|
+|---------------+--------------+----------------------+-----------------------------|
+| Wind/Solar    |        Total |    Number of Hi-flex | Min/Max, of High-Flex       |
+| Generation(%) | Reserve (MW) | CCGT Units committed | CCGT at Bus3/Bus4 each (MW) |
+|---------------+--------------+----------------------+-----------------------------|
+| 0/0           |            0 |                    0 | 0                           |
+| 100/0         |           90 |                   18 | 45/90                       |
+| 100/100       |          100 |                   20 | 50/100                      |
+|---------------+--------------+----------------------+-----------------------------|
+** Case b : Total Hourly Electricity Costs 
+Procedure:
+Solar is disconnected from the system and Wind runs at 0% and 100% output. The
+load and reserve details are present in tables [[electricalload]] and
+[[systemreserve]] respectively. The hourly cost and Wind curtailment power is
+recorded below
+
+#+caption: Optimal Power flow
+#+name:opf
+#+ATTR_LATEX: :placement [H] :center t :align |r|c|c|c|
+|--------+------------+--------------+------------------|
+|        |       Wind |  Hourly Cost | Wind Curtailment |
+|        | generation | (\pounds/hr) | (MW)             |
+|--------+------------+--------------+------------------|
+| Summer |         0% |        23999 | 0/300            |
+|        |       100% |        22307 | 240/300          |
+|--------+------------+--------------+------------------|
+| Winter |         0% |        31499 | 0/300            |
+|        |       100% |        22389 | 93/300           |
+|--------+------------+--------------+------------------|
+
+#+caption: Top/Bottom:Summer/Winter; Left/Right(Wind:0%/Wind:100%)
+#+ATTR_LATEX: :scale 0.5 :placement [H] 
+[[file:screens/1b.png]]
+
+*** Observations
+1. *COST* : In summer, there is a 7% decrease in the hourly running cost with
+   Wind generation and the in the winter there 28% decrease.
+2. *CO_2 Reduction* : 20% reduction in both summer and winter is identified
+3. *Curtailment* : In summer, even though Wind is available, 80% of the generation has to be
+   curtailed due to system security requirements. Primarily due to less demand,
+   the cost of running wind generator is slightly high. Hi-flex CCGT generators
+   must run at its minimum generation capacity in order to provide system
+   security. In winter, where the demand is high, only 30% of the Wind is curtailed, which
+   reduces the hourly cost by 22% from the case where wind generation is
+   disabled
+* Inflexibility and operational issues
+** Summer Load with 100% wind and solar generation
+#+BEGIN_SRC latex
+\begin{figure}[H]
+    \centering
+    \subfloat[\centering Summer]{{\includegraphics[width=7cm]{screens/2aEdit.PNG} }}%
+    \qquad
+    \subfloat[\centering Winter]{{\includegraphics[width=7cm]{screens/2b.PNG} }}%
+    \caption{Summer Load with 100 percent wind and solar generation}%
+    \label{fig:sec2}%
+\end{figure}
+#+END_SRC
+*** Summer
+1. 100% wind generation and 100% Solar integration causes negative power flow into the
+   slack bus
+2. In theory, slack bus absorbs extra generation above the demand in this case,
+   the summer load is less causing extra generation
+3. The line from Bus 1 to Bus 2 is overloaded because he slack bus is forced to
+   absorb the extra generation
+4. As a potential solution, Wind could be curtailed, but Solar cannot be
+   dispatched or curtailed.
+5. Wind and Solar is considered intermittent and hence needs all the other
+   generators to be online for system security. With BESS, renewables could have
+   a buffer and conventional generators like CCGTs and Coal power plants could
+   be made obsolete
+
+c. Discuss and explain the flows at the slack node (e.g.: why are there negative flows or
+why positive flows?) and their relationship with the level of integration of wind and
+solar in the system. [6 marks]
+d. Propose one generation flexibility solution to potentially avoid negative flows at the
+slack and justify it with simulation/numerical results. In the case there are no such
+negative flows elaborate on the reason for it. [10 marks]
+e. Propose one solution to potentially avoid positive flows at the slack and justify it
+with simulation/numerical results. In the case there are no such positive flows
+elaborate on the reason for it. [10 marks]
+Note: Your solutions should be realistic and feasible solutions – please provide brief justification
+for the feasibility of the solution and briefly comment on the timescale, costs and risk involved
+in the proposed solutions.
+
+* SCOPF
+#+BEGIN_SRC latex
+\begin{figure}[H]
+    \centering
+    \subfloat[\centering label 1]{{\includegraphics[width=7cm]{screens/3SummerScopf.PNG} }}%
+    \qquad
+    \subfloat[\centering label 2]{{\includegraphics[width=7cm]{screens/3WinterScopf.PNG} }}%
+    \caption{2 Figures side by side}%
+    \label{fig:example}%
+\end{figure}
+#+END_SRC
+Consider a Security Constrained OPF with potential contingencies on the main lines.
+(Hint: Run in PowerWorld a “SCOPF”. All line contingencies have already been recorded in
+the file, so you do not have to change any settings.)
+Assume 0% power output from solar plants.
+For each of the two wind power output scenarios, 0% and 100%:
+a. Using PowerWorld simulations, derive the total hourly electricity system costs and
+the wind power curtailment corresponding to the winter and summer total
+electricity demand levels based on Table 2. Include relevant screenshots from
+PowerWorld showing the resulting electricity costs and wind power outputs. [14
+marks]
+b. Discuss and explain the main differences in results you see between the OPF
+(considered in Question 1) and the SCOPF, with focus on the level of renewables you
+can integrate in the system and the redispatch of generation plants (including the
+utilization of CCGT in reserve). [6 marks]
+* Flexibility options in OPF and SCOPF
+Consider the case “Winter/100% wind/0% solar”.
+a. How can you make the generation system more flexible to integrate more wind
+power when running an OPF?
+#+BEGIN_SRC latex
+\begin{figure}[H]
+    \centering
+    \subfloat[\centering 4aCoal2Full_75pCcgt3_halfCCGT4]{{\includegraphics[width=7cm]{screens/4aCoal2full_75pCcgt3_halfCCGT4.PNG} }}%
+    \qquad
+    \subfloat[\centering 4aCoal2Nil_75pCcgt3_halfCCGT4]{{\includegraphics[width=7cm]{screens/4aCoal2Nil_75pCcgt3_halfCCGT4.PNG} }}%
+    \caption{2 Figures side by side}%
+    \label{fig:example}%
+\end{figure}
+#+END_SRC
+
+
+Propose one possible solution and justify it with numerical analysis. [8 marks]
+b. And when running a SCOPF?
+#+BEGIN_SRC latex
+\begin{figure}[H]
+    \centering
+    \subfloat[\centering 4bCoal2Full_100pCCGT4_reserveFull]{{\includegraphics[width=7cm]{screens/4bCoal2Full_100pCCGT4_reserveFull.PNG} }}%
+    \qquad
+    \subfloat[\centering 4bCoal2Nil_100pCCGT4_reserveFull]{{\includegraphics[width=7cm]{screens/4bCoal2Nil_100pCCGT4_reserveFull.PNG} }}%
+    \caption{2 Figures side by side}%
+    \label{fig:example}%
+\end{figure}
+#+END_SRC
+
+
+Propose one possible solution and justify it with numerical analysis. [8 marks]
+Note: Your solutions should be realistic and feasible solutions – please provide brief
+justification for the feasibility of the solution and briefly comment on the timescale,
+costs and risk involved in the proposed solutions.
+Assume that all reserve could be provided by the OCGT units at the slack, with no need to
+operate high-flex CCGT at part load: the OCGT plants basically operate as “standing reserve”
+by starting off and ramping up very fast if needed.
+
+c. What are the wind integration benefits from using such standing reserve when using
+an OPF and a SCOPF?
+#+BEGIN_SRC latex
+\begin{figure}[H]
+    \centering
+    \subfloat[\centering 4cWithCoalPrimal]{{\includegraphics[width=7cm]{screens/4cWithCoalPrimal.PNG} }}%
+    \qquad
+    \subfloat[\centering $cNoCoalPrimal]{{\includegraphics[width=7cm]{screens/4cNoCoalPrimal.PNG} }}%
+    \caption{2 Figures side by side}%
+    \label{fig:example}%
+\end{figure}
+#+END_SRC
+
+#+BEGIN_SRC latex
+\begin{figure}[H]
+    \centering
+    \subfloat[\centering 4cScopf]{{\includegraphics[width=7cm]{screens/4cScopf.PNG} }}%
+    \qquad
+    \subfloat[\centering 4cScopf Without coal 2]{{\includegraphics[width=7cm]{screens/4cScopf_withoutCoal2.PNG} }}%
+    \caption{2 Figures side by side}%
+    \label{fig:example}%
+\end{figure}
+#+END_SRC
+
+
+
+Comment and discuss the results, also in light of the costs of the two alternative
+reserve strategies (part-loaded high-flex CCGT vs fast start OCGT modelled with
+higher no-load cost. Start-up costs have not been modelled). [7 marks]
+Assign back the provision of reserve to part-loaded high-flex CCGT, as from the beginning.
+d. Increase the capacity of each of the two lines between Bus 2 and Bus 3 from 100
+MW to 150 MW and run an OPF and a SCOPF. (Hint: double click on and open each
+line’s window, and change the capacity settings).
+Notice and explain why increasing the line capacity allows much more increase in
+wind power integration when using a SCOPF than when using a simple OPF
+
+#+BEGIN_SRC latex
+\begin{figure}[H]
+    \centering
+    \subfloat[\centering 4dPrimal]{{\includegraphics[width=7cm]{screens/4dPrimal.PNG} }}%
+    \qquad
+    \subfloat[\centering 4dScopf]{{\includegraphics[width=7cm]{screens/4dScopf.PNG} }}%
+    \caption{2 Figures side by side}%
+    \label{fig:example}%
+\end{figure}
+#+END_SRC
+
+
+#+caption: 4d NOCoal
+#+name:opf
+#+ATTR_LATEX: :placement [H] :center t
+[[file:screens/4cNoCoalPrimal.PNG]]

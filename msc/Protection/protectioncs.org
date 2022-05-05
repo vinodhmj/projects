@@ -161,7 +161,7 @@ The current setting of the relay is selected based on the following criteria:
 \end{align}
 For a 2MW load, using \eqref{eq:loadcurrent}, maximum load current is 105A and
 maximum fault current is 1270A. By equation \eqref{eq:currentsetting}, the
-current setting I_{setting} is chosen as 225A, such that: 210A < I_{setting} <
+current setting I_{setting} is chosen as 325A, such that: 210A < I_{setting} <
 635A. If I_{N} is the Rated primary current of the CT or the nominal current of
 the CT:
 
