@@ -121,6 +121,7 @@ recorded below
 
 #+caption: Top/Bottom:Summer/Winter; Left/Right(Wind:0%/Wind:100%)
 #+ATTR_LATEX: :scale 0.5 :placement [H] 
+#+LABEL: fig:1b
 [[file:screens/1b.png]]
 
 *** Observations
@@ -184,7 +185,7 @@ conventional generators like Coal power plants could be made obsolete.
   \end{figure}
 #+END_SRC
 
-**** Justification
+_*Justification*_
 - Wind is dispatchable and hence can be curtailed as per demand
 - Decommissioning coal plants - One of the prime reasons for integrating
   renewable energy is to reduce carbon emissions. Coal plants could be safely
@@ -199,37 +200,24 @@ conventional generators like Coal power plants could be made obsolete.
 * Security Constrained OPF (SCOPF)
 Contingency analysis is performed to maintain system security during unexpected
 events in Power System assets. Transmission lines are particularly vulnerable to
-weather and vandalism.
-
-#+caption: Security Constrained OPF
-#+name:scopf
-#+ATTR_LATEX: :placement [H] :center t :align |r|c|c|c|c|
-|--------+------------+--------------+------------------+-------------|
-|        |       Wind |  Hourly Cost | Wind Curtailment | Curtailment |
-|        | generation | (\pounds/hr) | SCOPF            | OPF         |
-|--------+------------+--------------+------------------+-------------|
-| Summer |         0% |        23999 | 0/300            |             |
-|        |       100% |        22307 | 240/300          |             |
-|--------+------------+--------------+------------------+-------------|
-| Winter |         0% |        31499 | 0/300            |             |
-|        |       100% |        22389 | 93/300           |             |
-|--------+------------+--------------+------------------+-------------|
-
-#+BEGIN_SRC latex
-\begin{figure}[H]
-    \centering
-    \subfloat[\centering Summer]{{\includegraphics[width=7cm]{screens/3SummerScopf.PNG} }}%
-    \qquad
-    \subfloat[\centering Winter]{{\includegraphics[width=7cm]{screens/3WinterScopf.PNG} }}%
-    \caption{SCOPF and Renewables}%
-    \label{fig:3scopf}%
-\end{figure}
-#+END_SRC
+weather and vandalism. In this section, instead of running the best case OPF,
+the worst case SCOPF with pre-defined contingency is performed.
 ** Observations
-Discuss and explain the main differences in results you see between the OPF
-(considered in Question 1) and the SCOPF, with focus on the level of renewables you
-can integrate in the system and the redispatch of generation plants (including the
-utilization of CCGT in reserve). [6 marks]
+- _For both cases in Summer, and 0% Wind generation of Winter, SCOPF results are
+  exactly same as that of OPF_ as shown in Table [[opf]] and Figure [[fig:1b]]
+- For Winter, and Wind at 100% generation, dispatchable, the following is the
+  cost has a 22% increase from 22389\pounds/hr to 27204\pounds/hr as shown in
+  the figure below
+- The contingency used in this analysis is of N-1 nature, which effectively
+  reduces the power transfer capacity of the transmission line
+- If the system load was distributed to Bus 2 where renewable and Nuclear is
+  connected, then higher renewable integration could have been achieved
+
+#+caption: SCOPF Analysis on 100% Wind generation and 0% Solar during Winter
+#+ATTR_LATEX: :scale 0.5 :placement [H] 
+#+LABEL: fig:scopf
+[[file:screens/3WinterScopf.png]]
+  
 * Flexibility options in OPF and SCOPF
 ** Flexible OPF
 To make the system more flexible in terms of integrating clean energy
@@ -257,7 +245,18 @@ absent are experimented. Following are the observations:
 ** Flexible SCOPF
 SCOPF introduces transmission line constraints, so, curtailing CCGT generation
 units is not an option. Hence, curtailing Coal generation present and absent are
-experimented. Following are the observations:
+experimented. 
+#+BEGIN_SRC latex
+\begin{figure}[H]
+    \centering
+    \subfloat[\centering Coal plants available at Bus 2]{{\includegraphics[width=8cm]{screens/4bCoal2Full_100pCCGT4_reserveFull.PNG} }}%
+    \qquad
+    \subfloat[\centering Coal plants decommissioned at Bus 2]{{\includegraphics[width=8cm]{screens/4bCoal2Nil_100pCCGT4_reserveFull.PNG} }}%
+    \caption{Flexible generation in SCOPF with 100\% CCGT and 100\% reserve}%
+    \label{fig:4bscopf}%
+\end{figure}
+#+END_SRC
+Following are the observations:
 - _Reserve is not adequate_ as per System Operator requirements but, the Wind
   Generation is expected to be half the installed capacity
 - CCGT and Reserve is initialised  at full specifications
@@ -271,17 +270,6 @@ experimented. Following are the observations:
 - There is a minimum risk associated with the reserve even though Wind
   generation is expected to be less than half. This could arise from _N-2
   contingency_ for line 2-3, as all the loads are connected in bus 3 and 4
-
-#+BEGIN_SRC latex
-\begin{figure}[H]
-    \centering
-    \subfloat[\centering Coal plants available at Bus 2]{{\includegraphics[width=8cm]{screens/4bCoal2Full_100pCCGT4_reserveFull.PNG} }}%
-    \qquad
-    \subfloat[\centering Coal plants decommissioned at Bus 2]{{\includegraphics[width=8cm]{screens/4bCoal2Nil_100pCCGT4_reserveFull.PNG} }}%
-    \caption{Flexible generation in SCOPF with 100\% CCGT and 100\% reserve}%
-    \label{fig:4bscopf}%
-\end{figure}
-#+END_SRC
 ** Standing Reserve
 As mentioned in the previous sections, lack of adequate spinning reserve as per
 the System Operator requirements is a concern. Assuming that all reserve
@@ -359,3 +347,15 @@ analysis is conducted. Following are the observations:
     \label{fig:4d}%
 \end{figure}
 #+end_export
+* Conclusion
+The purpose of this laboratory exercise was to find optimal solutions to
+integrate clean renewable technologies for Summer and Winter load profiles with
+and without contingency measures. Hourly cost of energy transactions are
+recorded. Power world software was used to model and perform the analysis. Wind
+and Solar integration is studied at different output level are studied. 
+
+It was identified that incorporating clean energy generation like Wind and Solar
+without compromising the system security has major economic benefits. With
+flexible generation options, standing reserve and increased transmission
+capacity, conventional coal power plants could be decommissioned and be
+effectively replaced by clean energy technologies.
