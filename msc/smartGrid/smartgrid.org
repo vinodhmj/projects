@@ -29,29 +29,44 @@
                                                     {\large \today\par}
       \end{titlepage}
 #+END_SRC
-
 * Executive Summary
 The need for proliferation of low-carbon technologies for a sustainable future
-is demanding disruptive innovative strategies to be integrate renewable energy 
-generation into the existing units to either replace the conventional power
-plants or to co-exist with them. The challenges associated with renewable
-integration are multi-faceted. This could be broadly categorised into Social,
-Technical and Economical challenges. Social challenge demands power security;
-Lights must be always on. Emergency services like quick-response reserve power
-plants are needed for this. Technical challenges are associated with the
-capacity of the grid and idiosyncrasies of the generating units. 
+is demanding innovative strategies for integrating renewable energy generation
+into the existing power ecosystem. This is to either replace the conventional
+power plants or to enable coexistence with them. The challenges associated with
+renewable integration are multi-faceted, and could be broadly categorised into
+Social, Technical and Economical challenges. Social challenge demands power
+security and acceptance; Lights must be always on. Emergency services like
+quick-response reserve power plants are needed for this. Technical challenges
+are associated with the capacity of the grid and idiosyncrasies of the
+generating units. Renewable integration should be economically feasible for both
+suppliers and end users. 
 
 In this experiment, the aforementioned challenges are studied in the test case
-to identify optimal solutions for different scenarios of load and generation.
-Contingency analysis is also performed to deal with worst case situations. 
-Power world software is used to model and perform Optimal Power Flow Analysis. 
+to identify optimal solutions for Summer and Winter load profiles. Power world
+software is used to model and perform the analysis. Wind and Solar integration
+is studied at different output level are studied. Optimal Power Flow(OPF) which
+proposes the optimal generation power dispatch to the loads by balancing the
+demand, minimising the cost and not overloading the network constraints is run
+for different load and generation scenarios. Contingency analysis is also
+performed to deal with worst case network capabilities to maintain the security
+of the system. This is called Security Constrained OPF(SCOPF). Furthermore, the
+idea of standing reserve instead of spinning reserve is analysed. The effect of
+increasing the transmission line capacity is also studied. 
 
+In summary of results, incorporating clean energy generation like Wind and Solar
+without compromising the system security has major economic benefits. With
+flexible generation options, standing reserve and increased transmission
+capacity, conventional coal power plants could be decommissioned and be
+effectively replaced by clean energy technologies.
 * Data and Assumptions
 ** Important Assumptions
 - For System Security, all units except High-flex CCGT and OCGT units are kept
   online all times and would produce at least the minimum stable generation
 - Wind generation could be dispatched in proportions, whereas Solar(RTPV) output
   cannot be controlled
+- Nuclear Generation is assumed to be running at full capacity all the time to
+  provide base load. Nuclear is not curtailed under any circumstances. 
 ** Load
 Heating and Cooling power demands are provided in the question as MW_h. The
 Coefficient of Performance(COP) is also given for the above demands. 
@@ -110,166 +125,237 @@ recorded below
 
 *** Observations
 1. *COST* : In summer, there is a 7% decrease in the hourly running cost with
-   Wind generation and the in the winter there 28% decrease.
+   Wind generation and the in the winter there 28% decrease
 2. *CO_2 Reduction* : 20% reduction in both summer and winter is identified
-3. *Curtailment* : In summer, even though Wind is available, 80% of the generation has to be
-   curtailed due to system security requirements. Primarily due to less demand,
-   the cost of running wind generator is slightly high. Hi-flex CCGT generators
-   must run at its minimum generation capacity in order to provide system
-   security. In winter, where the demand is high, only 30% of the Wind is curtailed, which
-   reduces the hourly cost by 22% from the case where wind generation is
-   disabled
+3. *Curtailment* : In summer, even though Wind generation is available, 80% of
+   the generation has to be curtailed due to system security requirements and
+   less demand. Hi-flex CCGT generators must run at its minimum generation
+   capacity in order to provide system security. In winter, where the demand is
+   high, only 30% of the Wind is curtailed
 * Inflexibility and operational issues
-** Summer Load with 100% wind and solar generation
+** 100% Wind and Solar power generation
 #+BEGIN_SRC latex
 \begin{figure}[H]
     \centering
-    \subfloat[\centering Summer]{{\includegraphics[width=7cm]{screens/2aEdit.PNG} }}%
+    \subfloat[\centering Summer]{{\includegraphics[width=8cm]{screens/2aEdit.PNG} }}%
     \qquad
-    \subfloat[\centering Winter]{{\includegraphics[width=7cm]{screens/2b.PNG} }}%
-    \caption{Summer Load with 100 percent wind and solar generation}%
-    \label{fig:sec2}%
+    \subfloat[\centering Winter]{{\includegraphics[width=8cm]{screens/2b.PNG} }}%
+    \caption{100 percent Wind and Solar generation}%
+    \label{fig:section2}%
 \end{figure}
 #+END_SRC
-*** Summer
-1. 100% wind generation and 100% Solar integration causes negative power flow into the
-   slack bus
-2. In theory, slack bus absorbs extra generation above the demand in this case,
-   the summer load is less causing extra generation
-3. The line from Bus 1 to Bus 2 is overloaded because he slack bus is forced to
+*** Slack Node
+In power system analysis Slack Node is an imaginary bus used to balance the
+power flow in the system. This is theoretical concept where a large generator or
+Grid in-feed is modelled to provide/absorb the power imbalance in the system. 
+
+In \autoref{fig:section2}, the slack bus is seen to absorb the extra power
+flowing in the system. It is absorbing 350MW and 200MW in Summer and Winter
+respectively. Following are the reasons why there is a negative flow into the
+Slack generator:
+
+1. The equality constraint of optimisation problem is violated by forcing 100%
+   Wind and 100% Solar integration. The generation is higher than the demand in
+   the system
+2. RTPV solar generation cannot be controlled and curtailed. Wind generation can
+   be curtailed, but in the experiment Wind is forced at 100%
+3. In the above case, the renewable generation accounts to almost 90% of the
+   demand. The system operator has mandated reserve according to table
+   [[systemreserve]], and high-flex CCGT units must produce Minimum Stable
+   Generation(MSG). For system security, all the units are assumed to be online
+   causing MSG of all the units mandatory. These causes the imbalance in supply
+   demand equation
+4. The line from Bus 1 to Bus 2 is overloaded because he slack bus is forced to
    absorb the extra generation
-4. As a potential solution, Wind could be curtailed, but Solar cannot be
-   dispatched or curtailed.
-5. Wind and Solar is considered intermittent and hence needs all the other
-   generators to be online for system security. With BESS, renewables could have
-   a buffer and conventional generators like CCGTs and Coal power plants could
-   be made obsolete
 
-c. Discuss and explain the flows at the slack node (e.g.: why are there negative flows or
-why positive flows?) and their relationship with the level of integration of wind and
-solar in the system. [6 marks]
-d. Propose one generation flexibility solution to potentially avoid negative flows at the
-slack and justify it with simulation/numerical results. In the case there are no such
-negative flows elaborate on the reason for it. [10 marks]
-e. Propose one solution to potentially avoid positive flows at the slack and justify it
-with simulation/numerical results. In the case there are no such positive flows
-elaborate on the reason for it. [10 marks]
-Note: Your solutions should be realistic and feasible solutions – please provide brief justification
-for the feasibility of the solution and briefly comment on the timescale, costs and risk involved
-in the proposed solutions.
+*** Potential solutions
+Wind could be curtailed, but Solar cannot be dispatched or curtailed.  Wind and
+Solar is considered intermittent and hence needs all the other generators to be
+online for system security. With BESS, renewables could have a buffer and
+conventional generators like Coal power plants could be made obsolete.
+#+BEGIN_SRC latex
+  \begin{figure}[H]
+      \centering
+      \subfloat[\centering Summer]{{\includegraphics[width=8cm]{screens/2a_WindCurtailed_removingCoal.PNG} }}%
+      \qquad
+      \subfloat[\centering Winter]{{\includegraphics[width=8cm]{screens/2b_WindCurtailed_removingCoal.PNG} }}%
+      \caption{Wind curtailed and coal plants decommissioned}%
+      \label{fig:section2solution}%
+  \end{figure}
+#+END_SRC
 
-* SCOPF
+**** Justification
+- Wind is dispatchable and hence can be curtailed as per demand
+- Decommissioning coal plants - One of the prime reasons for integrating
+  renewable energy is to reduce carbon emissions. Coal plants could be safely
+  removed from the system by retaining CCGT units which are considered cleaner
+  compared to coal
+- In the worst case winter, there is still ample generation capacity to deal
+  with any increase in load. There is 120MW Wind, and 80MW CCGT. That accounts
+  to about 30% of the installed capacity excluding the High-flex reserve and
+  Slack OCGT
+- Coal plants could be made online in case of anticipated increase in load for
+  example a Football final game
+* Security Constrained OPF (SCOPF)
+Contingency analysis is performed to maintain system security during unexpected
+events in Power System assets. Transmission lines are particularly vulnerable to
+weather and vandalism.
+
+#+caption: Security Constrained OPF
+#+name:scopf
+#+ATTR_LATEX: :placement [H] :center t :align |r|c|c|c|c|
+|--------+------------+--------------+------------------+-------------|
+|        |       Wind |  Hourly Cost | Wind Curtailment | Curtailment |
+|        | generation | (\pounds/hr) | SCOPF            | OPF         |
+|--------+------------+--------------+------------------+-------------|
+| Summer |         0% |        23999 | 0/300            |             |
+|        |       100% |        22307 | 240/300          |             |
+|--------+------------+--------------+------------------+-------------|
+| Winter |         0% |        31499 | 0/300            |             |
+|        |       100% |        22389 | 93/300           |             |
+|--------+------------+--------------+------------------+-------------|
+
 #+BEGIN_SRC latex
 \begin{figure}[H]
     \centering
-    \subfloat[\centering label 1]{{\includegraphics[width=7cm]{screens/3SummerScopf.PNG} }}%
+    \subfloat[\centering Summer]{{\includegraphics[width=7cm]{screens/3SummerScopf.PNG} }}%
     \qquad
-    \subfloat[\centering label 2]{{\includegraphics[width=7cm]{screens/3WinterScopf.PNG} }}%
-    \caption{2 Figures side by side}%
-    \label{fig:example}%
+    \subfloat[\centering Winter]{{\includegraphics[width=7cm]{screens/3WinterScopf.PNG} }}%
+    \caption{SCOPF and Renewables}%
+    \label{fig:3scopf}%
 \end{figure}
 #+END_SRC
-Consider a Security Constrained OPF with potential contingencies on the main lines.
-(Hint: Run in PowerWorld a “SCOPF”. All line contingencies have already been recorded in
-the file, so you do not have to change any settings.)
-Assume 0% power output from solar plants.
-For each of the two wind power output scenarios, 0% and 100%:
-a. Using PowerWorld simulations, derive the total hourly electricity system costs and
-the wind power curtailment corresponding to the winter and summer total
-electricity demand levels based on Table 2. Include relevant screenshots from
-PowerWorld showing the resulting electricity costs and wind power outputs. [14
-marks]
-b. Discuss and explain the main differences in results you see between the OPF
+** Observations
+Discuss and explain the main differences in results you see between the OPF
 (considered in Question 1) and the SCOPF, with focus on the level of renewables you
 can integrate in the system and the redispatch of generation plants (including the
 utilization of CCGT in reserve). [6 marks]
 * Flexibility options in OPF and SCOPF
-Consider the case “Winter/100% wind/0% solar”.
-a. How can you make the generation system more flexible to integrate more wind
-power when running an OPF?
+** Flexible OPF
+To make the system more flexible in terms of integrating clean energy
+technologies, curtailing CCGT generation units with Coal generation present and
+absent are experimented. Following are the observations:
+- _75% of CCGT at Bus 3 and 50% at bus 4 are curtailed_ by reducing the number
+ of generation units online
+- The transmission capacity of line 2-3 is the primary roadblock in evacuating
+  Wind power
+- The MSG of coal plant at bus 2 is adds to the transmission line load
+- Removing coal plant at bus 3 increases the Wind generation, _decreases cost_ and
+  improves clean energy generation
+- _No risk_ is expected considering almost 250MW of installed capacity excluding
+  RTPV and OCGT, and including reserve is kept as a buffer
 #+BEGIN_SRC latex
 \begin{figure}[H]
     \centering
-    \subfloat[\centering 4aCoal2Full_75pCcgt3_halfCCGT4]{{\includegraphics[width=7cm]{screens/4aCoal2full_75pCcgt3_halfCCGT4.PNG} }}%
+    \subfloat[\centering Coal plants present at Bus 2]{{\includegraphics[width=8cm]{screens/4aCoal2full_75pCcgt3_halfCCGT4.PNG} }}%
     \qquad
-    \subfloat[\centering 4aCoal2Nil_75pCcgt3_halfCCGT4]{{\includegraphics[width=7cm]{screens/4aCoal2Nil_75pCcgt3_halfCCGT4.PNG} }}%
-    \caption{2 Figures side by side}%
-    \label{fig:example}%
+    \subfloat[\centering Coal plants decommissioned at Bus 2]{{\includegraphics[width=8cm]{screens/4aCoal2Nil_75pCcgt3_halfCCGT4.PNG} }}%
+    \caption{Flexible generation in OPF with 75\% of CCGT at Bus 3 and 50\% at bus 4}%
+    \label{fig:4bOpf}%
 \end{figure}
 #+END_SRC
-
-
-Propose one possible solution and justify it with numerical analysis. [8 marks]
-b. And when running a SCOPF?
-#+BEGIN_SRC latex
-\begin{figure}[H]
-    \centering
-    \subfloat[\centering 4bCoal2Full_100pCCGT4_reserveFull]{{\includegraphics[width=7cm]{screens/4bCoal2Full_100pCCGT4_reserveFull.PNG} }}%
-    \qquad
-    \subfloat[\centering 4bCoal2Nil_100pCCGT4_reserveFull]{{\includegraphics[width=7cm]{screens/4bCoal2Nil_100pCCGT4_reserveFull.PNG} }}%
-    \caption{2 Figures side by side}%
-    \label{fig:example}%
-\end{figure}
-#+END_SRC
-
-
-Propose one possible solution and justify it with numerical analysis. [8 marks]
-Note: Your solutions should be realistic and feasible solutions – please provide brief
-justification for the feasibility of the solution and briefly comment on the timescale,
-costs and risk involved in the proposed solutions.
-Assume that all reserve could be provided by the OCGT units at the slack, with no need to
-operate high-flex CCGT at part load: the OCGT plants basically operate as “standing reserve”
-by starting off and ramping up very fast if needed.
-
-c. What are the wind integration benefits from using such standing reserve when using
-an OPF and a SCOPF?
-#+BEGIN_SRC latex
-\begin{figure}[H]
-    \centering
-    \subfloat[\centering 4cWithCoalPrimal]{{\includegraphics[width=7cm]{screens/4cWithCoalPrimal.PNG} }}%
-    \qquad
-    \subfloat[\centering $cNoCoalPrimal]{{\includegraphics[width=7cm]{screens/4cNoCoalPrimal.PNG} }}%
-    \caption{2 Figures side by side}%
-    \label{fig:example}%
-\end{figure}
-#+END_SRC
+** Flexible SCOPF
+SCOPF introduces transmission line constraints, so, curtailing CCGT generation
+units is not an option. Hence, curtailing Coal generation present and absent are
+experimented. Following are the observations:
+- _Reserve is not adequate_ as per System Operator requirements but, the Wind
+  Generation is expected to be half the installed capacity
+- CCGT and Reserve is initialised  at full specifications
+- The transmission capacity of line 2-3 is the primary roadblock in evacuating
+  power from Wind generating station. The MSG of coal plant at bus 2 is adds to
+  the transmission line load
+- The transmission line capacity should be increased from line 2-3 in order to
+  be able to increase Wind energy evacuation
+- Removing coal plant at bus 3 increases the Wind generation, _decreases cost
+  and improves clean energy generation_
+- There is a minimum risk associated with the reserve even though Wind
+  generation is expected to be less than half. This could arise from _N-2
+  contingency_ for line 2-3, as all the loads are connected in bus 3 and 4
 
 #+BEGIN_SRC latex
 \begin{figure}[H]
     \centering
-    \subfloat[\centering 4cScopf]{{\includegraphics[width=7cm]{screens/4cScopf.PNG} }}%
+    \subfloat[\centering Coal plants available at Bus 2]{{\includegraphics[width=8cm]{screens/4bCoal2Full_100pCCGT4_reserveFull.PNG} }}%
     \qquad
-    \subfloat[\centering 4cScopf Without coal 2]{{\includegraphics[width=7cm]{screens/4cScopf_withoutCoal2.PNG} }}%
-    \caption{2 Figures side by side}%
-    \label{fig:example}%
+    \subfloat[\centering Coal plants decommissioned at Bus 2]{{\includegraphics[width=8cm]{screens/4bCoal2Nil_100pCCGT4_reserveFull.PNG} }}%
+    \caption{Flexible generation in SCOPF with 100\% CCGT and 100\% reserve}%
+    \label{fig:4bscopf}%
 \end{figure}
 #+END_SRC
-
-
-
-Comment and discuss the results, also in light of the costs of the two alternative
-reserve strategies (part-loaded high-flex CCGT vs fast start OCGT modelled with
-higher no-load cost. Start-up costs have not been modelled). [7 marks]
-Assign back the provision of reserve to part-loaded high-flex CCGT, as from the beginning.
-d. Increase the capacity of each of the two lines between Bus 2 and Bus 3 from 100
-MW to 150 MW and run an OPF and a SCOPF. (Hint: double click on and open each
-line’s window, and change the capacity settings).
-Notice and explain why increasing the line capacity allows much more increase in
-wind power integration when using a SCOPF than when using a simple OPF
-
+** Standing Reserve
+As mentioned in the previous sections, lack of adequate spinning reserve as per
+the System Operator requirements is a concern. Assuming that all reserve
+could be provided by the OCGT units as standing reserve, following are the
+observations:
+- Wind energy integration into the system could be increased
+  1. OPF : increased to 90% from 70%
+  2. SCOPF: increased to 45% from 31% 
+- The MSG needed for spinning reserves(90MW) could be replaced with Wind
+  Power. This constitutes of 15% of the load forecast for winter
+- In OPF, both conventional coal plants causing _carbon emission could be
+  decommissioned_ with 200MW buffer plus OCGT reserve
+- In SCOPF, decommissioning Coal plant at bus 2 is the optimal configuration
 #+BEGIN_SRC latex
 \begin{figure}[H]
     \centering
-    \subfloat[\centering 4dPrimal]{{\includegraphics[width=7cm]{screens/4dPrimal.PNG} }}%
+    \subfloat[\centering With Coal Plants]{{\includegraphics[width=8cm]{screens/4cWithCoalPrimal.PNG} }}%
     \qquad
-    \subfloat[\centering 4dScopf]{{\includegraphics[width=7cm]{screens/4dScopf.PNG} }}%
-    \caption{2 Figures side by side}%
-    \label{fig:example}%
+    \subfloat[\centering Without Coal Plants]{{\includegraphics[width=8cm]{screens/4cNoCoalPrimal.PNG} }}%
+    \caption{OPF with Standing reserve}%
+    \label{fig:4cOpf}%
+\end{figure}
+#+END_SRC
+#+BEGIN_SRC latex
+\begin{figure}[H]
+    \centering
+    \subfloat[\centering With Coal Plants]{{\includegraphics[width=8cm]{screens/4cScopf.PNG} }}%
+    \qquad
+    \subfloat[\centering Without Coal Plants]{{\includegraphics[width=8cm]{screens/4cScopf_withoutCoal2.PNG} }}%
+    \caption{SCOPF with Standing reserve}%
+    \label{fig:4cScopf}%
+\end{figure}
+#+END_SRC
+*** Cost
+- Adopting Standing reserve instead of spinning reserve would add a _cost
+  benefit_ at _6%_ in OPF and _4%_ in SCOPF
+- Removal of both Coal plants in OPF has a slight insignificant increase in
+  cost, whereas removal of coal plant at Bus 2 for SCOPF has a decrease in
+  overall price
+** Increasing Line Capacity
+In transmission expansion planning, a cost-benefit analysis is conducted to
+decide if the line capacity is to be increased. In this case, when the line
+capacity is increased to 150MW each between bus 2 and 3 and OPF and SCOPF
+analysis is conducted. Following are the observations:
+
+- In _OPF, only 1.5% increase_ in wind generation is noticed, whereas in _SCOPF
+  almost 42% increase_ in wind generation in observed
+- The _loads are located at different buses_ than where Wind generation is
+  located. This means transmission line capacity is important to evacuate power
+  to the consumer location
+- Contingency analysis disables a parallel line in a double transmission line
+  circuit, which effectively reduces the ampacity of the line. With increased
+  line capacity, more power generated in the wind could be transferred to the
+  load 
+- There is a _6% reduction in hourly cost_ for SCOPF
+#+BEGIN_SRC latex
+\begin{figure}[H]
+    \centering
+    \subfloat[\centering OPF]{{\includegraphics[width=8cm]{screens/4dPrimal.PNG} }}%
+    \qquad
+    \subfloat[\centering SCOPF]{{\includegraphics[width=8cm]{screens/4dScopf.PNG} }}%
+    \caption{Increasing line capacity}%
+    \label{fig:4d}%
 \end{figure}
 #+END_SRC
 
-
-#+caption: 4d NOCoal
-#+name:opf
-#+ATTR_LATEX: :placement [H] :center t
-[[file:screens/4cNoCoalPrimal.PNG]]
+#+RESULTS:
+#+begin_export latex
+\begin{figure}[H]
+    \centering
+    \subfloat[\centering OPF]{{\includegraphics[width=8cm]{screens/4dPrimal.PNG} }}%
+    \qquad
+    \subfloat[\centering SCOPF]{{\includegraphics[width=8cm]{screens/4dScopf.PNG} }}%
+    \caption{Increasing line capacity}%
+    \label{fig:4d}%
+\end{figure}
+#+end_export
