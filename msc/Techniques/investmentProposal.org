@@ -1,0 +1,254 @@
+#+SETUPFILE: ~/.emacs.d/orgsetuplatex.org
+# +TITLE: Smart Grid Laboratory
+#+LATEX_HEADER: \usepackage{fancyhdr}
+#+LATEX_HEADER: \pagestyle{fancyplain}
+#+LATEX_HEADER: \chead{}
+#+LATEX_HEADER: \lhead{\includegraphics[scale=0.1]{g8logo.png}}
+#+LATEX_HEADER: \rhead{G8 POWER : INVESTMENT PROSPECT}
+#+LATEX_HEADER: \cfoot{\thepage/\pageref{LastPage}}
+#+LATEX_HEADER: \lfoot{}
+#+LATEX_HEADER: \rfoot{}
+
+#+BEGIN_SRC latex
+  \begin{titlepage}
+  \centering
+  \includegraphics[width=0.15\textwidth]{logo-university-of-manchester.png}\par\vspace{1cm}
+  {\scshape\Large Department of Electrical and Electronic Engineering \par}
+  \vspace{1cm}
+         {\scshape\Large EEEN60357: Techniques for Research and Industry  \par}
+                               \vspace{1.5cm}
+                                      {\huge\bfseries Electric Aircraft Engine : Investment Prospect Report \par}
+                                      \vspace{2cm}
+                                             {\Large\shape Vinodh Jayakrishnan\par}
+                                             {\shape ID : 10877410 \par}
+                                             {\shape Group : 8\par}
+                                             {\shape MSc Electrical Power Systems Engineering \par}
+                                             {\shape vinodh.jayakrishnan@postgrad.manchester.ac.uk \par}
+                                             % Bottom of the page
+                                             \vspace{2cm}
+                                             \vspace{2cm}
+                                                    {\large Version 1.0 \par}
+                                                    {\large \today\par}
+      \end{titlepage}
+#+END_SRC
+
+#+BEGIN_EXPORT latex
+\setcounter{tocdepth}{3}
+\tableofcontents
+#+END_EXPORT
+\pagebreak
+
+* Executive Summary
+The world has acknowledged climate change and has agreed to honour the
+consensus. The aviation industry is also transitioning towards a clean energy
+future in the form of electric aircraft. G8 Power is a highly valued start-up
+company in the e-aviation domain. The company was founded by six MSc students
+from the University of Manchester. The business mission is:"/Fly towards a
+sustainable green future/". \\
+
+E8 engine, the flagship product is an electric aircraft engine that can be
+configured into three modes called Mini, Pro and Pro Max, to cater to varying
+requirements in the industry. Mini is targeted for Unmanned Aerial Vehicles(UAV)
+while Pro and Pro Max is targeted for passenger aircraft of increasing scale. 
+
+G8 Power has filed a patent for the Wired Takeoff(WTO) system, while another
+family of patent applications has been filed for the Power System design of the
+E8 engine.
+
+The Business is strategically modelled into three stages. In the first stage, G8
+will take E8 Mini engines to companies as Business-to-Business(B2B) for drone
+delivery applications for companies like Amazon, Royal Mail, DHL. In the second
+stage, the E8 Pro engines will be sold to airline companies to power their
+planes. The company will run as B2B. In the third stage in the future, once the
+company is established G8 Power will manufacture the whole aircraft by itself
+and start domestic airline services as Business-to-Consumer Service(B2C). 
+
+Funding:
+
+ROI: Riptron’s early revenue streams
+* Introduction
+The future of aviation is electric, is safe statement. This is proposed as need
+rather than a luxury.  Electric aircraft are driven by multiple electric motors
+which use electricity as its fuel, from sources like Battery, Solar cells, Wind
+turbines or Fuel Cells. The technology is at its incubation stage due to
+technological limitation now, but is rapidly changing, and is expected to see
+its growth stage in the next decade. The following image shows a Word Cloud
+generated from articles about future of Aviation Industry and contains the
+keywords in the industry now. The aviation market had a slump during the
+COVID-19 years but is picking up the pace. The market forecast for the next
+decade and further is promising for the aviation sector and particularly,
+electric aircraft
+#+caption: Wordcloud : Future of Aviation industry
+#+ATTR_LATEX: :scale 0.3 :placement [H] 
+[[file:aeawordcloud.png]]
+* Company, Project and Intellectual Property
+** G8 Power
+G8 Power is a highly valued start-up company in the Electric Aviation
+domain. The company was founded by six MSc students from the University of
+Manchester in 2021 after winning the first prize in the Tech Crunch competition
+for the most promising e-aircraft engine design prototype. The company is
+focused on delivering high-performance all-electric engines to other airline
+businesses. Currently based out of the United Kingdom, the company expects to
+increase its global presence in the next decade. 
+#+caption:G8 Power 
+#+name:company
+#+ATTR_LATEX: :placement [H] :center t :align |r|c|
+|---------+-------------------------------------------------------------------------------------------|
+| Name    | G8 Power                                                                                  |
+|---------+-------------------------------------------------------------------------------------------|
+| Mission | Our mission is to fly towards a green future.                                             |
+|---------+-------------------------------------------------------------------------------------------|
+| Vision  | To create and sustain the most compelling aircraft engine company                         |
+|         | of the next generation by driving the world’s adoption of clean, green electric aviation. |
+|---------+-------------------------------------------------------------------------------------------|
+** E8 Engine
+The G8 Power company has developed three types of electric engines to cater to
+varying requirements in the industry:
+
+_*E8 MINI*_ A high-performance small scale
+electric rotor engine for Unmanned Aerial Vehicles (UAV) applications and drone
+deliveries
+
+_*E8 PRO*_
+An electric aircraft engine system for narrow-body planes with less than 10
+passengers, including confidential business jets and emergency services
+
+_*E8 PRO MAX*_
+A modularized electric aircraft engine with the distributed propulsion system
+and hybrid generation, including solar sheets and micro wind generation. This is
+envisaged as the engine for passenger aircraft in the commercial aviation sector
+with a capacity up to 75 passengers
+
+#+caption: E8 Engines
+#+ATTR_LATEX: :scale 0.3 :placement [H] 
+[[file:minipromax.png]]
+** Intellectual Property
+G8 Power has secured the intellectual property of a patent application at the
+Intellectual Property Office, United Kingdom in December 2020, for the first
+generation E8 engines which are scale-able and can be repurposed for drones,
+light and commercial aircraft applications.
+
+G8 Power another disruptive innovation patent applied for Wired Take-off system,
+in collaboration with the University of Manchester in April 2021. 
+
+In March 2022 we received official guarantee declaration from the Intellectual
+Property Office for the above two patents, and a new patent application was
+submitted for the On-The-Go RTPV Solar sheet and micro-wind generation technologies.
+
+#+caption: Intellectual Property
+#+name:ip
+#+ATTR_LATEX: :placement [H] :center t :align |c|c|
+|------------------------------------+------+-----------------------+--------------------|
+| Title                              | Year | Status                | Authority          |
+|------------------------------------+------+-----------------------+--------------------|
+| E8: Scale-able all electric engine | 2020 | Patent received       | IP Office, UK GOV. |
+| Wired Take-off system              | 2021 | Patent received       | IP Office, UK GOV. |
+| On-The-Go RTPV and micro-grid      | 2022 | Application submitted | IP Office, UK GOV. |
+|------------------------------------+------+-----------------------+--------------------|
+
+
+
+* Market and Competition
+This study provides insights into making electric aviation a technologically and economically
+viable project. The scope and need are identified and is often amplified as the need of the hour.
+The opportunities are immense at each level of market including the production, supply chain,
+market penetration and customer services. The growth of air traffic in coming decades also adds
+to the possibilities in the future. Following are the key observations:
+- Once the technology matures, market will respond immediately. Appropriate business models must be made as due diligence
+- Research into technologies like Battery, aerodynamics, micro-renewable integration needs to prioritised
+- Demographically, the scope for electric aircrafts in high in both developing and developed segments
+- Electric engine technology can be scaled into different aircraft segments from drones to passenger aircraft
+** Market Dynamics and Segmentation
+#+caption: Market Segmentation
+#+ATTR_LATEX: :scale 0.3 :placement [H] 
+[[file:segmentationpng]]
+** Competition
+#+caption: Competition
+#+ATTR_LATEX: :scale 0.3 :placement [H] 
+[[file:competition.png]]
+** Projection
+* Proposed investment contribution
+A detailed statement of what your are asking the investor to contribute and
+   what your are giving back e.g. equity in your company shareholding structure
+   (suggested 100 words plus a table)
+* Go To Market Strategy
+#+caption: Business Strategy
+#+ATTR_LATEX: :scale 0.3 :placement [H] 
+[[file:b2c.png]]
+The company will manufacture and test the flagship engine E8, its Power system,
+Battery System, Backup Hydrogen generator, Solar and wind generation systems,
+wired take-off system, and controllers.
+
+In the first stage, for items delivery and transport, the company will run with
+B2C (Business-to-Consumer Service) strategy and sell the product, the
+mini-engine system for zipline drones, UAV (unmanned aerial vehicles) and small
+commercial planes to transport and delivery companies, like Amazon, Royal Mail,
+DHL etc., especially for undeveloped countries or areas where the transportation
+industry is undeveloped.
+
+In the second stage, the engines will be sold to the cooperate companies to
+enable them to run their aircraft with E8 Engines. The company will run as B2B
+(Business-to-Business Service). The company will look to create life-long
+relationships with other businesses and will help them to become successful.
+
+In the third stage in the future, once the company is established in the market
+and considerable income is earned to become self-sustainable, G8 Power will
+manufacture the whole aircraft by itself and start domestic airline services and
+return to B2C (Business-to-Consumer Service).
+* Financial
+ Projected Revenue and Expenditure over the next 5 years cycle?  (excel
+   spreadsheet format based on quarters) (suggested 100 words of explanations)
+** Expenditure
+|----------------------------------+-----------+-----------+-----------+-----------+-----------|
+| Expenditure Category             |           |           |  Forecast |           |           |
+|----------------------------------+-----------+-----------+-----------+-----------+-----------|
+|                                  | 2021-2022 | 2022-2023 | 2023-2024 | 2024-2025 | 2025-2026 |
+|----------------------------------+-----------+-----------+-----------+-----------+-----------|
+| _Personal_                       |           |           |           |           |           |
+|                                  |           |           |           |           |           |
+| Salaries                         |    120000 |    250000 |           |           |           |
+| Health and Other Fringe Benefits |     30000 |     80000 |           |           |           |
+| Other Compensation               |     12000 |     25000 |           |           |           |
+|                                  |           |           |           |           |           |
+|----------------------------------+-----------+-----------+-----------+-----------+-----------|
+| _Non Personal/Equipment_         |           |           |           |           |           |
+|                                  |           |           |           |           |           |
+|----------------------------------+-----------+-----------+-----------+-----------+-----------|
+| _Miscellaneous_                  |           |           |           |           |           |
+|                                  |           |           |           |           |           |
+| Office                           |           |           |           |           |           |
+| Earmarked Reserves               |           |           |           |           |           |
+| Contingency Reserves             |           |           |           |           |           |
+| Maintenance and Operations       |           |           |           |           |           |
+|                                  |           |           |           |           |           |
+|----------------------------------+-----------+-----------+-----------+-----------+-----------|
+| Total                            |           |           |           |           |           |
+|----------------------------------+-----------+-----------+-----------+-----------+-----------|
+* Company road-map
+#+caption: Company road-map
+#+ATTR_LATEX: :scale 0.3 :placement [H] 
+[[file:roadmap.png]]
+* References
+How will you invest revenue to secure future growth (R&D Marketing, Training and
+Development, etc.)?
+
+Good use of graphics, but make figure 2 more legible
+* guide
+1) executive summary and introduction (suggested 100 words)
+2) a brief review of your company and project, including any proprietory IP
+   (suggested 300 words)
+3) a brief review of Market and Competition (suggested 400 words) 
+4) A detailed statement of what your are asking the investor to contribute and
+   what your are giving back e.g. equity in your company shareholding structure
+   (suggested 100 words plus a table)
+5) Go to Market Strategy (suggested 400 words)
+6) Projected Revenue and Expenditure over the next 5 years cycle?  (excel
+   spreadsheet format based on quarters) (suggested 100 words of explanations)
+7) your own Company Roadmap for the next 5 years (a graphical
+   expression of it).
+
+TOTAL: 1400 words
+USE AS MANY FIGURES/DIAGRAMMS AS YOU SEE FIT
+
+references and captions do not count towards the word limit.
+

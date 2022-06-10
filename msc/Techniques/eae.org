@@ -1,0 +1,71 @@
+#+STARTUP: overview
+#+TITLE: Electric Aircraft Engine
+#+AUTHOR: Vinodh Jayakrishnan
+* The product
+Electric Aircraft Engine is a necessary alternative to the conventional fossil
+fuel aircraft engines. 
+
+power electronics (PE) converters, electric machines, electrochemical energy
+units, circuit breakers (CBs), and wiring harness.
+
+Battery Energy Storage System onboard
+plug and unplug battery systems
+
+micro wind turbines
+PV roofs
+
+Backup fuel charging
+
+Narrow body aircrafts
+ 
+Wired takeoff
+
+E8 Engines are next generation All Electric Aircraft(AEA) engines. These are
+identified as the alternative to conventional fossil fuel aircraft engines.
+Fossil fuel engines are a significant contributor to global warming and climate
+change. They remain a tall hurdle in achieving net zero emission targets. The
+world is moving towards more electric and all electric engines in all
+transportation sectors. The proposed E8 aircraft is powered by a purely electric
+engine, which are efficient and has zero greenhouse gases emission. 
+
+There are significant challenges needed to overcome in realising commercial
+AEAs. The Weight-Lift balance is hard to achieve with low energy density
+batteries aboard AEAs.  Commercial narrow body and wide body fossil fuel
+aircrafts that can carry hundreds of people have stood the test of time, and are
+difficult to replace with AEAs in one go. Fortunately, with increasing number of
+mini airports across the land, smaller passenger planes running more frequently
+are preferred. This plays in to the advantage of AEAs with seating capacity less
+than 100. 
+
+E8 Engines are designed for planes with seating capacity less than 100, which
+can be scaled up in the future with mature battery technologies.
+
+Most of the aircraft used in the aviation industry today use diesel
+engines. This increases energy consumption and pollution. In recent years, new
+types of aircraft have been studied. The aircraft is powered by a purely
+electric engine, which effectively reduces energy consumption and greenhouse
+gases emission. The problem is that batteries in all-electric aircraft are too
+bulky and heavy. Before the energy density of the battery has not reached the
+required standard, a transition plan from the traditional engine drives to
+electric drives is necessary, it is electric hybrid propulsion technology.
+
+
+
+alpha testing and beta testing before going live
+* Team
+1. R&D
+2. Implementation
+3. Marketing
+* Time scale
+Split into two set of features. Must have and Nice to have.
+Must haves are compulsorily delivered by the end of release deadline. Some
+'Nice-to-Have' features might be added to it. 
+* Resources needed
+1. Hardware
+   - Microcontroller computer
+   - sensors
+2. Software
+   - Improvement to existing smartphone app
+   - Driver for hardware
+* Cost
+20000 pounds
