@@ -29,43 +29,44 @@
                                              \vspace{2cm}
                                                     {\large Version 1.0 \par}
                                                     {\large \today\par}
+                                                    {\large Number of Pages: \pageref{LastPage}}
       \end{titlepage}
 #+END_SRC
 
 #+BEGIN_EXPORT latex
 \setcounter{tocdepth}{3}
 \tableofcontents
+\listoffigures
+\listoftables
 #+END_EXPORT
 \pagebreak
 
 * Executive Summary
-The world has acknowledged climate change and has agreed to honour the
-consensus. The aviation industry is also transitioning towards a clean energy
-future in the form of electric aircraft. G8 Power is a highly valued start-up
-company in the e-aviation domain. The company was founded by six MSc students
-from the University of Manchester. The business mission is:"/Fly towards a
-sustainable green future/". \\
+The aviation industry is transitioning towards a clean energy future in the form
+of electric aircraft. G8 Power is a highly valued start-up company in the
+e-aviation domain. The company was founded by six MSc students from the
+University of Manchester with the mission:
 
-E8 engine, the flagship product is an electric aircraft engine that can be
+#+BEGIN_QUOTE
+"/Fly towards a sustainable green future/".
+#+END_QUOTE
+
+*Product* : E8 engine, the flagship product is an electric aircraft engine that can be
 configured into three modes called Mini, Pro and Pro Max, to cater to varying
-requirements in the industry. Mini is targeted for Unmanned Aerial Vehicles(UAV)
-while Pro and Pro Max is targeted for passenger aircraft of increasing scale. 
+requirements in the industry.
 
-G8 Power has filed a patent for the Wired Takeoff(WTO) system, while another
+*IP* : G8 Power has filed a patent for the Wired Takeoff(WTO) system, while another
 family of patent applications has been filed for the Power System design of the
 E8 engine.
 
-The Business is strategically modelled into three stages. In the first stage, G8
-will take E8 Mini engines to companies as Business-to-Business(B2B) for drone
-delivery applications for companies like Amazon, Royal Mail, DHL. In the second
-stage, the E8 Pro engines will be sold to airline companies to power their
-planes. The company will run as B2B. In the third stage in the future, once the
-company is established G8 Power will manufacture the whole aircraft by itself
-and start domestic airline services as Business-to-Consumer Service(B2C). 
+*Business Model* : The Business is phased into three stages Phase 1,
+Business-to-Business(B2B), for drone delivery applications planes. Phase 2, B2B,
+engines for other aircraft companies, and Phase 3 Business-to-Consumer
+Service(B2C) as a domestic airline services.
 
-Funding:
+*Funding* : 
 
-ROI: Riptron’s early revenue streams
+*ROI* : Riptron’s early revenue streams
 * Introduction
 The future of aviation is electric, is safe statement. This is proposed as need
 rather than a luxury.  Electric aircraft are driven by multiple electric motors
@@ -92,7 +93,7 @@ businesses. Currently based out of the United Kingdom, the company expects to
 increase its global presence in the next decade. 
 #+caption:G8 Power 
 #+name:company
-#+ATTR_LATEX: :placement [H] :center t :align |r|c|
+#+ATTR_LATEX: :placement [H] :center t :align |r|l|
 |---------+-------------------------------------------------------------------------------------------|
 | Name    | G8 Power                                                                                  |
 |---------+-------------------------------------------------------------------------------------------|
@@ -104,6 +105,10 @@ increase its global presence in the next decade.
 ** E8 Engine
 The G8 Power company has developed three types of electric engines to cater to
 varying requirements in the industry:
+
+#+caption: E8 Engines
+#+ATTR_LATEX: :scale 0.3 :placement [H] 
+[[file:minipromax.png]]
 
 _*E8 MINI*_ A high-performance small scale
 electric rotor engine for Unmanned Aerial Vehicles (UAV) applications and drone
@@ -119,9 +124,6 @@ and hybrid generation, including solar sheets and micro wind generation. This is
 envisaged as the engine for passenger aircraft in the commercial aviation sector
 with a capacity up to 75 passengers
 
-#+caption: E8 Engines
-#+ATTR_LATEX: :scale 0.3 :placement [H] 
-[[file:minipromax.png]]
 ** Intellectual Property
 G8 Power has secured the intellectual property of a patent application at the
 Intellectual Property Office, United Kingdom in December 2020, for the first
@@ -137,7 +139,7 @@ submitted for the On-The-Go RTPV Solar sheet and micro-wind generation technolog
 
 #+caption: Intellectual Property
 #+name:ip
-#+ATTR_LATEX: :placement [H] :center t :align |c|c|
+#+ATTR_LATEX: :placement [H] :center t :align |r|c|c|c|
 |------------------------------------+------+-----------------------+--------------------|
 | Title                              | Year | Status                | Authority          |
 |------------------------------------+------+-----------------------+--------------------|
@@ -145,27 +147,67 @@ submitted for the On-The-Go RTPV Solar sheet and micro-wind generation technolog
 | Wired Take-off system              | 2021 | Patent received       | IP Office, UK GOV. |
 | On-The-Go RTPV and micro-grid      | 2022 | Application submitted | IP Office, UK GOV. |
 |------------------------------------+------+-----------------------+--------------------|
-
-
-
 * Market and Competition
 This study provides insights into making electric aviation a technologically and economically
 viable project. The scope and need are identified and is often amplified as the need of the hour.
 The opportunities are immense at each level of market including the production, supply chain,
 market penetration and customer services. The growth of air traffic in coming decades also adds
 to the possibilities in the future. Following are the key observations:
-- Once the technology matures, market will respond immediately. Appropriate business models must be made as due diligence
-- Research into technologies like Battery, aerodynamics, micro-renewable integration needs to prioritised
-- Demographically, the scope for electric aircrafts in high in both developing and developed segments
-- Electric engine technology can be scaled into different aircraft segments from drones to passenger aircraft
+- Once the technology matures, market will respond immediately. Appropriate
+  business models must be made as due diligence
+- Research into technologies like Battery, aerodynamics, micro-renewable
+  integration needs to prioritised
+- Demographically, the scope for electric aircrafts in high in both developing
+  and developed segments
+- Electric engine technology can be scaled into different aircraft segments from
+  drones to passenger aircraft
+#+caption: Market Size, By Region
+#+ATTR_LATEX: :scale 0.3 :placement [H] 
+[[file:marketsize.png]]
 ** Market Dynamics and Segmentation
+By aircraft type, commercial aircraft is currently dominating the market and is
+still expected to grow. Airbus expects to deliver 720 commercial aircrafts by
+the end of 2022.  Boeing and Airbus deliveries increased from 2021, where 22 and
+49 commercial jets were delivered in February 2022, compared to 22 and 32
+deliveries, respectively, in February 2021 [2]. Unmanned Aerial Vehicles and
+private jets also has an upward slope projected for the next decades.
+
+Geographically, the largest aviation markets for the projected period are
+expected to be in the Asia-Pacific region including the Middle East and Africa,
+with India and China being the largest markets. China had surpassed the United
+States’ aviation market in 2020 due to the COVID-19 pandemic and the impact it
+had on the United States’ drop in passenger traffic [3]. According to Boeing,
+due to the rising demand in commercial air travel demand, Chinese airlines will
+potentially require around 8700 new planes by 2040 valued at $1.5 trillion.
+Regarding India, the high domestic demand for flights expects a fast recovery of
+the passenger traffic, in addition to the permission for domestic flights to
+operate at maximum capacity.  Overall, aviation industries in this region are
+expected to recover faster than other regions due to the relatively larger
+domestic demand. The established markets are also expected to grow at a steady
+rate in the following 2 decades.
+
 #+caption: Market Segmentation
 #+ATTR_LATEX: :scale 0.3 :placement [H] 
-[[file:segmentationpng]]
+[[file:segmentation.png]]
 ** Competition
-#+caption: Competition
+In the current scenario, electric aircraft engines are supplied by well-known
+aircraft engine suppliers such as General Electric, Rolls-Royce and Safran.
+Aircraft-makers like Airbus and Boeing are also venturing in electric jet
+engines. At the same time, there are several new entrants. Tesla is currently
+developing its own electric plane.  Eviation is a company founded in Israel,
+unveiled the Alice, an all-electric nine-seater regional jet, at the 53rd Paris
+Air Show. MagniX is a company based in Seattle, USA. The company mainly supplies
+electric engines for small aircraft. Ampaire is a company focused on hybrid
+aircraft engine. Their product is called EEL with engine range of 200 miles.
+Pipistrel is another company developing all aircraft engines.
+#+caption: Competition : Engine
 #+ATTR_LATEX: :scale 0.3 :placement [H] 
 [[file:competition.png]]
+
+#+caption: Competition : Aircraft
+#+ATTR_LATEX: :scale 0.3 :placement [H] 
+[[file:4planes.png]]
+
 ** Projection
 * Proposed investment contribution
 A detailed statement of what your are asking the investor to contribute and
@@ -226,13 +268,18 @@ return to B2C (Business-to-Consumer Service).
 |----------------------------------+-----------+-----------+-----------+-----------+-----------|
 * Company road-map
 #+caption: Company road-map
-#+ATTR_LATEX: :scale 0.3 :placement [H] 
+#+ATTR_LATEX: :scale 0.32 :placement [H] :align left
 [[file:roadmap.png]]
 * References
 How will you invest revenue to secure future growth (R&D Marketing, Training and
 Development, etc.)?
 
 Good use of graphics, but make figure 2 more legible
+
+[] Greenbiz.com. 2022. 6 electric aviation companies to watch | Greenbiz. [online]
+Available at: <https://www.greenbiz.com/article/6-electric-aviation-companies-watch> [Accessed
+10 June 2022].
+
 * guide
 1) executive summary and introduction (suggested 100 words)
 2) a brief review of your company and project, including any proprietory IP
@@ -251,4 +298,18 @@ TOTAL: 1400 words
 USE AS MANY FIGURES/DIAGRAMMS AS YOU SEE FIT
 
 references and captions do not count towards the word limit.
+
+* screen
+#+BEGIN_center
+#+ATTR_LaTeX: :height 0.3\textwidth :center
+[[file:pipistrel.png]]
+#+ATTR_LaTeX: :height 0.3\textwidth :center
+[[file:magnix.png]]
+#+END_center
+#+BEGIN_center
+#+ATTR_LaTeX: :height 0.38\textwidth :center
+[[file:alice.png]]
+#+ATTR_LaTeX: :height 0.25\textwidth :center
+[[file:ampaire.png]]
+#+END_center
 
