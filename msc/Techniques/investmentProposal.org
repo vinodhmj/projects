@@ -8,7 +8,6 @@
 #+LATEX_HEADER: \cfoot{\thepage/\pageref{LastPage}}
 #+LATEX_HEADER: \lfoot{}
 #+LATEX_HEADER: \rfoot{}
-
 #+BEGIN_SRC latex
   \begin{titlepage}
   \centering
@@ -125,12 +124,12 @@ envisaged as the engine for passenger aircraft in the commercial aviation sector
 with a capacity up to 75 passengers
 ** Intellectual Property
 G8 Power has secured the intellectual property of a patent application at the
-Intellectual Property Office, United Kingdom in December 2020, for the first
+Intellectual Property Office, United Kingdom in December 2021, for the first
 generation E8 engines which are scale-able and can be repurposed for drones,
 light and commercial aircraft applications.
 
 G8 Power another disruptive innovation patent applied for Wired Take-off system,
-in collaboration with the University of Manchester in April 2021. 
+in collaboration with the University of Manchester in January 2022. 
 
 In March 2022 we received official guarantee declaration from the Intellectual
 Property Office for the above two patents, and a new patent application was
@@ -142,8 +141,8 @@ submitted for the On-The-Go RTPV Solar sheet and micro-wind generation technolog
 |------------------------------------+------+-----------------------+--------------------|
 | Title                              | Year | Status                | Authority          |
 |------------------------------------+------+-----------------------+--------------------|
-| E8: Scale-able all electric engine | 2020 | Patent received       | IP Office, UK GOV. |
-| Wired Take-off system              | 2021 | Patent received       | IP Office, UK GOV. |
+| E8: Scale-able all electric engine | 2021 | Patent received       | IP Office, UK GOV. |
+| Wired Take-off system              | 2022 | Patent received       | IP Office, UK GOV. |
 | On-The-Go RTPV and micro-grid      | 2022 | Application submitted | IP Office, UK GOV. |
 |------------------------------------+------+-----------------------+--------------------|
 * Market and Competition
@@ -192,8 +191,8 @@ _Pipistrel_ is another company developing all aircraft engines.
   \end{figure}
 #+END_SRC
 * Proposed Investment Contribution
-G8 Power has raised $10 million in total funding. G8 Power's current valuation
-is $50 million, The six founding members of the company currently control 72%
+G8 Power has raised $500000 in total funding. G8 Power's current valuation
+is $2 million, The six founding members of the company currently control 72%
 majority of the shares. The company has thanked University of Manchester's
 Startup Fund group with 6% of its shares for the capital during incubation stage
 and internal support. Rest of the shares is currently shared between IP Group

@@ -1,0 +1,30 @@
+While there is a great deal of debate about Vertical Takeoff and Landing(VTOL)
+for electric aircraft taxis in urban areas, Wired Takeoff(WT) system for an electric
+plane is a novelty. An electric aircraft carrying around 50 passengers might be
+too big for VTOL. The idea behind WT is that of optimising the utilisation of
+battery system on the aircraft. Flight takeoff demands lot of energy, batteries
+have low energy density. So, if the aircraft is connected to the grid as long as
+it is on the ground would help a great deal in reducing the battery size. 
+
+The power cable could be manually connected to the plane before takeoff and
+electromechanically disengaged at the end of runway with cable uncoiling and
+recoiling like a tape measure. Another method is to have rail section on the
+runway similar to Catapult takeoff in Naval aircrafts that takeoff from a
+carrier vessel. Runways will have to be equipped with a high priority mini power
+system matching the requirements. The electric connection could be disengaged
+right before the takeoff and aircraft could be switched to battery power source 
+to avoid arcing while disengaging the cord. 
+
+
+The use of electricity for aircraft propulsion was first experimented with during the development of the airship in 
+
+Gaston Tissandier (1886). La Navigation aérienne (in
+French). Hachette. L'aviation et la direction des aérostats.
+
+
+Lee, D.S., Fahey, D.W., Skowron, A., Allen, M.R., Burkhardt, U., Chen, Q.,
+Doherty, S.J., Freeman, S., Forster, P.M., Fuglestvedt, J. and Gettelman,
+A., 2021. The contribution of global aviation to anthropogenic climate forcing
+for 2000 to 2018. Atmospheric Environment, 244, p.117834.
+
+
