@@ -1,0 +1,36 @@
+{
+    "_meta": {
+        "hash": {
+            "sha256": "77a087b4fbc694d3b6c368b5aea6fb098f9cd877a7770c710b38f67b26c19ad4"
+        },
+        "pipfile-spec": 6,
+        "requires": {
+            "python_version": "3.10"
+        },
+        "sources": [
+            {
+                "name": "pypi",
+                "url": "https://pypi.org/simple",
+                "verify_ssl": true
+            }
+        ]
+    },
+    "default": {
+        "pydub": {
+            "hashes": [
+                "sha256:65617e33033874b59d87db603aa1ed450633288aefead953b30bded59cb599a6",
+                "sha256:980a33ce9949cab2a569606b65674d748ecbca4f0796887fd6f46173a7b0d30f"
+            ],
+            "index": "pypi",
+            "version": "==0.25.1"
+        },
+        "speechrecognition": {
+            "hashes": [
+                "sha256:4d8f73a0c05ec70331c3bacaa89ecc06dfa8d9aba0899276664cda06ab597e8e"
+            ],
+            "index": "pypi",
+            "version": "==3.8.1"
+        }
+    },
+    "develop": {}
+}
