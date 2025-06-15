@@ -7,6 +7,7 @@
 import os
 import music_tag
 import json
+from pathlib import Path
 
 def saveTags(path, file, tags, printTags=False):
     f = music_tag.load_file(path+file)
@@ -26,23 +27,26 @@ def listFiles(path):
     return fileList
 
 def getTrackNumber(file, genre):
+    trackList = {}
     if genre == 'Varnam':
-        trackList = {'aa':1, 'p':2, 'anu':3, 'mukthayi':4, 'ms':4, 'c':5, 'cs1':6, 'cs2':7, 'cs3':8, 'cs4':9, 'cs5':10}
+        trackList = {'arohanam':1, 'aa':1, 'p':2, 'pallavi':2, 'anu':3, 'anupallavi':3, 'mukthayi':4, 'ms':4, 'charanam':5, 'cs1':6, 'cs2':7, 'cs3':8, 'cs4':9, 'cs5':10}
     elif genre == 'Kriti':
-        trackList = {'aa':1, 'p':2, 'anu':3, 'c':4, 'c1':5, 'c2':6, 'c3':7, 'c4':8, 'c5':9, 'c6':10, 'c7':11, 'c8':12, 'c9':13, 'c10':14}
+        trackList = {'arohanam':1, 'aa':1, 'p':2, 'pallavi':2, 'anu':3, 'anupallavi':3, 'c':4, 'charanam':5, 'c1':5, 'c2':6, 'c3':7, 'c4':8, 'c5':9, 'c6':10, 'c7':11, 'c8':12, 'c9':13, 'c10':14}
 
     file = file.lower()
+    track = 1
     for key in trackList:
         if key in file:
             track = trackList[key]
+            
     return track
     
 def readTags(path):
-    with open(path+'info.json', 'r') as j:
+    with open(Path(path+'info.json'), 'r') as j:
         tags = json.loads(j.read())
     return tags
 
-def executeCommand(folder, route):
+def executeCommand(route, folder):
     path = route + folder
     sCmd = 'for i in ' + path + '*.ogg; do ffmpeg -i "$i" -b:a 128k -ar 44100 "${i%.*}.mp3"; done'
     print('Success:', sCmd)
@@ -53,21 +57,36 @@ def executeCommand(folder, route):
     return
     
 def main():
+    recordings = True;
+    if recordings == True:
+        home = str(Path.home())
     
-    folder = "SreeGanapathini/"
+        folder = 'Rishabhapriya/Varnam/'
+#        folder = 'Sree/EntharoMahanubhavulu/'
+        #    folder = 'Karunacheyvvan/'
+        with open(home + '/musicFilePath.json', 'r') as j:
+            filePaths = json.loads(j.read()) 
 
-    with open(path+'~/musicFilePath.json', 'r') as j:
-        filePaths = json.loads(j.read())
+        executeCommand(filePaths['routeSpace'], folder)
 
-    executeCommand(folder, filePaths['routeSpace'])
-
-    path = filePaths['route'] + folder
-    tags = readTags(path)
-    allFiles = sorted(listFiles(path))
-    for item in allFiles:
-        if item.endswith(".mp3"):
-            tags['tracknumber'] = getTrackNumber(item[:-4], tags['genre'])
-            saveTags(path, item, tags, True)
+        path = filePaths['route'] + folder
+        tags = readTags(path)
+    
+        allFiles = sorted(listFiles(path))
+        for item in allFiles:
+            if item.endswith(".mp3"):
+                tags['tracknumber'] = getTrackNumber(item[:-4], tags['genre'])
+                tags['tracktitle'] = item[:-4]
+                saveTags(path, item, tags, True)
+    else:                       # Downloaded mp3 files
+        folder = 'MDR/'
+        path = "/Users/vjhuman/Documents/sharedCarnaticJoy/" + folder
+        tags = readTags(path)    
+        allFiles = sorted(listFiles(path))
+        for item in allFiles:
+            if item.endswith(".mp3"):
+                saveTags(path, item, tags, True)
+                
 
 # Standard boilerplate to call the main() function to begin
 # the program.
