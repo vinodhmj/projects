@@ -60,10 +60,15 @@ def main():
     recordings = True;
     if recordings == True:
         home = str(Path.home())
-    
-        folder = 'Rishabhapriya/Varnam/'
-#        folder = 'Sree/EntharoMahanubhavulu/'
-        #    folder = 'Karunacheyvvan/'
+        #        folder = 'Rishabhapriya/Varnam/'
+        #        folder = 'Sree/EntharoMahanubhavulu/'
+        #        folder = 'Surutti/'
+        #        folder = 'Gowla/Dudduku/'
+        #        folder = 'Varaali/KanakanaRuchira/'
+        #        folder = 'Lalitha/hiranmayim/'
+        #        folder = 'Mohanam/varnam/'
+        # folder = 'Kamboji Atatala Varnam/'
+        folder = 'Bhairavi/AtaTalaVarnam/'
         with open(home + '/musicFilePath.json', 'r') as j:
             filePaths = json.loads(j.read()) 
 
@@ -79,7 +84,7 @@ def main():
                 tags['tracktitle'] = item[:-4]
                 saveTags(path, item, tags, True)
     else:                       # Downloaded mp3 files
-        folder = 'MDR/'
+        folder = 'TMK/'
         path = "/Users/vjhuman/Documents/sharedCarnaticJoy/" + folder
         tags = readTags(path)    
         allFiles = sorted(listFiles(path))
