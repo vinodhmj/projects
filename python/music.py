@@ -68,7 +68,12 @@ def main():
         #        folder = 'Lalitha/hiranmayim/'
         #        folder = 'Mohanam/varnam/'
         # folder = 'Kamboji Atatala Varnam/'
-        folder = 'Bhairavi/AtaTalaVarnam/'
+        # folder = 'Bhairavi/AtaTalaVarnam/'
+        # folder = 'Jayadasree/Marugelara/'
+        # folder = 'Revathi/Varnam/'
+        # folder = 'Hindolam/Sarvaloka/'
+        folder = 'Mayamalavagowla/SaadhakaSwarams2024/'
+
         with open(home + '/musicFilePath.json', 'r') as j:
             filePaths = json.loads(j.read()) 
 
